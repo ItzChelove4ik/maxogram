@@ -2,7 +2,7 @@
 
 Editable source: `maxogram-icon.svg` (1024 × 1024, opaque, full bleed).
 
-The white mark reuses the original MaxPlus vector geometry supplied with this project. A solid Telegram-style blue background replaces the original multicolor background. No shadows, folds, or effects are applied. The operating system supplies the launcher mask; the source contains no rounded corners or transparent border. Original attribution remains in the repository LICENSE.
+Red circular icon with a light paper-plane mark on a dark blue background, following the reference supplied by the user. The notification badge and its number are omitted. The operating system supplies the launcher mask; the source contains no rounded corners or transparent border.
 
 Regenerate all Tauri platform icons:
 
