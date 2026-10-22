@@ -146,8 +146,8 @@
   }
 
   .modal-box {
-    background: #17191d;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--bg-app);
+    border: 1px solid var(--border-subtle);
     border-radius: 16px;
     width: 100%;
     max-width: 520px;
@@ -163,28 +163,28 @@
     align-items: center;
     justify-content: space-between;
     padding: 16px 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid var(--border-subtle);
   }
 
   .header-left {
     display: flex;
     align-items: center;
     gap: 10px;
-    color: #248bfe;
+    color: var(--accent-primary);
   }
 
   .header-left h3 {
     margin: 0;
-    font-size: 16px;
+    font-size: 0.9412rem;
     font-weight: 600;
-    color: #edf0f5;
+    color: var(--text-primary);
   }
 
   .close-btn {
     background: transparent;
     border: none;
-    color: #8b929e;
-    font-size: 16px;
+    color: var(--text-muted);
+    font-size: 0.9412rem;
     cursor: pointer;
     padding: 4px 8px;
     border-radius: 6px;
@@ -192,8 +192,8 @@
   }
 
   .close-btn:hover {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+    background: var(--bg-hover);
   }
 
   .modal-body {
@@ -205,15 +205,15 @@
   }
 
   .version-card {
-    background: #1e2025;
+    background: var(--bg-surface);
     border-radius: 12px;
     padding: 12px 14px;
-    border: 1px solid rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-subtle);
   }
 
   .current-version {
-    border-color: rgba(36, 139, 254, 0.3);
-    background: rgba(36, 139, 254, 0.06);
+    border-color: var(--accent-primary);
+    background: rgba(var(--accent-rgb), 0.06);
   }
 
   .version-meta {
@@ -224,53 +224,53 @@
   }
 
   .badge {
-    font-size: 11px;
+    font-size: 0.6471rem;
     font-weight: 600;
     padding: 2px 8px;
     border-radius: 10px;
   }
 
   .current-badge {
-    background: rgba(36, 139, 254, 0.2);
-    color: #38bdf8;
+    background: rgba(var(--accent-rgb), 0.2);
+    color: var(--accent-primary);
   }
 
   .diff-badge {
-    background: rgba(255, 255, 255, 0.08);
-    color: #94a3b8;
+    background: var(--bg-hover);
+    color: var(--text-muted);
   }
 
   .version-time {
-    font-size: 11px;
-    color: #64748b;
+    font-size: 0.6471rem;
+    color: var(--text-muted);
   }
 
   .text-content {
     margin: 0;
-    font-size: 14px;
+    font-size: 0.8235rem;
     line-height: 20px;
-    color: #edf0f5;
+    color: var(--text-primary);
     white-space: pre-wrap;
     word-break: break-word;
   }
 
   .old-text {
-    color: #94a3b8;
+    color: var(--text-muted);
   }
 
   .diff-container {
-    font-size: 14px;
+    font-size: 0.8235rem;
     line-height: 20px;
     white-space: pre-wrap;
     word-break: break-word;
-    background: rgba(0, 0, 0, 0.25);
+    background: var(--bg-fill);
     padding: 8px 10px;
     border-radius: 8px;
   }
 
   .chunk-add {
     background: rgba(34, 197, 94, 0.2);
-    color: #4ade80;
+    color: var(--status-success);
     text-decoration: none;
     border-radius: 2px;
     padding: 1px 2px;
@@ -278,20 +278,20 @@
 
   .chunk-del {
     background: rgba(239, 68, 68, 0.2);
-    color: #f87171;
+    color: var(--status-danger);
     text-decoration: line-through;
     border-radius: 2px;
     padding: 1px 2px;
   }
 
   .chunk-eq {
-    color: #cbd5e1;
+    color: var(--text-secondary);
   }
 
   .attaches-summary {
     margin-top: 6px;
-    font-size: 12px;
-    color: #94a3b8;
+    font-size: 0.7059rem;
+    color: var(--text-muted);
   }
 
   .attaches-diff {
@@ -299,22 +299,22 @@
     display: flex;
     flex-direction: column;
     gap: 4px;
-    font-size: 12px;
+    font-size: 0.7059rem;
   }
 
   .attach-change.add {
-    color: #4ade80;
+    color: var(--status-success);
   }
 
   .attach-change.remove {
-    color: #f87171;
+    color: var(--status-danger);
   }
 
   .empty-state {
     text-align: center;
     padding: 24px;
-    color: #64748b;
-    font-size: 13px;
+    color: var(--text-muted);
+    font-size: 0.7647rem;
   }
 
   .history-list {

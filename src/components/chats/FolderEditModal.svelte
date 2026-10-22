@@ -179,22 +179,22 @@
   }
 
   .modal {
-    background: #22222a;
+    background: var(--bg-surface);
     width: 100%;
     max-width: 440px;
     max-height: 90vh;
     border-radius: 14px;
     display: flex;
     flex-direction: column;
-    color: #fff;
-    border: 1px solid #33333d;
+    color: var(--text-primary);
+    border: 1px solid var(--border-subtle);
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
     overflow: hidden;
   }
 
   .header {
     padding: 16px 20px;
-    border-bottom: 1px solid #2e2e38;
+    border-bottom: 1px solid var(--border-subtle);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -210,8 +210,8 @@
   .close-btn {
     background: none;
     border: none;
-    color: #999;
-    font-size: 24px;
+    color: var(--text-muted);
+    font-size: 1.412rem;
     line-height: 1;
     cursor: pointer;
     padding: 2px 6px;
@@ -219,8 +219,8 @@
   }
 
   .close-btn:hover {
-    color: #fff;
-    background: #333;
+    color: var(--text-primary);
+    background: var(--bg-surface-2);
   }
 
   .content {
@@ -239,8 +239,8 @@
   }
 
   .form-group label {
-    color: #aaa;
-    font-size: 13px;
+    color: var(--text-muted);
+    font-size: 0.7647rem;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.4px;
@@ -250,17 +250,17 @@
     width: 100%;
     padding: 10px 14px;
     border-radius: 8px;
-    border: 1px solid #3a3a46;
-    background: #18181f;
-    color: #fff;
-    font-size: 14px;
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-app);
+    color: var(--text-primary);
+    font-size: 0.8235rem;
     box-sizing: border-box;
     outline: none;
     transition: border-color 0.2s;
   }
 
   input[type="text"]:focus {
-    border-color: #6366f1;
+    border-color: var(--accent-primary);
   }
 
   .filters-grid {
@@ -270,25 +270,25 @@
   }
 
   .filter-chip {
-    background: #2a2a34;
-    border: 1px solid #3a3a48;
-    color: #ccc;
+    background: var(--bg-surface-2);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
     padding: 6px 14px;
     border-radius: 20px;
-    font-size: 13px;
+    font-size: 0.7647rem;
     cursor: pointer;
     transition: all 0.15s ease;
   }
 
   .filter-chip:hover {
-    background: #343442;
-    color: #fff;
+    background: var(--bg-surface-2);
+    color: var(--text-primary);
   }
 
   .filter-chip.active {
-    background: #4f46e5;
-    border-color: #6366f1;
-    color: #fff;
+    background: var(--accent-primary);
+    border-color: var(--accent-primary);
+    color: var(--text-on-accent);
     font-weight: 500;
   }
 
@@ -300,20 +300,20 @@
 
   .chat-search-input {
     padding: 8px 12px !important;
-    font-size: 13px !important;
+    font-size: 0.7647rem !important;
   }
 
   .chats-list {
-    background: #18181f;
+    background: var(--bg-app);
     border-radius: 10px;
-    border: 1px solid #2e2e3a;
+    border: 1px solid var(--border-subtle);
     max-height: 220px;
     overflow-y: auto;
   }
 
   .footer {
     padding: 14px 20px;
-    border-top: 1px solid #2e2e38;
+    border-top: 1px solid var(--border-subtle);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -332,38 +332,38 @@
     border-radius: 8px;
     border: none;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 0.8235rem;
     font-weight: 500;
     transition: background 0.15s;
   }
 
   .btn.cancel {
-    background: #2a2a34;
-    color: #aaa;
+    background: var(--bg-surface-2);
+    color: var(--text-muted);
   }
 
   .btn.cancel:hover {
-    background: #363644;
-    color: #fff;
+    background: var(--bg-surface-2);
+    color: var(--text-primary);
   }
 
   .btn.save {
-    background: #4f46e5;
-    color: #fff;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
   }
 
   .btn.save:hover {
-    background: #4338ca;
+    background: var(--accent-primary);
   }
 
   .btn.delete-btn {
     background: #dc262622;
-    color: #ef4444;
-    border: 1px solid #dc262644;
+    color: var(--status-danger);
+    border: 1px solid var(--status-danger);
   }
 
   .btn.delete-btn:hover {
-    background: #dc2626;
-    color: #fff;
+    background: var(--status-danger);
+    color: var(--text-on-danger);
   }
 </style>

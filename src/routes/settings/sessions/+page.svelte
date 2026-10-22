@@ -128,34 +128,43 @@
 <style>
   .count {
     font-size: 0.75rem;
-    background: #2c2c35;
+    background: var(--bg-surface-2);
     padding: 3px 9px;
     border-radius: 999px;
-    color: #bbb;
+    color: var(--text-secondary);
     font-weight: 600;
   }
 
   .sessions-container {
     flex: 1;
     overflow-y: auto;
-    padding: 16px;
+
     display: flex;
     flex-direction: column;
     gap: 10px;
     box-sizing: border-box;
+
+    padding: 20px 16px 32px;
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto;
   }
 
   .session-card {
-    background: #24252a;
-    border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+
     cursor: pointer;
     transition: border-color 0.2s;
     flex-shrink: 0;
+
+    background: var(--bg-surface);
+    border: 0;
+    border-radius: var(--radius-card);
+    padding: 16px;
+    box-shadow: none;
   }
 
   .session-card.expanded {
-    border-color: #3390ec;
+    border-color: var(--accent-primary);
   }
 
   .session-header {
@@ -173,27 +182,32 @@
 
   .client-name {
     font-weight: 600;
-    color: #fff;
-    font-size: 0.95rem;
+
+
+
+    font-size: 1rem;
+    color: var(--text-primary);
   }
 
   .location-brief {
-    font-size: 0.8rem;
-    color: #888;
+
+    font-size: .8824rem;
+    line-height: 1.4;
+    color: var(--text-muted);
   }
 
   .time-badge {
     font-size: 0.75rem;
-    color: #666;
+    color: var(--text-muted);
   }
 
   .session-details {
     padding: 0 16px 14px 16px;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    border-top: 1px solid var(--border-subtle);
     display: flex;
     flex-direction: column;
     gap: 8px;
-    background: #1e1e24;
+    background: var(--bg-surface);
     border-bottom-left-radius: 14px;
     border-bottom-right-radius: 14px;
   }
@@ -206,14 +220,14 @@
 
   .label {
     font-size: 0.7rem;
-    color: #666;
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
 
   .val {
     font-size: 0.85rem;
-    color: #bbb;
+    color: var(--text-secondary);
     line-height: 1.3;
     word-break: break-all;
   }
@@ -221,13 +235,13 @@
   .status-msg {
     text-align: center;
     margin-top: 40px;
-    color: #666;
+    color: var(--text-muted);
   }
 
   .actions-panel {
     padding: 14px 16px;
-    background: #212126;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-subtle);
     flex-shrink: 0;
   }
 
@@ -235,8 +249,8 @@
     width: 100%;
     height: 44px;
     background: rgba(239, 68, 68, 0.15);
-    color: #ff595a;
-    border: 1px solid rgba(239, 68, 68, 0.25);
+    color: var(--status-danger);
+    border: 1px solid var(--status-danger);
     border-radius: 12px;
     font-weight: 600;
     cursor: pointer;
@@ -260,7 +274,7 @@
   }
 
   .sessions-container::-webkit-scrollbar-thumb {
-    background: #333;
+    background: var(--text-on-media);
     border-radius: 10px;
   }
 </style>

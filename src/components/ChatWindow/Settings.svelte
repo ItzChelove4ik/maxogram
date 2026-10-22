@@ -369,9 +369,9 @@
     position: relative;
     width: 100%;
     max-width: 500px;
-    background: #212121;
+    background: var(--bg-surface);
     border-radius: 20px 20px 0 0;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-subtle);
     border-bottom: none;
     padding: 0 16px calc(24px + env(safe-area-inset-bottom));
     box-sizing: border-box;
@@ -386,7 +386,7 @@
     width: 38px;
     height: 4px;
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--bg-fill);
     margin: 8px auto 4px auto;
     flex-shrink: 0;
   }
@@ -396,7 +396,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 12px 4px 14px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid var(--border-subtle);
     flex-shrink: 0;
   }
 
@@ -408,15 +408,15 @@
 
   .tg-title {
     margin: 0;
-    color: #ffffff;
-    font-size: 20px;
+    color: var(--text-primary);
+    font-size: 1.176rem;
     font-weight: 600;
     letter-spacing: -0.2px;
   }
 
   .tg-chat-name {
-    color: #8774e1;
-    font-size: 13px;
+    color: var(--accent-primary);
+    font-size: 0.7647rem;
     font-weight: 500;
   }
 
@@ -425,8 +425,8 @@
     height: 32px;
     border: none;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.08);
-    color: #aaaaaa;
+    background: var(--bg-hover);
+    color: var(--text-muted);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -435,8 +435,8 @@
   }
 
   .tg-close-btn:hover {
-    background: rgba(255, 255, 255, 0.14);
-    color: #ffffff;
+    background: var(--bg-fill);
+    color: var(--text-primary);
   }
 
   .tg-close-btn:active {
@@ -455,8 +455,8 @@
 
   .tg-section-header {
     flex-shrink: 0;
-    color: #707579;
-    font-size: 13px;
+    color: var(--text-muted);
+    font-size: 0.7647rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -469,9 +469,9 @@
 
   .tg-card {
     flex-shrink: 0;
-    background: #2b2b2b;
+    background: var(--bg-surface);
     border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-subtle);
     overflow: hidden;
   }
 
@@ -482,7 +482,7 @@
     gap: 14px;
     padding: 12px 14px;
     min-height: 52px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--border-subtle);
     box-sizing: border-box;
   }
 
@@ -497,7 +497,7 @@
   }
 
   .tg-toggle-row:hover {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-hover);
   }
 
   .tg-row-icon {
@@ -511,38 +511,38 @@
   }
 
   .tg-icon-shield {
-    background: rgba(51, 144, 236, 0.15);
-    color: #3390ec;
+    background: rgba(var(--accent-rgb), 0.15);
+    color: var(--accent-primary);
   }
 
   .tg-icon-key {
     background: rgba(250, 173, 20, 0.15);
-    color: #faad14;
+    color: var(--status-warning);
   }
 
   .tg-icon-lock {
-    background: rgba(135, 116, 225, 0.15);
-    color: #8774e1;
+    background: rgba(var(--accent-rgb), 0.15);
+    color: var(--accent-primary);
   }
 
   .tg-icon-bell {
     background: rgba(255, 160, 0, 0.15);
-    color: #ffa000;
+    color: var(--status-warning);
   }
 
   .tg-icon-check {
     background: rgba(46, 201, 113, 0.15);
-    color: #2ecc71;
+    color: var(--status-success);
   }
 
   .tg-icon-download {
-    background: rgba(0, 188, 212, 0.15);
-    color: #00bcd4;
+    background: rgba(var(--accent-rgb), 0.15);
+    color: var(--accent-primary);
   }
 
   .tg-icon-save {
-    background: rgba(158, 158, 158, 0.15);
-    color: #9e9e9e;
+    background: var(--bg-fill);
+    color: var(--text-muted);
   }
 
   .tg-row-main {
@@ -554,16 +554,16 @@
   }
 
   .tg-row-title {
-    color: #ffffff;
-    font-size: 15px;
+    color: var(--text-primary);
+    font-size: 0.8824rem;
     font-weight: 500;
     line-height: 1.35;
     word-break: break-word;
   }
 
   .tg-row-subtitle {
-    color: #707579;
-    font-size: 13px;
+    color: var(--text-muted);
+    font-size: 0.7647rem;
     line-height: 1.3;
     word-break: break-word;
   }
@@ -573,29 +573,29 @@
     align-items: center;
     padding: 2px 8px;
     border-radius: 6px;
-    font-size: 12px;
+    font-size: 0.7059rem;
     font-weight: 600;
   }
 
   .tg-badge-success {
     background: rgba(46, 201, 113, 0.18);
-    color: #2ecc71;
+    color: var(--status-success);
   }
 
   .tg-badge-warning {
     background: rgba(255, 160, 0, 0.18);
-    color: #ffa000;
+    color: var(--status-warning);
   }
 
   .tg-badge-muted {
-    background: rgba(255, 255, 255, 0.08);
-    color: #aaaaaa;
+    background: var(--bg-hover);
+    color: var(--text-muted);
   }
 
   .tg-badge-soon {
-    background: rgba(255, 255, 255, 0.08);
-    color: #707579;
-    font-size: 11px;
+    background: var(--bg-hover);
+    color: var(--text-muted);
+    font-size: 0.6471rem;
     letter-spacing: 0.5px;
     text-transform: uppercase;
   }
@@ -604,9 +604,9 @@
     border: none;
     border-radius: 8px;
     padding: 7px 14px;
-    background: #3390ec;
-    color: #ffffff;
-    font-size: 13px;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
+    font-size: 0.7647rem;
     font-weight: 500;
     cursor: pointer;
     transition: background 0.15s, transform 0.12s, opacity 0.15s;
@@ -614,7 +614,7 @@
   }
 
   .tg-btn-action:hover {
-    background: #4ea4f6;
+    background: var(--accent-primary);
   }
 
   .tg-btn-action:active {
@@ -623,7 +623,7 @@
 
   .tg-btn-action.danger {
     background: rgba(229, 57, 53, 0.18);
-    color: #ff595a;
+    color: var(--status-danger);
   }
 
   .tg-btn-action.danger:hover {
@@ -636,11 +636,11 @@
   }
 
   .tg-fingerprint-row:hover {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-hover);
   }
 
   .tg-fingerprint-emojis {
-    font-size: 20px;
+    font-size: 1.176rem;
     letter-spacing: 6px;
     margin-top: 2px;
   }
@@ -648,7 +648,7 @@
   .tg-copy-btn {
     border: none;
     background: transparent;
-    color: #707579;
+    color: var(--text-muted);
     padding: 6px;
     border-radius: 6px;
     cursor: pointer;
@@ -659,26 +659,26 @@
   }
 
   .tg-copy-btn:hover {
-    color: #3390ec;
-    background: rgba(51, 144, 236, 0.1);
+    color: var(--accent-primary);
+    background: rgba(var(--accent-rgb), 0.1);
   }
 
   .tg-caption {
     flex-shrink: 0;
-    color: #707579;
-    font-size: 13px;
+    color: var(--text-muted);
+    font-size: 0.7647rem;
     line-height: 1.4;
     margin: 8px 10px 4px;
   }
 
   .tg-caption-tag {
-    color: #3390ec;
+    color: var(--accent-primary);
     margin-top: 4px;
-    font-size: 12px;
+    font-size: 0.7059rem;
   }
 
   .tg-warn-text {
-    color: #ff595a;
+    color: var(--status-danger);
   }
 
   .tg-input-row {
@@ -689,20 +689,20 @@
     width: 100%;
     border: none;
     background: transparent;
-    color: #ffffff;
-    font-size: 15px;
+    color: var(--text-primary);
+    font-size: 0.8824rem;
     outline: none;
     padding: 0;
   }
 
   .tg-input::placeholder {
-    color: #707579;
+    color: var(--text-muted);
   }
 
   .tg-eye-btn {
     border: none;
     background: transparent;
-    color: #707579;
+    color: var(--text-muted);
     padding: 8px;
     border-radius: 8px;
     cursor: pointer;
@@ -713,18 +713,18 @@
   }
 
   .tg-eye-btn:hover {
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-primary);
+    background: var(--bg-hover);
   }
 
   .tg-segmented {
     flex-shrink: 0;
     display: flex;
     gap: 6px;
-    background: #2b2b2b;
+    background: var(--bg-surface);
     border-radius: 12px;
     padding: 4px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-subtle);
   }
 
   .tg-seg-btn {
@@ -746,46 +746,46 @@
   }
 
   .tg-seg-title {
-    color: #aaaaaa;
-    font-size: 13px;
+    color: var(--text-muted);
+    font-size: 0.7647rem;
     font-weight: 500;
   }
 
   .tg-seg-sub {
-    color: #707579;
-    font-size: 11px;
+    color: var(--text-muted);
+    font-size: 0.6471rem;
     font-weight: 700;
   }
 
   .tg-seg-btn.active {
-    background: #3390ec;
+    background: var(--accent-primary);
     box-shadow: 0 2px 8px rgba(51, 144, 236, 0.4);
   }
 
   .tg-seg-btn.active .tg-seg-title,
   .tg-seg-btn.active .tg-seg-sub {
-    color: #ffffff;
+    color: var(--text-primary);
   }
 
   .tg-switch {
     width: 44px;
     height: 24px;
     border-radius: 12px;
-    background: #3d3d3d;
+    background: var(--bg-surface-2);
     position: relative;
     transition: background 0.22s ease;
     flex-shrink: 0;
   }
 
   .tg-switch.active {
-    background: #3390ec;
+    background: var(--accent-primary);
   }
 
   .tg-switch-thumb {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #ffffff;
+    background: var(--text-on-media);
     position: absolute;
     top: 2px;
     left: 2px;
@@ -808,9 +808,9 @@
     left: 50%;
     transform: translateX(-50%);
     background: rgba(30, 30, 30, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-    font-size: 13px;
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+    font-size: 0.7647rem;
     font-weight: 500;
     padding: 8px 16px;
     border-radius: 999px;
@@ -823,6 +823,6 @@
   }
 
   .tg-toast svg {
-    color: #2ecc71;
+    color: var(--status-success);
   }
 </style>

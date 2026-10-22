@@ -43,8 +43,8 @@
     left: 12px;
     right: 12px;
     max-height: 240px;
-    background: #252830;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
     border-radius: 14px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
     overflow: hidden;
@@ -58,13 +58,13 @@
     align-items: center;
     justify-content: space-between;
     padding: 8px 14px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid var(--border-subtle);
   }
 
   .menu-title {
-    font-size: 12px;
+    font-size: 0.7059rem;
     font-weight: 600;
-    color: #8e8e93;
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
@@ -72,16 +72,16 @@
   .close-btn {
     background: none;
     border: none;
-    color: #8e8e93;
-    font-size: 14px;
+    color: var(--text-muted);
+    font-size: 0.8235rem;
     cursor: pointer;
     padding: 2px 6px;
     border-radius: 4px;
   }
 
   .close-btn:hover {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+    background: var(--bg-hover);
   }
 
   .commands-list {
@@ -99,26 +99,26 @@
     background: none;
     border: none;
     border-radius: 8px;
-    color: #fff;
-    font-size: 14px;
+    color: var(--text-primary);
+    font-size: 0.8235rem;
     cursor: pointer;
     text-align: left;
     transition: background-color 0.15s ease;
   }
 
   .command-item:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--bg-hover);
   }
 
   .cmd-name {
     font-weight: 600;
-    color: #248bfe;
+    color: var(--accent-primary);
     flex-shrink: 0;
   }
 
   .cmd-desc {
-    color: #8e8e93;
-    font-size: 13px;
+    color: var(--text-muted);
+    font-size: 0.7647rem;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;

@@ -249,8 +249,8 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    background: #222428;
-    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
     border-radius: 20px;
     padding: 4px 8px 4px 6px;
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
@@ -283,16 +283,16 @@
   }
 
   .dock-pill:hover:not(.dragging) {
-    background: #2a2d32;
+    background: var(--bg-surface-2);
   }
 
   .pill-avatar {
     width: 22px;
     height: 22px;
     border-radius: 50%;
-    background: #3b82f6;
-    color: #fff;
-    font-size: 11px;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
+    font-size: 0.6471rem;
     font-weight: bold;
     display: flex;
     align-items: center;
@@ -301,9 +301,9 @@
   }
 
   .pill-title {
-    font-size: 12px;
+    font-size: 0.7059rem;
     font-weight: 500;
-    color: #e5e7eb;
+    color: var(--text-primary);
     max-width: 110px;
     white-space: nowrap;
     overflow: hidden;
@@ -317,7 +317,7 @@
     border-radius: 50%;
     border: none;
     background: transparent;
-    color: #9ca3af;
+    color: var(--text-muted);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -327,7 +327,7 @@
   }
 
   .pill-close-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
+    background: var(--bg-fill);
+    color: var(--text-primary);
   }
 </style>

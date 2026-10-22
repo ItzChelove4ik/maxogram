@@ -66,7 +66,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    background: #17191d;
+    background: var(--bg-app);
     border-radius: 10px;
     padding: 8px 10px;
     margin: 0 8px 6px 8px;
@@ -78,7 +78,7 @@
     width: 3px;
     height: 100%;
     min-height: 28px;
-    background: #a78bfa;
+    background: var(--accent-primary);
     border-radius: 2px;
     flex-shrink: 0;
   }
@@ -98,16 +98,16 @@
   }
 
   .forward-header {
-    font-size: 13px;
-    color: #a78bfa;
+    font-size: 0.7647rem;
+    color: var(--accent-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
   .forward-text {
-    font-size: 13px;
-    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.7647rem;
+    color: var(--text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -116,9 +116,9 @@
   .forward-close {
     background: none;
     border: none;
-    color: #888;
+    color: var(--text-muted);
     cursor: pointer;
-    font-size: 16px;
+    font-size: 0.9412rem;
     padding: 4px 8px;
     border-radius: 50%;
     display: flex;
@@ -128,7 +128,7 @@
   }
 
   .forward-close:hover {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    background: var(--bg-fill);
   }
 </style>

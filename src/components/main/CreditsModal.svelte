@@ -771,7 +771,7 @@
     inset: 0;
     width: 100vw;
     height: 100vh;
-    background: #000000;
+    background: var(--bg-app);
     z-index: 999999;
     overflow: hidden;
     scrollbar-width: none;
@@ -828,9 +828,9 @@
   }
 
   .icon-btn {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    color: #e4e6eb;
+    background: var(--bg-hover);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
     border-radius: 50%;
     width: 40px;
     height: 40px;
@@ -842,8 +842,8 @@
   }
 
   .icon-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    color: #ffffff;
+    background: var(--bg-fill);
+    color: var(--text-primary);
     transform: scale(1.05);
   }
 
@@ -863,7 +863,7 @@
 
   .close-btn:hover {
     background: rgba(239, 68, 68, 0.35);
-    border-color: rgba(239, 68, 68, 0.5);
+    border-color: var(--status-danger);
   }
 
   .loader-backdrop {
@@ -912,7 +912,7 @@
   }
 
   .intro-blue-text {
-    color: #4bd5ee;
+    color: var(--accent-primary);
     font-size: clamp(1.4rem, 3.2vw, 2.4rem);
     font-weight: 600;
     text-align: center;
@@ -929,7 +929,7 @@
     left: 0;
     right: 0;
     text-align: center;
-    color: rgba(255, 255, 255, 0.45);
+    color: var(--text-primary);
     font-size: 0.76rem;
     letter-spacing: 0.04em;
     pointer-events: none;

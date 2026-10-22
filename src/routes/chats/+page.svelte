@@ -585,11 +585,11 @@
           {#if !$forwardDraft || !$forwardDraft.messages?.length}
             <div style="margin-right: 15px; display: flex; align-items: center; gap: 8px;">
               <button
-                class="top-btn contacts-header-btn animated-panel"
+                class="top-btn contacts-header-btn"
                 on:click={() => (showContactsModal = true)}
                 title="Контакты"
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
                   <circle cx="9" cy="7" r="4"></circle>
                   <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
@@ -756,9 +756,12 @@
   }
 
   .normal-header {
+
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
+    padding: 20px 0 12px;
+    background: var(--bg-surface);
   }
 
   .action-header {
@@ -773,7 +776,7 @@
     justify-content: space-between;
     padding: 0 10px;
     box-sizing: border-box;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid var(--border-subtle);
   }
 
   .action-left {
@@ -783,9 +786,9 @@
   }
 
   .selection-count {
-    font-size: 18px;
+    font-size: 1.059rem;
     font-weight: 600;
-    color: #fff;
+    color: var(--text-primary);
   }
 
   .action-right {
@@ -797,7 +800,7 @@
   .icon-btn {
     background: none;
     border: none;
-    color: #eee;
+    color: var(--text-primary);
     padding: 8px;
     border-radius: 50%;
     cursor: pointer;
@@ -807,15 +810,15 @@
   }
 
   .icon-btn:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--bg-fill);
   }
 
   .send-forward-btn {
-    color: #7b4cd6;
+    color: var(--accent-primary);
   }
 
   .send-forward-btn:hover {
-    color: #9d70ff;
+    color: var(--accent-primary);
   }
 
   .row {
@@ -826,7 +829,7 @@
 
   h3 {
     margin: 0;
-    color: #eee;
+    color: var(--text-primary);
   }
 
   .swipe-container {
@@ -863,26 +866,33 @@
 
   hr {
     width: 90%;
-    color: #fff2;
+    color: var(--text-primary);
   }
 
   .search-scrollable {
     display: flex;
     flex-direction: column;
     overflow-y: auto;
+
+    flex: 1;
+    min-height: 0;
+    background: var(--bg-surface);
   }
 
   .contacts-header-btn {
-    width: 30px;
-    height: 30px;
-    border-radius: 11px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    background: #2b2d30;
+
     border: none;
-    color: white;
+
+
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--accent-subtle);
+    color: var(--accent-primary);
   }
 
   .contacts-modal-backdrop {
@@ -899,13 +909,16 @@
     width: 100%;
     max-width: 600px;
     height: 85%;
-    background: #18191b;
-    border-top-left-radius: 16px;
-    border-top-right-radius: 16px;
+
     display: flex;
     flex-direction: column;
     overflow: hidden;
     box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.4);
+
+    background: var(--bg-sheet);
+    border-top-left-radius: 28px;
+    border-top-right-radius: 28px;
+    padding-bottom: var(--safe-area-bottom);
   }
 
   .contacts-modal-top {
@@ -914,20 +927,20 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 16px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid var(--border-subtle);
     flex-shrink: 0;
   }
 
   .contacts-modal-title {
-    font-size: 16px;
+    font-size: 0.9412rem;
     font-weight: 600;
-    color: #fff;
+    color: var(--text-primary);
   }
 
   .contacts-modal-close {
     background: transparent;
     border: none;
-    color: #9ca3af;
+    color: var(--text-muted);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -940,6 +953,12 @@
     flex: 1;
     overflow: hidden;
     position: relative;
+  }
+  .normal-header h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: -.035em;
+    color: var(--text-primary);
   }
 </style>
 

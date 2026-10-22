@@ -650,11 +650,11 @@
     overflow: hidden;
     background: linear-gradient(
       90deg,
-      rgba(255, 255, 255, 0.04) 0%,
-      rgba(255, 255, 255, 0.12) 35%,
-      rgba(79, 195, 247, 0.16) 50%,
-      rgba(255, 255, 255, 0.12) 65%,
-      rgba(255, 255, 255, 0.04) 100%
+      var(--bg-hover) 0%,
+      var(--bg-fill) 35%,
+      rgba(var(--accent-rgb), 0.16) 50%,
+      var(--bg-fill) 65%,
+      var(--bg-hover) 100%
     );
     background-size: 200% 100%;
     animation: shimmer 1.6s infinite linear;
@@ -673,18 +673,18 @@
     position: absolute;
     top: 6px;
     right: 6px;
-    width: 28px;
-    height: 28px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     background: rgba(0, 0, 0, 0.65);
     border: none;
-    color: #fff;
+    color: var(--text-on-media);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 2;
-    opacity: 0;
+    opacity: 1;
     transition: opacity 0.2s, transform 0.15s, background 0.2s;
     padding: 0;
   }
@@ -692,7 +692,7 @@
   .media-download-badge svg {
     width: 16px;
     height: 16px;
-    fill: #ffffff;
+    fill: var(--text-on-media);
   }
 
   .grid-item:hover .media-download-badge {
@@ -724,13 +724,13 @@
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     background: rgba(0,0,0,0.6);
-    color: white;
+    color: var(--text-on-media);
     width: 40px; height: 40px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 18px;
+    font-size: 1.059rem;
     pointer-events: none;
   }
 
@@ -741,7 +741,7 @@
     padding: 8px;
     border-radius: 10px;
     cursor: pointer;
-    background-color: #0002;
+    background-color: var(--bg-fill);
     margin-right: 10px;
     margin-top: 4px;
   }
@@ -751,11 +751,11 @@
     max-width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--bg-fill);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    font-size: 0.9412rem;
   }
 
   .file-info {
@@ -765,22 +765,22 @@
   }
 
   .file-name {
-    font-size: 13px;
+    font-size: 0.7647rem;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
   .file-size {
-    font-size: 11px;
+    font-size: 0.6471rem;
     opacity: 0.6;
   }
 
   .unsupported-attach {
-    font-size: 11px;
+    font-size: 0.6471rem;
     opacity: 0.5;
     margin-top: 5px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid var(--border-subtle);
     padding-top: 3px;
   }
 
@@ -807,7 +807,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff;
+    color: var(--text-on-media);
     margin-bottom: 6px;
     transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
@@ -822,9 +822,9 @@
   }
 
   .enc-size-label {
-    font-size: 12px;
+    font-size: 0.7059rem;
     font-weight: 500;
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--text-on-media);
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
   }
 </style>

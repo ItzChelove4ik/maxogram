@@ -1722,7 +1722,7 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    color: #ccc;
+    color: var(--text-secondary);
     z-index: 20;
     top: 0;
     left: 0;
@@ -1787,12 +1787,12 @@
   }
 
   .message-list-container::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--text-on-media);
     border-radius: 4px;
   }
 
   .message-list-container::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--text-on-media);
   }
 
   .grab-scroll {
@@ -1808,7 +1808,7 @@
   }
 
   .message-wrapper.is-selected {
-    background: rgba(123, 76, 214, 0.22);
+    background: rgba(var(--accent-rgb), 0.22);
     border-radius: 0;
   }
 
@@ -1830,13 +1830,13 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #252525;
+    background-color: var(--bg-surface);
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 12px;
     box-sizing: border-box;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid var(--border-subtle);
     z-index: 30;
   }
 
@@ -1847,9 +1847,9 @@
   }
 
   .selection-count {
-    font-size: 17px;
+    font-size: 1rem;
     font-weight: 600;
-    color: #fff;
+    color: var(--text-primary);
   }
 
   .action-right {
@@ -1861,7 +1861,7 @@
   .icon-btn {
     background: none;
     border: none;
-    color: #eee;
+    color: var(--text-primary);
     padding: 8px;
     border-radius: 50%;
     cursor: pointer;
@@ -1872,7 +1872,7 @@
   }
 
   .icon-btn:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--bg-fill);
   }
 
   .icon-btn:active {
@@ -1884,8 +1884,8 @@
     align-items: center;
     gap: 8px;
     margin-top: 12px;
-    font-size: 14px;
-    color: #e0e0e0;
+    font-size: 0.8235rem;
+    color: var(--text-primary);
     cursor: pointer;
     user-select: none;
   }

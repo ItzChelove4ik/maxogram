@@ -1487,7 +1487,7 @@
     justify-content: space-between;
     align-items: center;
     padding: calc(env(safe-area-inset-top, 12px) + 6px) 20px 15px 20px;
-    color: white;
+    color: var(--text-on-media);
     z-index: 10;
     transition: opacity 200ms ease;
     gap: 16px;
@@ -1511,7 +1511,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 14px;
+    font-size: 0.8235rem;
     font-weight: 600;
     min-width: 0;
   }
@@ -1520,7 +1520,7 @@
     background: rgba(255, 255, 255, 0.16);
     padding: 2px 7px;
     border-radius: 6px;
-    font-size: 12px;
+    font-size: 0.7059rem;
     font-weight: 600;
     letter-spacing: 0.2px;
     flex-shrink: 0;
@@ -1537,7 +1537,7 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 12px;
+    font-size: 0.7059rem;
     opacity: 0.72;
   }
 
@@ -1546,7 +1546,7 @@
   }
 
   .counter {
-    font-size: 12px;
+    font-size: 0.7059rem;
     font-weight: 500;
     opacity: 0.85;
   }
@@ -1600,7 +1600,7 @@
     border-radius: 50%;
     background: rgba(30, 32, 40, 0.75);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    color: white;
+    color: var(--text-on-media);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -1635,7 +1635,7 @@
   .viewer-icon-btn {
     background: none;
     border: none;
-    color: white;
+    color: var(--text-on-media);
     cursor: pointer;
     padding: 6px;
     display: flex;
@@ -1709,7 +1709,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: var(--text-on-media);
     transition: transform 0.2s;
   }
   .play-button svg {
@@ -1781,13 +1781,17 @@
     display: flex;
     align-items: center;
     gap: 12px;
-    color: white;
+    color: var(--text-on-media);
   }
 
   .icon-btn {
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
     background: none;
     border: none;
-    color: white;
+    color: var(--text-on-media);
     cursor: pointer;
     padding: 0;
     display: flex;
@@ -1800,7 +1804,7 @@
     opacity: 1;
   }
   .icon-btn.active {
-    color: #3390ec;
+    color: var(--media-accent);
     opacity: 1;
   }
   .icon-btn svg {
@@ -1810,7 +1814,7 @@
   }
 
   .time-text {
-    font-size: 13px;
+    font-size: 0.7647rem;
     font-variant-numeric: tabular-nums;
     opacity: 0.9;
   }
@@ -1880,7 +1884,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: var(--text-on-media);
     z-index: 15;
     pointer-events: none;
   }
@@ -1895,7 +1899,7 @@
     fill: currentColor;
   }
   .skip-anim span {
-    font-size: 11px;
+    font-size: 0.6471rem;
     font-weight: 600;
   }
 
@@ -1905,10 +1909,10 @@
     left: 50%;
     transform: translateX(-50%);
     background: rgba(0, 0, 0, 0.7);
-    color: white;
+    color: var(--text-on-media);
     padding: 4px 10px;
     border-radius: 12px;
-    font-size: 12px;
+    font-size: 0.7059rem;
     z-index: 15;
     pointer-events: none;
   }

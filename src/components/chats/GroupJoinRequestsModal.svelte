@@ -174,8 +174,8 @@
   }
 
   .modal-card {
-    background: #1e2025;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
     box-shadow: 0 20px 48px rgba(0, 0, 0, 0.65);
     border-radius: 18px;
     width: 100%;
@@ -184,7 +184,7 @@
     flex-direction: column;
     max-height: 80vh;
     overflow: hidden;
-    color: #edf0f5;
+    color: var(--text-primary);
   }
 
   .modal-head {
@@ -192,25 +192,25 @@
     align-items: center;
     justify-content: space-between;
     padding: 16px 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid var(--border-subtle);
   }
 
   .title-wrap h3 {
     margin: 0;
-    font-size: 17px;
+    font-size: 1rem;
     font-weight: 600;
-    color: #f8fafc;
+    color: var(--text-primary);
   }
 
   .sub-label {
-    font-size: 12px;
-    color: #8b98a5;
+    font-size: 0.7059rem;
+    color: var(--text-muted);
   }
 
   .btn-close {
     background: none;
     border: none;
-    color: #8b98a5;
+    color: var(--text-muted);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -222,23 +222,23 @@
   }
 
   .btn-close:hover {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+    background: var(--bg-hover);
   }
 
   .bulk-bar {
     padding: 8px 16px;
-    background: rgba(0, 0, 0, 0.2);
+    background: var(--bg-fill);
     display: flex;
     justify-content: flex-end;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid var(--border-subtle);
   }
 
   .btn-bulk {
-    background: rgba(43, 130, 246, 0.14);
-    color: #3b82f6;
+    background: rgba(var(--accent-rgb), 0.14);
+    color: var(--accent-primary);
     border: none;
-    font-size: 13px;
+    font-size: 0.7647rem;
     font-weight: 500;
     padding: 6px 12px;
     border-radius: 7px;
@@ -247,7 +247,7 @@
   }
 
   .btn-bulk:hover:not(:disabled) {
-    background: rgba(43, 130, 246, 0.25);
+    background: rgba(var(--accent-rgb), 0.25);
   }
 
   .requests-scroll {
@@ -262,8 +262,8 @@
   .state-msg {
     padding: 36px 16px;
     text-align: center;
-    color: #64748b;
-    font-size: 14px;
+    color: var(--text-muted);
+    font-size: 0.8235rem;
   }
 
   .request-row {
@@ -271,8 +271,8 @@
     align-items: center;
     gap: 12px;
     padding: 10px 12px;
-    background: rgba(0, 0, 0, 0.18);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--bg-fill);
+    border: 1px solid var(--border-subtle);
     border-radius: 12px;
   }
 
@@ -284,17 +284,17 @@
   }
 
   .user-title {
-    font-size: 14px;
+    font-size: 0.8235rem;
     font-weight: 500;
-    color: #f1f5f9;
+    color: var(--text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
   .user-sub {
-    font-size: 12px;
-    color: #8b98a5;
+    font-size: 0.7059rem;
+    color: var(--text-muted);
   }
 
   .action-buttons {
@@ -316,7 +316,7 @@
 
   .btn-icon.accept {
     background: rgba(34, 197, 94, 0.14);
-    color: #4ade80;
+    color: var(--status-success);
   }
 
   .btn-icon.accept:hover:not(:disabled) {
@@ -325,7 +325,7 @@
 
   .btn-icon.decline {
     background: rgba(239, 68, 68, 0.14);
-    color: #f87171;
+    color: var(--status-danger);
   }
 
   .btn-icon.decline:hover:not(:disabled) {
@@ -339,8 +339,8 @@
 
   .status-banner {
     margin: 4px 16px;
-    font-size: 13px;
-    color: #f87171;
+    font-size: 0.7647rem;
+    color: var(--status-danger);
     text-align: center;
   }
 
@@ -348,14 +348,14 @@
     display: flex;
     justify-content: flex-end;
     padding: 12px 16px;
-    background: rgba(0, 0, 0, 0.18);
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    background: var(--bg-fill);
+    border-top: 1px solid var(--border-subtle);
   }
 
   .btn {
     padding: 8px 16px;
     border-radius: 8px;
-    font-size: 13px;
+    font-size: 0.7647rem;
     font-weight: 500;
     border: none;
     cursor: pointer;
@@ -363,11 +363,11 @@
   }
 
   .btn-secondary {
-    background: rgba(255, 255, 255, 0.08);
-    color: #e2e8f0;
+    background: var(--bg-hover);
+    color: var(--text-primary);
   }
 
   .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.12);
+    background: var(--bg-fill);
   }
 </style>

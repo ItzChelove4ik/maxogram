@@ -226,12 +226,12 @@
   .quote-container {
     margin: 3px 0;
     padding: 6px 10px;
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--bg-hover);
     border-radius: 8px;
     display: flex;
     gap: 8px;
     position: relative;
-    border-left: 3px solid rgba(255, 255, 255, 0.5);
+    border-left: 3px solid var(--border-subtle);
   }
 
   .quote-bar {
@@ -241,7 +241,7 @@
   .quote-body {
     white-space: pre-wrap;
     word-break: break-word;
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--text-primary);
     font-size: 0.96em;
   }
 
@@ -271,7 +271,7 @@
     font-size: 0.88em;
     padding: 2px 5px;
     border-radius: 4px;
-    background: rgba(0, 0, 0, 0.25);
+    background: var(--bg-fill);
   }
 
   .heading-text {
@@ -281,7 +281,7 @@
   }
 
   .rich-link {
-    color: #64b5f6;
+    color: var(--accent-primary);
     text-decoration: underline;
     cursor: pointer;
     white-space: inherit;
@@ -289,11 +289,11 @@
   }
 
   .rich-link:hover {
-    color: #90caf9;
+    color: var(--accent-primary);
   }
 
   .rich-mention {
-    color: #bb86fc;
+    color: var(--accent-primary);
     font-weight: 600;
     cursor: pointer;
     white-space: inherit;

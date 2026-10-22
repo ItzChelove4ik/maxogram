@@ -1,6 +1,7 @@
 <script>
   import { fade, fly } from "svelte/transition";
   import { createEventDispatcher } from "svelte";
+  import { focusDialog } from '$lib/actions/focusDialog.js';
 
   export let title = "Ввод данных";
   export let submitText = "Сохранить";
@@ -16,6 +17,10 @@
   ];
 
   const dispatch = createEventDispatcher();
+  /** @param {KeyboardEvent} event */
+  function handleKeydown(event) {
+    if (event.key === 'Escape') { event.stopPropagation(); dispatch('cancel'); }
+  }
 
   let formData = {};
 
@@ -30,11 +35,18 @@
 
 <div
   class="modal-backdrop"
+  role="presentation"
   transition:fade={{ duration: 200 }}
   on:click={() => dispatch("cancel")}
 >
   <div
     class="modal"
+    role="dialog"
+    aria-modal="true"
+    aria-label={title}
+    tabindex="-1"
+    use:focusDialog
+    on:keydown={handleKeydown}
     transition:fly={{ y: 20, duration: 250 }}
     on:click|stopPropagation
   >
@@ -42,8 +54,8 @@
       <h3>{title}</h3>
 
       {#each fields as field}
-        <div class="field">
-          <label>{field.label}</label>
+        <label class="field">
+          <span>{field.label}</span>
 
           {#if field.multiline}
             <textarea
@@ -58,7 +70,7 @@
               type={field.type || "text"}
             />
           {/if}
-        </div>
+        </label>
       {/each}
     </div>
 
@@ -84,7 +96,7 @@
   .modal-backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.65);
+    background: var(--scrim);
     z-index: 200;
     display: flex;
     justify-content: center;
@@ -92,24 +104,35 @@
   }
 
   .modal {
-    background: #252525;
     width: 85%;
     max-width: 340px;
-    border-radius: 14px;
-    color: #fff;
-    border: 1px solid #333;
+
+    color: var(--text-primary);
+
     overflow: hidden;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    max-height: calc(100dvh - 48px - var(--safe-area-top) - var(--safe-area-bottom));
+    display: flex;
+    flex-direction: column;
+
+
+    background: var(--bg-sheet);
+    border-radius: 24px;
+    box-shadow: var(--shadow-sheet);
+    border: 0;
   }
 
   .content {
     padding: 20px;
+    overflow-y: auto;
   }
 
   .content h3 {
     margin: 0 0 16px;
     text-align: center;
-    font-size: 18px;
+
+
+    font-size: 1.176rem;
+    font-weight: 600;
   }
 
   .field {
@@ -119,64 +142,70 @@
     margin-bottom: 12px;
   }
 
-  .field label {
-    font-size: 13px;
-    color: #aaa;
+  .field span {
+    font-size: 0.7647rem;
+    color: var(--text-muted);
   }
 
   .field input {
-    height: 42px;
+    height: 44px;
     padding: 0 12px;
     border-radius: 8px;
-    border: 1px solid #3a3a3a;
-    background: #1f1f1f;
-    color: white;
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-surface);
+    color: var(--text-primary);
     outline: none;
-    font-size: 14px;
+    font-size: 1rem;
   }
 
   .field input:focus {
-    border-color: #007afd;
+    border-color: var(--accent-primary);
   }
 
   .field textarea {
     min-height: 80px;
     padding: 10px 12px;
     border-radius: 8px;
-    border: 1px solid #3a3a3a;
-    background: #1f1f1f;
-    color: white;
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-surface);
+    color: var(--text-primary);
     outline: none;
-    font-size: 14px;
+    font-size: 0.8235rem;
     resize: none;
   }
 
   .footer {
     display: flex;
-    border-top: 1px solid #333;
+    border-top: 1px solid var(--border-subtle);
     height: 50px;
+    flex-shrink: 0;
   }
 
   .btn {
     flex: 1;
     border: none;
     background: transparent;
-    font-size: 16px;
+
     cursor: pointer;
     transition: 0.2s;
+
+    min-height: 48px;
+    font-size: 1rem;
+    border-radius: 12px;
   }
 
   .btn:active {
-    background: #333;
+    background: var(--bg-surface-2);
   }
 
   .btn.cancel {
-    color: #007afd;
-    border-right: 1px solid #333;
+    color: var(--accent-primary);
+    border-right: 1px solid var(--border-subtle);
   }
 
   .btn.submit {
-    color: #007afd;
     font-weight: 600;
+
+    color: var(--accent-primary);
   }
 </style>

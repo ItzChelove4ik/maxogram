@@ -274,7 +274,7 @@
   .avatar-initials {
     font-size: clamp(20px, 4vw, 30px);
     font-weight: 700;
-    color: #fff;
+    color: var(--text-on-media);
     letter-spacing: -0.5px;
   }
 
@@ -292,9 +292,9 @@
 
   .participant-name {
     margin: 0;
-    font-size: 12px;
+    font-size: 0.7059rem;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--text-on-media);
     background: rgba(0, 0, 0, 0.55);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
@@ -339,7 +339,7 @@
 
   .waiting-label {
     margin: 0;
-    font-size: 13px;
+    font-size: 0.7647rem;
     font-weight: 500;
     color: rgba(255, 255, 255, 0.45);
     text-align: center;

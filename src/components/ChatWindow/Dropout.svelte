@@ -497,8 +497,8 @@
     bottom: calc(100% + 8px);
     left: 0;
     width: 196px;
-    background: #1c1e2a;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
     border-radius: 20px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
     padding: 5px 6px;
@@ -522,7 +522,7 @@
   }
 
   .reaction-pill {
-    font-size: 19px;
+    font-size: 1.118rem;
     width: 28px;
     height: 28px;
     border-radius: 50%;
@@ -540,7 +540,7 @@
 
   .reaction-pill:hover {
     transform: scale(1.22);
-    background: rgba(255, 255, 255, 0.12);
+    background: var(--bg-fill);
   }
 
   .reaction-pill:active {
@@ -548,22 +548,22 @@
   }
 
   .reaction-pill.is-active {
-    background: rgba(123, 76, 214, 0.45);
-    border-color: rgba(167, 139, 250, 0.6);
+    background: rgba(var(--accent-rgb), 0.45);
+    border-color: var(--accent-primary);
   }
 
   .expand-btn {
     width: 26px;
     height: 26px;
-    background: rgba(255, 255, 255, 0.08);
-    color: rgba(255, 255, 255, 0.8);
+    background: var(--bg-hover);
+    color: var(--text-primary);
     flex-shrink: 0;
     white-space: nowrap;
   }
 
   .expand-btn:hover {
-    background: rgba(255, 255, 255, 0.16);
-    color: #ffffff;
+    background: var(--bg-fill);
+    color: var(--text-primary);
   }
 
   .expand-icon {
@@ -575,8 +575,8 @@
     display: flex;
     flex-direction: column;
     width: 196px;
-    background: #1c1e2a;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
     border-radius: 14px;
     box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), 0 2px 10px rgba(0, 0, 0, 0.3);
     overflow: hidden;
@@ -599,7 +599,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 8px 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid var(--border-subtle);
     flex-shrink: 0;
   }
 
@@ -607,7 +607,7 @@
   .picker-close-btn {
     background: transparent;
     border: none;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--text-primary);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -621,14 +621,14 @@
 
   .picker-back-btn:hover,
   .picker-close-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
+    background: var(--bg-fill);
+    color: var(--text-primary);
   }
 
   .picker-title {
-    font-size: 13px;
+    font-size: 0.7647rem;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--text-primary);
   }
 
   .reactions-picker-grid {
@@ -645,7 +645,7 @@
   .picker-pill {
     width: 32px;
     height: 32px;
-    font-size: 20px;
+    font-size: 1.176rem;
   }
 
   .actions-group {
@@ -662,8 +662,8 @@
     padding: 8px 14px;
     border: none;
     background: transparent;
-    color: #ffffff;
-    font-size: 13.5px;
+    color: var(--text-primary);
+    font-size: 0.7941rem;
     font-weight: 450;
     cursor: pointer;
     text-align: left;
@@ -671,17 +671,17 @@
   }
 
   .action-row:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--bg-hover);
   }
 
   .action-row:active {
-    background: rgba(255, 255, 255, 0.14);
+    background: var(--bg-fill);
   }
 
   .action-icon {
     width: 18px;
     height: 18px;
-    color: rgba(255, 255, 255, 0.75);
+    color: var(--text-primary);
     flex-shrink: 0;
   }
 
@@ -694,7 +694,7 @@
 
   .divider {
     height: 1px;
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--bg-hover);
     margin: 4px 0;
   }
 
@@ -703,11 +703,11 @@
   }
 
   .delete-row {
-    color: #f87171;
+    color: var(--status-danger);
   }
 
   .delete-row .action-icon {
-    color: #f87171;
+    color: var(--status-danger);
   }
 
   .delete-row:hover {
@@ -726,7 +726,7 @@
 
   .seen-by-avatar-item {
     border-radius: 50%;
-    border: 1.5px solid #1c1e2a;
+    border: 1.5px solid var(--border-subtle);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -736,8 +736,8 @@
   .seen-by-label {
     flex: 1;
     margin-left: 8px;
-    font-size: 12px;
-    color: #8b98a5;
+    font-size: 0.7059rem;
+    color: var(--text-muted);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -746,12 +746,12 @@
   .seen-by-arrow {
     width: 14px;
     height: 14px;
-    color: #8b98a5;
+    color: var(--text-muted);
     flex-shrink: 0;
   }
 
   .seen-by-row:hover .seen-by-label,
   .seen-by-row:hover .seen-by-arrow {
-    color: #e4ecf2;
+    color: var(--text-primary);
   }
 </style>

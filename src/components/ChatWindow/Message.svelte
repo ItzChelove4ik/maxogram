@@ -626,18 +626,22 @@
   }
 
   .message-bubble {
-    color: #fff;
-    padding: 7px 10px 6px 12px;
-    border-radius: 16px 16px 16px 0;
+
     min-width: 90px;
     width: 100%;
     box-sizing: border-box;
-    font-size: 13px;
+
     position: relative;
     user-select: text;
     -webkit-user-select: text;
     display: flex;
     flex-direction: column;
+
+    font-size: 1rem;
+    line-height: 1.4;
+    padding: 9px 12px 7px;
+    border-radius: 18px 18px 18px 5px;
+    color: var(--bubble-text);
   }
 
   .message-bubble.is-row {
@@ -698,10 +702,14 @@
   .message-row.is-system .message-bubble {
     border-radius: 12px;
     padding: 6px 14px;
-    background: rgba(45, 48, 60, 0.85);
+
     width: auto;
     min-width: 0;
     text-align: center;
+
+    color: var(--text-secondary);
+    background: var(--bg-fill);
+    font-size: .7647rem;
   }
 
   .message-row.is-system .bubble-content {
@@ -722,8 +730,10 @@
   }
 
   .message-row.is-me:not(.is-system) .message-bubble {
-    border-radius: 16px 16px 0px 16px;
-    background: #7b4cd6;
+
+
+    background: var(--bubble-outgoing);
+    border-radius: 18px 18px 5px 18px;
   }
 
   .message-row.is-me:not(.is-system) .message-bubble::before {
@@ -785,18 +795,23 @@
   }
 
   .message-row:not(.is-me, .is-system) .message-bubble {
-      background: #3a3c55;
+
+    background: var(--bubble-incoming);
   }
 
   .message-row.is-deleted .message-bubble {
-    background-color: #c99;
+    background-color: var(--status-danger);
+
+    background: var(--bg-surface-2);
+    color: var(--text-secondary);
+    border: 1px solid var(--status-danger);
   }
 
   .forward-block {
-    border-left: 2px solid #34b7f1;
+    border-left: 2px solid var(--accent-primary);
     padding: 4px 8px;
     margin-bottom: 6px;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--bg-hover);
     border-radius: 4px 8px 8px 4px;
     overflow: hidden;
     width: 100%;
@@ -829,7 +844,7 @@
   }
 
   .forward-label {
-    font-size: 10px;
+    font-size: 0.5882rem;
     opacity: 0.65;
     color: inherit;
     text-transform: uppercase;
@@ -838,8 +853,8 @@
 
   .forward-name {
     font-weight: 600;
-    color: #34b7f1;
-    font-size: 12px;
+    color: var(--accent-primary);
+    font-size: 0.7059rem;
     overflow: hidden;
     text-overflow: ellipsis;
   }
@@ -847,19 +862,19 @@
   .forward-arrow {
     width: 14px;
     height: 14px;
-    fill: #34b7f1;
+    fill: var(--accent-primary);
     flex-shrink: 0;
     margin-left: auto;
   }
 
   .reply-block {
-    border-left: 3px solid #38bdf8;
+    border-left: 3px solid var(--accent-primary);
     padding: 4px 8px;
     margin-bottom: 6px;
     border-radius: 4px 8px 8px 4px;
     opacity: 0.9;
-    font-size: 12px;
-    background-color: rgba(255, 255, 255, 0.06);
+    font-size: 0.7059rem;
+    background-color: var(--bg-hover);
     cursor: pointer;
     width: 100%;
     box-sizing: border-box;
@@ -872,7 +887,7 @@
   }
 
   .message-row.is-system .reply-block {
-    border-left: 3px solid rgba(255, 255, 255, 0.4);
+    border-left: 3px solid var(--border-subtle);
   }
 
   .message-footer {
@@ -903,13 +918,16 @@
     flex-shrink: 0;
     user-select: none;
     -webkit-user-select: none;
+
+    color: var(--bubble-meta);
+    font-size: .7059rem;
   }
 
   .views {
     display: inline-flex;
     align-items: center;
     gap: 2px;
-    font-size: 10px;
+    font-size: 0.5882rem;
     opacity: 0.65;
     line-height: 1;
   }
@@ -925,15 +943,15 @@
     display: flex;
     align-items: center;
     gap: 5px;
-    font-size: 11px;
-    color: #ef4444;
+    font-size: 0.6471rem;
+    color: var(--status-danger);
     margin-bottom: 4px;
     font-weight: 500;
   }
 
   .deleted-notice-time {
-    color: rgba(239, 68, 68, 0.7);
-    font-size: 10px;
+    color: var(--status-danger);
+    font-size: 0.5882rem;
   }
 
   .line.deleted-text {
@@ -942,8 +960,8 @@
   }
 
   .deleted-badge {
-    font-size: 10px;
-    color: #ef4444;
+    font-size: 0.5882rem;
+    color: var(--status-danger);
     font-weight: 600;
     line-height: 1;
   }
@@ -951,9 +969,9 @@
   .edited-badge {
     background: transparent;
     border: none;
-    font-size: 10px;
+    font-size: 0.5882rem;
     line-height: 1;
-    color: rgba(255, 255, 255, 0.6);
+    color: var(--text-primary);
     cursor: pointer;
     padding: 0;
     border-radius: 3px;
@@ -963,21 +981,21 @@
   }
 
   .edited-badge:hover {
-    color: #38bdf8;
+    color: var(--accent-primary);
     text-decoration: underline;
   }
 
   .obf-type {
-    font-size: 9px;
+    font-size: 0.5294rem;
     font-weight: 700;
-    color: #4ade80;
+    color: var(--status-success);
     line-height: 1;
     display: inline-flex;
     align-items: center;
   }
 
   .timestamp {
-    font-size: 11px;
+    font-size: 0.6471rem;
     line-height: 1;
     opacity: 0.65;
     display: inline-block;
@@ -996,13 +1014,13 @@
     height: 10px;
     display: block;
     fill: currentColor;
-    color: rgba(255, 255, 255, 0.65);
+    color: var(--text-primary);
   }
 
   .status-icon.is-sending {
     width: 11px;
     height: 11px;
-    color: rgba(255, 255, 255, 0.65);
+    color: var(--text-primary);
     stroke: currentColor;
     fill: none;
     display: block;
@@ -1011,7 +1029,7 @@
   .status-icon.is-sent {
     width: 13px;
     height: 10px;
-    color: rgba(255, 255, 255, 0.65);
+    color: var(--text-primary);
     fill: currentColor;
     display: block;
   }
@@ -1019,7 +1037,7 @@
   .status-icon.is-read {
     width: 16px;
     height: 10px;
-    color: #38bdf8;
+    color: var(--accent-primary);
     fill: currentColor;
     display: block;
   }
@@ -1040,13 +1058,13 @@
 
   @keyframes pulseHighlight {
     0% {
-      background: rgba(255,255,255,0);
+      background: var(--bg-hover);
     }
     30% {
-      background: rgba(255,255,255,0.12);
+      background: var(--bg-fill);
     }
     100% {
-      background: rgba(255,255,255,0);
+      background: var(--bg-hover);
     }
   }
 
@@ -1116,8 +1134,8 @@
   }
 
   .sticker-floating-meta .timestamp {
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 11px;
+    color: var(--text-on-media);
+    font-size: 0.6471rem;
     font-weight: 500;
   }
 
@@ -1125,7 +1143,7 @@
     width: 13px;
     height: 10px;
     fill: currentColor;
-    color: rgba(255, 255, 255, 0.85);
+    color: var(--text-on-media);
   }
 
   .sticker-floating-meta .status-ticks svg.is-sending {
@@ -1137,7 +1155,7 @@
 
   .sticker-floating-meta .status-ticks svg.is-read {
     width: 16px;
-    color: #34b7f1;
+    color: var(--accent-primary);
     fill: currentColor;
   }
 
@@ -1170,8 +1188,8 @@
   .transcription-card {
     margin-top: 4px;
     max-width: 380px;
-    background: rgba(30, 41, 59, 0.98);
-    border: 1px solid rgba(56, 189, 248, 0.25);
+    background: var(--bg-fill);
+    border: 1px solid var(--accent-primary);
     border-radius: 12px;
     padding: 8px 12px;
     box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
@@ -1179,7 +1197,7 @@
   }
 
   .transcription-card.is-me {
-    border-color: rgba(56, 189, 248, 0.4);
+    border-color: var(--accent-primary);
   }
 
   .transcription-header {
@@ -1187,9 +1205,9 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 4px;
-    font-size: 11px;
+    font-size: 0.6471rem;
     font-weight: 600;
-    color: #38bdf8;
+    color: var(--accent-primary);
   }
 
   .transcription-title {
@@ -1201,24 +1219,24 @@
   .transcription-close-btn {
     background: none;
     border: none;
-    color: rgba(255, 255, 255, 0.5);
+    color: var(--text-primary);
     cursor: pointer;
-    font-size: 11px;
+    font-size: 0.6471rem;
     padding: 2px 4px;
     border-radius: 4px;
   }
 
   .transcription-close-btn:hover {
-    color: white;
-    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+    background: var(--bg-fill);
   }
 
   .transcription-loading {
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.7059rem;
+    color: var(--text-primary);
     font-style: italic;
     padding: 4px 0;
   }
@@ -1226,16 +1244,16 @@
   .transcription-spinner {
     width: 14px;
     height: 14px;
-    border: 2px solid rgba(56, 189, 248, 0.25);
-    border-top-color: #38bdf8;
+    border: 2px solid var(--accent-primary);
+    border-top-color: var(--accent-primary);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
   }
 
   .transcription-text {
-    font-size: 13px;
+    font-size: 0.7647rem;
     line-height: 1.45;
-    color: rgba(255, 255, 255, 0.92);
+    color: var(--text-primary);
     word-break: break-word;
     white-space: pre-wrap;
   }

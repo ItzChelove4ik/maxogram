@@ -128,14 +128,22 @@
 </header>
 
 <style>
+
   header {
     display: flex;
     align-items: center;
-    padding: 8px 0;
+
     cursor: grab;
     flex-shrink: 0;
-    background-color: #1e2024;
+
     z-index: 5;
+
+    min-height: 60px;
+    padding: 4px 8px;
+    background-color: var(--bg-topbar);
+    border-bottom: 1px solid var(--border-subtle);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
   }
 
   .row {
@@ -155,22 +163,27 @@
   }
 
   header .info .presence {
-    font-size: 14px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     display: block;
     min-width: 0;
+
+    font-size: .7647rem;
+    color: var(--text-muted);
   }
 
   header .title {
-    color: white;
-    font-size: 18px;
+
     flex: 1;
     min-width: 0;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
   }
 
   header .align-left {
@@ -192,10 +205,10 @@
   .icon-button {
     background: none;
     border: none;
-    color: white;
+
     cursor: pointer;
-    height: 40px;
-    width: 40px;
+
+
     padding: 0;
     border-radius: 50%;
     flex-shrink: 0;
@@ -203,6 +216,10 @@
     align-items: center;
     justify-content: center;
     transition: background-color 0.2s;
+
+    width: 44px;
+    height: 44px;
+    color: var(--accent-primary);
   }
 
   .icon-button img {
@@ -237,7 +254,7 @@
     justify-content: center;
     width: 14px;
     height: 14px;
-    font-size: 11px;
+    font-size: 0.6471rem;
     line-height: 1;
     overflow: hidden;
   }
@@ -245,7 +262,7 @@
   .header-call-btn {
     background: none;
     border: none;
-    color: #a0a5b1;
+
     cursor: pointer;
     padding: 6px;
     border-radius: 50%;
@@ -254,11 +271,15 @@
     justify-content: center;
     transition: color 0.15s, background-color 0.15s, transform 0.1s;
     margin-right: 4px;
+
+    min-width: 44px;
+    min-height: 44px;
+    color: var(--accent-primary);
   }
 
   .header-call-btn:hover {
-    color: var(--accent-primary, #248bfe);
-    background-color: rgba(255, 255, 255, 0.06);
+    color: var(--accent-primary);
+    background-color: var(--bg-hover);
   }
 
   .header-call-btn:active {

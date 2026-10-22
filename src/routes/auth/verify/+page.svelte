@@ -197,7 +197,7 @@
   </p>
   <div class="form">
     {#if error}
-      <div class="error">{error}</div>
+      <div class="error" role="alert">{error}</div>
     {/if}
     {#if infoMessage}
       <div class="info">{infoMessage}</div>
@@ -205,6 +205,8 @@
     <input
       type="text"
       inputmode="numeric"
+      aria-label="Код подтверждения"
+      autocomplete="one-time-code"
       maxlength={codeLength}
       value={code}
       on:input={onInput}
@@ -232,63 +234,81 @@
 </div>
 
 <style>
+
   .auth-page {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+
     text-align: center;
-    color: #ddd;
+    color: var(--text-primary);
     max-width: min(340px, 92%);
     margin: 0 auto;
-    padding: 20px 0;
+
     box-sizing: border-box;
+
+    min-height: 100%;
+    height: 100%;
+    overflow-y: auto;
+    padding: 32px 24px calc(32px + var(--safe-area-bottom));
+    background: var(--bg-app);
   }
 
   .auth-page h1 {
-    margin: 0;
-    font-size: 24px;
-    font-weight: 600;
+
+
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -.03em;
+    margin: 16px 0 8px;
   }
 
   .phone-badge {
     margin-top: 8px;
-    font-size: 16px;
+    font-size: 0.9412rem;
     font-weight: 500;
-    color: #4a90e2;
+    color: var(--accent-primary);
     letter-spacing: 0.5px;
   }
 
   .subtitle {
     margin: 10px 0 12px 0;
-    font-size: 13.5px;
-    color: #a0a0a8;
+    font-size: 0.7941rem;
+    color: var(--text-muted);
     line-height: 1.4;
   }
 
   .form {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+
+
+
+    max-width: 360px;
     width: 100%;
+    gap: 12px;
+    margin-top: 24px;
   }
 
   input {
-    padding: 0.75rem;
-    border-radius: 8px;
-    border: 1px solid #333;
-    font-size: 1.25rem;
-    background-color: #26262e;
-    color: #ccc;
     outline: none;
     text-align: center;
     letter-spacing: 4px;
     font-weight: 600;
+
+    border: 1px solid var(--border-card);
+    background: var(--bg-surface);
+    background-color: var(--bg-surface);
+    border-radius: 14px;
+    min-height: 52px;
+    padding: 14px 16px;
+    font-size: 1rem;
+    color: var(--text-primary);
   }
 
   input:focus {
-    border-color: #4a90e2;
+    border-color: var(--accent-primary);
   }
 
   .resend-container {
@@ -300,15 +320,15 @@
   }
 
   .timer-label {
-    font-size: 13.5px;
-    color: #777;
+    font-size: 0.7941rem;
+    color: var(--text-muted);
   }
 
   .resend-action {
     background: transparent;
     border: none;
-    color: #4a90e2;
-    font-size: 14px;
+    color: var(--accent-primary);
+    font-size: 0.8235rem;
     cursor: pointer;
     text-decoration: underline;
     text-underline-offset: 3px;
@@ -322,19 +342,19 @@
   }
 
   .resend-action:hover:not(:disabled) {
-    color: #6ba6ec;
+    color: var(--accent-primary);
   }
 
   .error {
-    color: #ff5555;
-    font-size: 13.5px;
+    color: var(--status-danger);
+    font-size: 0.7941rem;
     min-height: 18px;
     word-break: break-word;
   }
 
   .info {
-    color: #4cd964;
-    font-size: 13.5px;
+    color: var(--status-success);
+    font-size: 0.7941rem;
     min-height: 18px;
     word-break: break-word;
   }

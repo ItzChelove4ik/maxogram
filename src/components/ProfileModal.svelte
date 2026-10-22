@@ -2077,8 +2077,8 @@
     width: 100%;
     max-width: 420px;
     height: 100%;
-    background: #212121;
-    border-left: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--bg-surface);
+    border-left: 1px solid var(--border-subtle);
     display: flex;
     flex-direction: column;
     box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
@@ -2090,16 +2090,16 @@
     align-items: center;
     justify-content: space-between;
     padding: 10px 14px;
-    background: #212121;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-subtle);
     flex-shrink: 0;
     z-index: 10;
   }
 
   .tg-tabs {
     display: flex;
-    background: #212121;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-subtle);
     flex-shrink: 0;
     position: relative;
     user-select: none;
@@ -2110,8 +2110,8 @@
     height: 44px;
     background: transparent;
     border: none;
-    color: #707579;
-    font-size: 14px;
+    color: var(--text-muted);
+    font-size: 0.8235rem;
     font-weight: 500;
     cursor: pointer;
     transition: color 0.15s;
@@ -2123,11 +2123,11 @@
   }
 
   .tg-tab:hover {
-    color: #ffffff;
+    color: var(--text-primary);
   }
 
   .tg-tab.active {
-    color: #3390ec;
+    color: var(--accent-primary);
     font-weight: 600;
   }
 
@@ -2136,7 +2136,7 @@
     bottom: 0;
     left: 0;
     height: 2px;
-    background: #3390ec;
+    background: var(--accent-primary);
     border-radius: 2px 2px 0 0;
     pointer-events: none;
     will-change: transform;
@@ -2148,8 +2148,8 @@
   }
 
   .tg-topbar-title {
-    color: #ffffff;
-    font-size: 17px;
+    color: var(--text-primary);
+    font-size: 1rem;
     font-weight: 600;
     letter-spacing: -0.2px;
     flex: 1;
@@ -2165,7 +2165,7 @@
     border: none;
     border-radius: 50%;
     background: transparent;
-    color: #aaaaaa;
+    color: var(--text-muted);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2174,8 +2174,8 @@
   }
 
   .tg-icon-btn:hover {
-    background: rgba(255, 255, 255, 0.08);
-    color: #ffffff;
+    background: var(--bg-hover);
+    color: var(--text-primary);
   }
 
   .tg-icon-btn:active {
@@ -2190,7 +2190,7 @@
     position: absolute;
     top: 42px;
     right: 0;
-    background: #2b2b2b;
+    background: var(--bg-surface);
     width: 210px;
     border-radius: 12px;
     padding: 6px;
@@ -2199,7 +2199,7 @@
     flex-direction: column;
     gap: 2px;
     z-index: 30;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-subtle);
   }
 
   .tg-menu-item {
@@ -2207,8 +2207,8 @@
     align-items: center;
     gap: 12px;
     padding: 9px 12px;
-    color: #ffffff;
-    font-size: 14px;
+    color: var(--text-primary);
+    font-size: 0.8235rem;
     font-weight: 500;
     cursor: pointer;
     border-radius: 8px;
@@ -2216,11 +2216,11 @@
   }
 
   .tg-menu-item:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--bg-hover);
   }
 
   .tg-menu-item.danger {
-    color: #ff595a;
+    color: var(--status-danger);
   }
 
   .tg-menu-item.danger:hover {
@@ -2229,7 +2229,7 @@
 
   .tg-menu-divider {
     height: 1px;
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--bg-hover);
     margin: 4px 6px;
   }
 
@@ -2284,7 +2284,7 @@
     align-items: center;
     text-align: center;
     padding: 10px 0 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid var(--border-subtle);
     flex-shrink: 0;
   }
 
@@ -2309,9 +2309,9 @@
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    border: 2px solid #212121;
-    background: #3390ec;
-    color: #ffffff;
+    border: 2px solid var(--border-subtle);
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2321,7 +2321,7 @@
   }
 
   .tg-avatar-edit-badge:hover {
-    background: #4ea4f6;
+    background: var(--accent-primary);
   }
 
   .tg-avatar-edit-badge:active {
@@ -2335,8 +2335,8 @@
 
   .tg-hero-name {
     margin: 0;
-    color: #ffffff;
-    font-size: 22px;
+    color: var(--text-primary);
+    font-size: 1.294rem;
     font-weight: 600;
     letter-spacing: -0.3px;
     word-break: break-word;
@@ -2344,12 +2344,12 @@
 
   .tg-hero-status {
     margin-top: 4px;
-    color: #707579;
-    font-size: 14px;
+    color: var(--text-muted);
+    font-size: 0.8235rem;
   }
 
   .tg-hero-status.online {
-    color: #2ecc71;
+    color: var(--status-success);
   }
 
   .tg-actions-row {
@@ -2387,9 +2387,9 @@
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background: #2b2b2b;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    color: #3390ec;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    color: var(--accent-primary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -2397,37 +2397,37 @@
   }
 
   .tg-action-btn:hover .tg-action-circle {
-    background: #3390ec;
-    color: #ffffff;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
   }
 
   .tg-action-circle--call {
-    color: var(--status-success, #4ade80);
+    color: var(--status-success);
   }
 
   .tg-action-btn:hover .tg-action-circle--call {
-    background: var(--status-success, #4ade80);
-    color: #fff;
+    background: var(--status-success);
+    color: var(--text-on-success);
   }
 
   .tg-action-circle--video {
-    color: var(--accent-primary, #248bfe);
+    color: var(--accent-primary);
   }
 
   .tg-action-btn:hover .tg-action-circle--video {
-    background: var(--accent-primary, #248bfe);
-    color: #fff;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
   }
 
   .tg-action-label {
-    color: #aaaaaa;
-    font-size: 12px;
+    color: var(--text-muted);
+    font-size: 0.7059rem;
     font-weight: 500;
   }
 
   .tg-section-header {
-    color: #707579;
-    font-size: 13px;
+    color: var(--text-muted);
+    font-size: 0.7647rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -2436,9 +2436,9 @@
   }
 
   .tg-card {
-    background: #2b2b2b;
+    background: var(--bg-surface);
     border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-subtle);
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -2451,7 +2451,7 @@
     gap: 12px;
     padding: 12px 14px;
     min-height: 52px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--border-subtle);
     box-sizing: border-box;
     flex-shrink: 0;
   }
@@ -2466,7 +2466,7 @@
   }
 
   .tg-row-clickable:hover {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-hover);
   }
 
   .tg-row-icon {
@@ -2480,58 +2480,58 @@
   }
 
   .tg-icon-link {
-    background: rgba(51, 144, 236, 0.15);
-    color: #3390ec;
+    background: rgba(var(--accent-rgb), 0.15);
+    color: var(--accent-primary);
   }
 
   .tg-icon-info {
-    background: rgba(135, 116, 225, 0.15);
-    color: #8774e1;
+    background: rgba(var(--accent-rgb), 0.15);
+    color: var(--accent-primary);
   }
 
   .tg-icon-hash {
-    background: rgba(255, 255, 255, 0.08);
-    color: #aaaaaa;
+    background: var(--bg-hover);
+    color: var(--text-muted);
   }
 
   .tg-icon-bell {
     background: rgba(255, 160, 0, 0.15);
-    color: #ffa000;
+    color: var(--status-warning);
   }
 
   .tg-icon-shield {
-    background: rgba(51, 144, 236, 0.15);
-    color: #3390ec;
+    background: rgba(var(--accent-rgb), 0.15);
+    color: var(--accent-primary);
   }
 
   .tg-icon-key {
     background: rgba(250, 173, 20, 0.15);
-    color: #faad14;
+    color: var(--status-warning);
   }
 
   .tg-icon-download {
-    background: rgba(0, 188, 212, 0.15);
-    color: #00bcd4;
+    background: rgba(var(--accent-rgb), 0.15);
+    color: var(--accent-primary);
   }
 
   .tg-icon-check {
     background: rgba(46, 201, 113, 0.15);
-    color: #2ecc71;
+    color: var(--status-success);
   }
 
   .tg-icon-invite {
-    background: rgba(51, 144, 236, 0.15);
-    color: #3390ec;
+    background: rgba(var(--accent-rgb), 0.15);
+    color: var(--accent-primary);
   }
 
   .tg-icon-phone {
     background: rgba(46, 201, 113, 0.15);
-    color: #2ecc71;
+    color: var(--status-success);
   }
 
   .tg-icon-danger {
     background: rgba(229, 57, 53, 0.15);
-    color: #ff595a;
+    color: var(--status-danger);
   }
 
   .tg-row-main {
@@ -2543,15 +2543,15 @@
   }
 
   .tg-row-title {
-    color: #ffffff;
-    font-size: 15px;
+    color: var(--text-primary);
+    font-size: 0.8824rem;
     font-weight: 500;
     line-height: 1.35;
     word-break: break-word;
   }
 
   .tg-row-title.danger {
-    color: #ff595a;
+    color: var(--status-danger);
   }
 
   .tg-row-title.selectable {
@@ -2561,14 +2561,14 @@
   }
 
   .tg-row-subtitle {
-    color: #707579;
-    font-size: 13px;
+    color: var(--text-muted);
+    font-size: 0.7647rem;
     line-height: 1.3;
     word-break: break-word;
   }
 
   .tg-link-text {
-    color: #3390ec;
+    color: var(--accent-primary);
     word-break: break-all;
   }
 
@@ -2581,7 +2581,7 @@
   .tg-copy-btn {
     border: none;
     background: transparent;
-    color: #707579;
+    color: var(--text-muted);
     padding: 6px;
     border-radius: 6px;
     cursor: pointer;
@@ -2592,8 +2592,8 @@
   }
 
   .tg-copy-btn:hover {
-    color: #3390ec;
-    background: rgba(51, 144, 236, 0.1);
+    color: var(--accent-primary);
+    background: rgba(var(--accent-rgb), 0.1);
   }
 
   .tg-badge {
@@ -2601,32 +2601,32 @@
     align-items: center;
     padding: 2px 8px;
     border-radius: 6px;
-    font-size: 12px;
+    font-size: 0.7059rem;
     font-weight: 600;
   }
 
   .tg-badge-success {
     background: rgba(46, 201, 113, 0.18);
-    color: #2ecc71;
+    color: var(--status-success);
   }
 
   .tg-badge-warning {
     background: rgba(255, 160, 0, 0.18);
-    color: #ffa000;
+    color: var(--status-warning);
   }
 
   .tg-badge-muted {
-    background: rgba(255, 255, 255, 0.08);
-    color: #aaaaaa;
+    background: var(--bg-hover);
+    color: var(--text-muted);
   }
 
   .tg-btn-action {
     border: none;
     border-radius: 8px;
     padding: 7px 12px;
-    background: #3390ec;
-    color: #ffffff;
-    font-size: 13px;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
+    font-size: 0.7647rem;
     font-weight: 500;
     cursor: pointer;
     transition: background 0.15s, transform 0.12s;
@@ -2635,7 +2635,7 @@
   }
 
   .tg-btn-action:hover {
-    background: #4ea4f6;
+    background: var(--accent-primary);
   }
 
   .tg-btn-action:active {
@@ -2644,7 +2644,7 @@
 
   .tg-btn-action.danger {
     background: rgba(229, 57, 53, 0.18);
-    color: #ff595a;
+    color: var(--status-danger);
   }
 
   .tg-btn-action.danger:hover {
@@ -2655,21 +2655,21 @@
     width: 44px;
     height: 24px;
     border-radius: 12px;
-    background: #3d3d3d;
+    background: var(--bg-surface-2);
     position: relative;
     transition: background 0.22s ease;
     flex-shrink: 0;
   }
 
   .tg-switch.active {
-    background: #3390ec;
+    background: var(--accent-primary);
   }
 
   .tg-switch-thumb {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    background: #ffffff;
+    background: var(--text-on-media);
     position: absolute;
     top: 2px;
     left: 2px;
@@ -2682,7 +2682,7 @@
   }
 
   .tg-fingerprint-emojis {
-    font-size: 18px;
+    font-size: 1.059rem;
     letter-spacing: 4px;
     margin-top: 2px;
   }
@@ -2691,25 +2691,25 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    background: #2b2b2b;
+    background: var(--bg-surface);
     border-radius: 10px;
     padding: 8px 12px;
     margin-bottom: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    color: #707579;
+    border: 1px solid var(--border-subtle);
+    color: var(--text-muted);
   }
 
   .tg-search-input {
     flex: 1;
     background: transparent;
     border: none;
-    color: #ffffff;
-    font-size: 14px;
+    color: var(--text-primary);
+    font-size: 0.8235rem;
     outline: none;
   }
 
   .tg-search-input::placeholder {
-    color: #707579;
+    color: var(--text-muted);
   }
 
   .tg-member-row {
@@ -2726,21 +2726,21 @@
   }
 
   .tg-role-badge {
-    font-size: 11px;
-    color: #3390ec;
-    background: rgba(51, 144, 236, 0.12);
+    font-size: 0.6471rem;
+    color: var(--accent-primary);
+    background: rgba(var(--accent-rgb), 0.12);
     padding: 1px 6px;
     border-radius: 4px;
     font-weight: 500;
   }
 
   .tg-role-badge.admin {
-    color: #8774e1;
-    background: rgba(135, 116, 225, 0.12);
+    color: var(--accent-primary);
+    background: rgba(var(--accent-rgb), 0.12);
   }
 
   .tg-chevron {
-    color: #707579;
+    color: var(--text-muted);
     flex-shrink: 0;
   }
 
@@ -2754,9 +2754,9 @@
     left: 50%;
     transform: translateX(-50%);
     background: rgba(30, 30, 30, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #ffffff;
-    font-size: 13px;
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+    font-size: 0.7647rem;
     font-weight: 500;
     padding: 8px 16px;
     border-radius: 999px;
@@ -2769,22 +2769,22 @@
   }
 
   .tg-toast svg {
-    color: #2ecc71;
+    color: var(--status-success);
   }
 
   .tg-icon-lock {
-    background: rgba(156, 39, 176, 0.15);
-    color: #ba68c8;
+    background: rgba(var(--accent-rgb), 0.15);
+    color: var(--accent-primary);
   }
 
   .tg-icon-save {
-    background: rgba(255, 255, 255, 0.08);
-    color: #aaaaaa;
+    background: var(--bg-hover);
+    color: var(--text-muted);
   }
 
   .tg-caption {
-    font-size: 13px;
-    color: #707579;
+    font-size: 0.7647rem;
+    color: var(--text-muted);
     margin: 8px 14px 0;
     line-height: 1.4;
     flex-shrink: 0;
@@ -2792,21 +2792,21 @@
 
   .tg-caption-tag {
     margin-top: 4px;
-    color: #555555;
-    font-size: 11px;
+    color: var(--text-muted);
+    font-size: 0.6471rem;
   }
 
   .tg-warn-text {
-    color: #ffa000;
+    color: var(--status-warning);
   }
 
   .tg-segmented {
     display: flex;
     gap: 8px;
-    background: #2b2b2b;
+    background: var(--bg-surface);
     border-radius: 12px;
     padding: 4px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-subtle);
     flex-shrink: 0;
   }
 
@@ -2820,29 +2820,29 @@
     padding: 8px 4px;
     border: none;
     background: transparent;
-    color: #707579;
+    color: var(--text-muted);
     border-radius: 9px;
     cursor: pointer;
     transition: background 0.15s, color 0.15s;
   }
 
   .tg-seg-btn:hover {
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-primary);
+    background: var(--bg-hover);
   }
 
   .tg-seg-btn.active {
-    background: #3390ec;
-    color: #ffffff;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
   }
 
   .tg-seg-title {
-    font-size: 12px;
+    font-size: 0.7059rem;
     font-weight: 600;
   }
 
   .tg-seg-sub {
-    font-size: 10px;
+    font-size: 0.5882rem;
     opacity: 0.7;
     text-transform: uppercase;
   }
@@ -2856,19 +2856,19 @@
     background: transparent;
     border: none;
     outline: none;
-    color: #ffffff;
-    font-size: 14px;
+    color: var(--text-primary);
+    font-size: 0.8235rem;
     font-family: inherit;
   }
 
   .tg-input::placeholder {
-    color: #707579;
+    color: var(--text-muted);
   }
 
   .tg-eye-btn {
     border: none;
     background: transparent;
-    color: #707579;
+    color: var(--text-muted);
     padding: 6px;
     cursor: pointer;
     display: flex;
@@ -2880,12 +2880,12 @@
   }
 
   .tg-eye-btn:hover {
-    color: #ffffff;
+    color: var(--text-primary);
   }
 
   .tg-badge-soon {
-    background: rgba(255, 255, 255, 0.06);
-    color: #707579;
+    background: var(--bg-hover);
+    color: var(--text-muted);
   }
 
   .tg-disabled-row {
@@ -2902,7 +2902,7 @@
   .tg-btn-member-more {
     background: none;
     border: none;
-    color: #8e8e93;
+    color: var(--text-muted);
     cursor: pointer;
     padding: 6px;
     border-radius: 50%;
@@ -2913,8 +2913,8 @@
   }
 
   .tg-btn-member-more:hover {
-    background: rgba(255, 255, 255, 0.08);
-    color: #ffffff;
+    background: var(--bg-hover);
+    color: var(--text-primary);
   }
 
   .tg-card.tg-members-card {
@@ -2942,9 +2942,9 @@
     padding: 12px;
     background: none;
     border: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
-    color: #5288c1;
-    font-size: 13px;
+    border-top: 1px solid var(--border-subtle);
+    color: var(--accent-primary);
+    font-size: 0.7647rem;
     font-weight: 500;
     cursor: pointer;
     text-align: center;
@@ -2952,7 +2952,7 @@
   }
 
   .tg-load-more-members:hover {
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--bg-hover);
   }
 
   .tg-load-more-members:disabled {
@@ -2962,12 +2962,12 @@
 
   .tg-requests-row {
     cursor: pointer;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid var(--border-subtle);
   }
 
   .tg-icon-requests {
-    background: rgba(82, 136, 193, 0.15);
-    color: #5288c1;
+    background: rgba(var(--accent-rgb), 0.15);
+    color: var(--accent-primary);
   }
 
   .tg-requests-title {
@@ -2975,9 +2975,9 @@
   }
 
   .tg-requests-badge {
-    background: #5288c1;
-    color: #fff;
-    font-size: 11px;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
+    font-size: 0.6471rem;
     font-weight: 600;
     padding: 2px 7px;
     border-radius: 10px;
@@ -2985,9 +2985,9 @@
   }
 
   .tg-menu-badge {
-    background: #5288c1;
-    color: #fff;
-    font-size: 11px;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
+    font-size: 0.6471rem;
     font-weight: 600;
     padding: 2px 6px;
     border-radius: 10px;
@@ -2996,7 +2996,7 @@
 
   .tg-icon-pin {
     background: rgba(255, 179, 0, 0.15);
-    color: #ffb300;
+    color: var(--status-warning);
   }
 
   .tg-content-transition {
@@ -3011,6 +3011,6 @@
   }
 
   .tg-invite-row:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--bg-hover);
   }
 </style>

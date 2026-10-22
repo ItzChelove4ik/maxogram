@@ -58,8 +58,8 @@
     width: 100%;
     padding: 24px;
     box-sizing: border-box;
-    background: #141417;
-    color: #fff;
+    background: var(--bg-app);
+    color: var(--text-primary);
   }
 
   .sferum-card {
@@ -67,50 +67,59 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
-    background: #1e1e24;
-    border: 1px solid #2a2a34;
-    border-radius: 20px;
-    padding: 36px 24px;
-    max-width: 380px;
+
     width: 100%;
     box-sizing: border-box;
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+
+
+    background: var(--bg-surface);
+    border: 0;
+    border-radius: 24px;
+    box-shadow: none;
+    padding: 32px 24px;
+    max-width: 440px;
   }
 
   .sferum-icon-wrapper {
     width: 84px;
     height: 84px;
     border-radius: 22px;
-    background: linear-gradient(135deg, #0077ff, #0055cc);
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-primary));
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff;
+    color: var(--text-primary);
     margin-bottom: 20px;
     box-shadow: 0 8px 24px rgba(0, 119, 255, 0.35);
   }
 
   .sferum-title {
     margin: 0 0 8px;
-    font-size: 24px;
+
     font-weight: 700;
+
+    font-size: 1.6rem;
+    color: var(--text-primary);
   }
 
   .sferum-subtitle {
     margin: 0 0 24px;
-    font-size: 14px;
-    color: #8e8e93;
-    line-height: 1.45;
+
+
+
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--text-muted);
   }
 
   .error-box {
     margin-bottom: 16px;
     padding: 10px 14px;
     background: rgba(239, 68, 68, 0.15);
-    border: 1px solid rgba(239, 68, 68, 0.3);
+    border: 1px solid var(--status-danger);
     border-radius: 10px;
-    color: #ef4444;
-    font-size: 13px;
+    color: var(--status-danger);
+    font-size: 0.7647rem;
     width: 100%;
     box-sizing: border-box;
   }
@@ -122,18 +131,22 @@
     gap: 10px;
     width: 100%;
     padding: 14px 20px;
-    border-radius: 12px;
-    background: #0077ff;
-    color: #fff;
+
+
     border: none;
-    font-size: 16px;
+    font-size: 0.9412rem;
     font-weight: 600;
     cursor: pointer;
     transition: background 0.15s ease, transform 0.1s ease;
+
+    border-radius: 14px;
+    min-height: 50px;
+    color: var(--text-on-accent);
+    background: var(--accent-primary);
   }
 
   .open-sferum-btn:hover:not(:disabled) {
-    background: #0066dd;
+    background: var(--accent-primary);
   }
 
   .open-sferum-btn:active:not(:disabled) {
@@ -148,8 +161,8 @@
   .btn-spinner {
     width: 16px;
     height: 16px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-top-color: #fff;
+    border: 2px solid var(--border-subtle);
+    border-top-color: var(--border-subtle);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
   }

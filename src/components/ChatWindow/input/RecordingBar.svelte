@@ -95,7 +95,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    background-color: #1e2025;
+    background-color: var(--bg-surface);
     border-radius: 18px;
     flex: 1 1 0%;
     min-width: 0;
@@ -110,7 +110,7 @@
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: #ef4444;
+    background: var(--status-danger);
     animation: rec-blink 1s ease-in-out infinite;
     flex-shrink: 0;
   }
@@ -121,9 +121,9 @@
   }
 
   .rec-timer {
-    font-size: 14px;
+    font-size: 0.8235rem;
     font-weight: 600;
-    color: #edf0f5;
+    color: var(--text-primary);
     font-variant-numeric: tabular-nums;
     flex-shrink: 0;
   }
@@ -138,8 +138,8 @@
   }
 
   .rec-video-label {
-    font-size: 13px;
-    color: #94a3b8;
+    font-size: 0.7647rem;
+    color: var(--text-muted);
     flex: 1 1 0%;
     min-width: 0;
     overflow: hidden;
@@ -151,8 +151,8 @@
     display: flex;
     align-items: center;
     gap: 4px;
-    font-size: 12px;
-    color: #64748b;
+    font-size: 0.7059rem;
+    color: var(--text-muted);
     white-space: nowrap;
     transition: transform 0.05s linear;
     flex-shrink: 1;
@@ -162,7 +162,7 @@
   }
 
   .rec-slide-chevron {
-    font-size: 16px;
+    font-size: 0.9412rem;
     animation: slide-chevron 1.2s infinite;
     flex-shrink: 0;
   }
@@ -179,21 +179,21 @@
     width: 28px;
     height: 28px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.08);
-    color: #94a3b8;
+    background: var(--bg-hover);
+    color: var(--text-muted);
     transition: all 0.2s ease;
     flex-shrink: 0;
   }
 
   .rec-lock-slide.reached {
-    background: #248bfe;
-    color: #fff;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
   }
 
   .rec-trash-btn {
     background: transparent;
     border: none;
-    color: #ef4444;
+    color: var(--status-danger);
     cursor: pointer;
     padding: 6px;
     border-radius: 50%;
@@ -211,7 +211,7 @@
   .rec-stop-btn {
     background: transparent;
     border: none;
-    color: #edf0f5;
+    color: var(--text-primary);
     cursor: pointer;
     padding: 6px;
     border-radius: 50%;
@@ -223,7 +223,7 @@
   }
 
   .rec-stop-btn:hover {
-    background: rgba(255, 255, 255, 0.12);
+    background: var(--bg-fill);
   }
 
   .button {
@@ -237,23 +237,23 @@
     justify-content: center;
     cursor: pointer;
     background: transparent;
-    color: #8b929e;
+    color: var(--text-muted);
     transition: all 0.18s ease;
   }
 
   .send-button {
-    color: #248bfe;
-    background: rgba(36, 139, 254, 0.12);
+    color: var(--accent-primary);
+    background: rgba(var(--accent-rgb), 0.12);
   }
 
   .send-button:hover {
-    color: #fff;
-    background: #248bfe;
+    color: var(--text-on-accent);
+    background: var(--accent-primary);
   }
 
   .recording-pulse-btn {
-    background: #248bfe;
-    color: #fff;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
     animation: rec-btn-pulse 1.5s infinite;
     flex-shrink: 0;
   }

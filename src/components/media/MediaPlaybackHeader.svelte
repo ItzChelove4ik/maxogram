@@ -405,8 +405,8 @@
 <style>
   .media-playback-header {
     width: 100%;
-    background: #1e2024;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-subtle);
     display: flex;
     flex-direction: column;
     position: relative;
@@ -416,7 +416,7 @@
     flex-shrink: 0;
   }
   .media-playback-header.chat-header {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid var(--border-subtle);
   }
   .timeline-track-container {
     width: 100%;
@@ -433,7 +433,7 @@
     left: 0;
     width: 100%;
     height: 3px;
-    background: rgba(255, 255, 255, 0.15);
+    background: var(--bg-fill);
     border-radius: 3px;
   }
   .timeline-bar-played {
@@ -441,7 +441,7 @@
     top: 3px;
     left: 0;
     height: 3px;
-    background: #2b82d9;
+    background: var(--accent-primary);
     border-radius: 3px;
     pointer-events: none;
   }
@@ -451,7 +451,7 @@
     width: 11px;
     height: 11px;
     border-radius: 50%;
-    background: #2b82d9;
+    background: var(--accent-primary);
     transform: translate(-50%, -50%);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
     pointer-events: none;
@@ -473,7 +473,7 @@
     justify-content: center;
     background: transparent;
     border: none;
-    color: #8e9aa8;
+    color: var(--text-muted);
     cursor: pointer;
     border-radius: 6px;
     padding: 4px;
@@ -490,17 +490,17 @@
     pointer-events: none;
   }
   .hdr-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #ffffff;
+    background: var(--bg-fill);
+    color: var(--text-primary);
   }
   .play-btn {
-    color: #2b82d9;
+    color: var(--accent-primary);
     padding: 6px;
     border-radius: 50%;
   }
   .play-btn:hover {
-    background: rgba(43, 130, 217, 0.15);
-    color: #2b82d9;
+    background: rgba(var(--accent-rgb), 0.15);
+    color: var(--accent-primary);
   }
   .media-info {
     flex: 1;
@@ -513,41 +513,41 @@
     transition: background 0.15s;
   }
   .media-info:hover {
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--bg-hover);
   }
   .media-title-row {
     display: flex;
     align-items: center;
     gap: 5px;
-    font-size: 13px;
+    font-size: 0.7647rem;
     font-weight: 500;
-    color: #ffffff;
+    color: var(--text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
   .media-type-icon {
     display: inline-flex;
-    color: #2b82d9;
+    color: var(--accent-primary);
   }
   .media-title {
     overflow: hidden;
     text-overflow: ellipsis;
   }
   .playlist-badge {
-    font-size: 10px;
+    font-size: 0.5882rem;
     font-weight: 600;
     padding: 1px 5px;
     border-radius: 10px;
-    background: rgba(43, 130, 217, 0.2);
-    color: #2b82d9;
+    background: rgba(var(--accent-rgb), 0.2);
+    color: var(--accent-primary);
   }
   .media-sub-row {
     display: flex;
     align-items: center;
     gap: 4px;
-    font-size: 11px;
-    color: #8e9aa8;
+    font-size: 0.6471rem;
+    color: var(--text-muted);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -568,32 +568,32 @@
     touch-action: none;
   }
   .speed-btn {
-    font-size: 11px;
+    font-size: 0.6471rem;
     font-weight: 600;
     letter-spacing: -0.2px;
     padding: 3px 6px;
     border-radius: 12px;
-    background: rgba(255, 255, 255, 0.08);
-    color: #ffffff;
+    background: var(--bg-hover);
+    color: var(--text-primary);
   }
   .speed-tooltip, .vol-tooltip {
     position: absolute;
     bottom: -26px;
     left: 50%;
     transform: translateX(-50%);
-    background: #111316;
-    color: #fff;
+    background: var(--bg-app);
+    color: var(--text-primary);
     padding: 2px 7px;
     border-radius: 4px;
-    font-size: 11px;
+    font-size: 0.6471rem;
     white-space: nowrap;
     pointer-events: none;
     z-index: 100;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border-subtle);
   }
   .close-btn {
-    font-size: 13px;
+    font-size: 0.7647rem;
     font-weight: 700;
     padding: 5px 7px;
   }

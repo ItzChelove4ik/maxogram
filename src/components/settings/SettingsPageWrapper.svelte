@@ -139,6 +139,7 @@
     height: 100%;
     max-height: 100%;
     box-sizing: border-box;
+    padding-bottom: var(--safe-area-bottom);
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -172,31 +173,37 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 52px;
-    padding: 0 12px;
-    background: var(--bg-topbar);
+
     border-bottom: 1px solid var(--border-subtle);
     flex-shrink: 0;
     z-index: 10;
+
+    height: 56px;
+    padding: 0 8px;
+    background: var(--bg-topbar);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
   }
 
   .settings-back-btn {
-    width: 36px;
-    height: 36px;
     border: none;
     border-radius: 50%;
     background: transparent;
-    color: var(--text-muted);
+
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: background 0.15s, color 0.15s, transform 0.12s;
     flex-shrink: 0;
+
+    width: 44px;
+    height: 44px;
+    color: var(--accent-primary);
   }
 
   .settings-back-btn:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--bg-hover);
     color: var(--text-primary);
   }
 
@@ -206,14 +213,18 @@
 
   .settings-topbar-title {
     color: var(--text-primary);
-    font-size: 17px;
-    font-weight: 600;
+
     letter-spacing: -0.2px;
     flex: 1;
-    margin: 0 12px;
+
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    margin: 0 44px 0 0;
   }
 
   .settings-topbar-extra {
@@ -230,6 +241,7 @@
     -webkit-overflow-scrolling: touch;
     display: flex;
     flex-direction: column;
+
   }
 
   @keyframes slideInRight {

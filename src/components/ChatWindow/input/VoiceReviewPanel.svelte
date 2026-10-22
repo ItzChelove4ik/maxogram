@@ -195,9 +195,9 @@
     width: 32px;
     height: 32px;
     border-radius: 50%;
-    background: #3b82f6;
+    background: var(--accent-primary);
     border: none;
-    color: white;
+    color: var(--text-on-accent);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -235,7 +235,7 @@
 
   .review-action-btn.trash {
     background: rgba(239, 68, 68, 0.15);
-    color: #ef4444;
+    color: var(--status-danger);
   }
 
   .review-action-btn.trash:hover {
@@ -243,12 +243,12 @@
   }
 
   .review-action-btn.send {
-    background: #248bfe;
-    color: #fff;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
   }
 
   .review-action-btn.send:hover {
-    background: #1b7cf0;
+    background: var(--accent-primary);
   }
 
   .trim-sliders {
@@ -271,7 +271,7 @@
 
   .trim-slider::-webkit-slider-runnable-track {
     height: 6px;
-    background: rgba(255, 255, 255, 0.15);
+    background: var(--bg-fill);
     border-radius: 3px;
   }
 
@@ -282,7 +282,7 @@
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background: #248bfe;
+    background: var(--accent-primary);
     cursor: ew-resize;
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
     margin-top: -5px;
@@ -299,8 +299,8 @@
   .review-trim-times {
     display: flex;
     justify-content: space-between;
-    font-size: 11px;
-    color: #94a3b8;
+    font-size: 0.6471rem;
+    color: var(--text-muted);
     font-variant-numeric: tabular-nums;
   }
 </style>

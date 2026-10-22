@@ -62,8 +62,8 @@
   }
 
   .bot-card {
-    background: #242832;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
     border-radius: 20px;
     padding: 24px 20px;
     max-width: 320px;
@@ -78,21 +78,21 @@
 
   .bot-name {
     margin: 12px 0 6px;
-    color: #fff;
-    font-size: 18px;
+    color: var(--text-primary);
+    font-size: 1.059rem;
     font-weight: 600;
   }
 
   .bot-desc-title {
-    color: #8e8e93;
-    font-size: 13px;
+    color: var(--text-muted);
+    font-size: 0.7647rem;
     font-weight: 500;
     margin-bottom: 8px;
   }
 
   .bot-desc-text {
-    color: #ddd;
-    font-size: 14px;
+    color: var(--text-primary);
+    font-size: 0.8235rem;
     line-height: 1.4;
     margin: 0;
     word-break: break-word;
@@ -112,11 +112,11 @@
     width: 100%;
     max-width: 480px;
     height: 48px;
-    background: #248bfe;
+    background: var(--accent-primary);
     border: none;
     border-radius: 12px;
-    color: #fff;
-    font-size: 16px;
+    color: var(--text-on-accent);
+    font-size: 0.9412rem;
     font-weight: 600;
     cursor: pointer;
     display: flex;
@@ -127,7 +127,7 @@
   }
 
   .bot-start-btn:hover {
-    background: #1b7ee8;
+    background: var(--accent-primary);
   }
 
   .bot-start-btn:active {
@@ -142,8 +142,8 @@
   .start-spinner {
     width: 20px;
     height: 20px;
-    border: 2px solid rgba(255, 255, 255, 0.4);
-    border-top-color: #fff;
+    border: 2px solid var(--border-subtle);
+    border-top-color: var(--border-subtle);
     border-radius: 50%;
     animation: start-spin 0.6s linear infinite;
   }

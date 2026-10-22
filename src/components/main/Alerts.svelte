@@ -67,8 +67,8 @@
 
   .alert {
     pointer-events: auto;
-    background-color: #222222;
-    color: #ffffff;
+    background-color: var(--bg-surface);
+    color: var(--text-primary);
     padding: 14px 18px;
     border-radius: 14px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
@@ -89,11 +89,11 @@
 
   .alert.clickable:active {
     transform: scale(0.97);
-    background-color: #333333;
+    background-color: var(--bg-surface-2);
   }
 
   .text {
-    font-size: 15px;
+    font-size: 0.8824rem;
     font-weight: 600;
     line-height: 1.3;
     word-break: break-word;
@@ -101,8 +101,8 @@
   }
 
   .description {
-    font-size: 13px;
-    color: #b3b3b3;
+    font-size: 0.7647rem;
+    color: var(--text-muted);
     line-height: 1.4;
     word-break: break-word;
     overflow-wrap: anywhere;
@@ -110,8 +110,8 @@
 
   .caller-info {
     display: flex;
-    font-size: 11px;
-    color: #666666;
+    font-size: 0.6471rem;
+    color: var(--text-muted);
     font-family: monospace;
     line-height: 1.2;
     margin-bottom: 2px;

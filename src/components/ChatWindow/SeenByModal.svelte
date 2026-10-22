@@ -116,8 +116,8 @@
   }
 
   .modal-box {
-    background: #17191d;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--bg-app);
+    border: 1px solid var(--border-subtle);
     border-radius: 16px;
     width: 100%;
     max-width: 440px;
@@ -133,14 +133,14 @@
     align-items: center;
     justify-content: space-between;
     padding: 16px 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid var(--border-subtle);
   }
 
   .header-left {
     display: flex;
     align-items: center;
     gap: 12px;
-    color: #248bfe;
+    color: var(--accent-primary);
   }
 
   .header-titles {
@@ -150,22 +150,22 @@
 
   .header-left h3 {
     margin: 0;
-    font-size: 16px;
+    font-size: 0.9412rem;
     font-weight: 600;
-    color: #edf0f5;
+    color: var(--text-primary);
   }
 
   .header-subtitle {
-    font-size: 12px;
-    color: #8b98a5;
+    font-size: 0.7059rem;
+    color: var(--text-muted);
   }
 
   .close-btn {
     background: none;
     border: none;
-    color: #8b98a5;
+    color: var(--text-muted);
     cursor: pointer;
-    font-size: 16px;
+    font-size: 0.9412rem;
     width: 32px;
     height: 32px;
     border-radius: 8px;
@@ -176,8 +176,8 @@
   }
 
   .close-btn:hover {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+    background: var(--bg-hover);
   }
 
   .modal-body {
@@ -197,7 +197,7 @@
   .empty-state {
     padding: 32px 16px;
     text-align: center;
-    color: #8b98a5;
-    font-size: 14px;
+    color: var(--text-muted);
+    font-size: 0.8235rem;
   }
 </style>
