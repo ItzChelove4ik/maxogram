@@ -35,6 +35,8 @@ jobs:
           xcodebuild -version
       - name: Initialize iOS project
         run: bun run tauri ios init --ci --skip-targets-install
+      - name: Apply Maxogram app icon to Xcode asset catalog
+        run: bun run tauri icon assets/branding/icon-manifest.json
       - name: Build unsigned ARM64 IPA
         run: |
           set -o pipefail
