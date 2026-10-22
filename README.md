@@ -39,6 +39,7 @@ rustup target add aarch64-apple-ios
 brew install xcodegen
 bun install --frozen-lockfile
 bun run tauri ios init --ci --skip-targets-install
+bun run tauri icon assets/branding/icon-manifest.json
 bun run tauri ios build --ci --target aarch64 --no-sign
 ```
 
