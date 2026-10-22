@@ -1,4 +1,4 @@
-# Maxogram — iOS interface
+# Orbit — iOS interface
 
 Tauri 2 / Svelte 5 messenger. Keep every route, settings section, folder, configurable navigation item, action and backend integration. Presentation may change; account/chat data and API behavior must not.
 

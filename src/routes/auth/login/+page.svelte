@@ -95,14 +95,14 @@
       currentUser.set(undefined);
       goto("/");
     } else {
-      return alert("Это конфиг для более новой версии Max+!")
+      return alert("Это конфиг для более новой версии Orbit!")
     }
   }
 </script>
 
 <div class="auth-page">
   <img class="auth-logo" src="/favicon.png" width="88" height="88" alt="" />
-  <h1>Вход в Maxogram</h1>
+  <h1>Вход в Orbit</h1>
   <p class="auth-description">Введите номер телефона, чтобы продолжить</p>
   <div class="form">
     <div class="error" role="alert">{error}</div>

@@ -156,8 +156,8 @@
     -webkit-user-select: none;
 
     background: var(--bg-surface);
-    border-bottom: 1px solid var(--border-subtle);
-    min-height: 48px;
+    border-bottom: 0.5px solid var(--border-subtle);
+    min-height: 44px;
   }
 
   .tabs {
@@ -166,10 +166,11 @@
     overflow-y: hidden;
     flex: 1 1 auto;
     min-width: 0;
-    padding-left: 5px;
-    padding-right: 8px;
+    padding: 6px 4px 6px 10px;
+    gap: 4px;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    align-items: center;
   }
 
   .tabs::-webkit-scrollbar {
@@ -180,9 +181,8 @@
     position: relative;
     display: flex;
     align-items: center;
-    margin-right: 4px;
     touch-action: pan-x;
-    padding: 2px 0;
+    padding: 0;
     flex-shrink: 0;
   }
 
@@ -222,10 +222,10 @@
 
   .edit-icon {
     position: absolute;
-    top: 0;
-    right: -4px;
+    top: -4px;
+    right: -6px;
     background: var(--accent-primary);
-    border: 2px solid var(--border-subtle);
+    border: 2px solid var(--bg-surface);
     border-radius: 50%;
     width: 20px;
     height: 20px;
@@ -242,28 +242,28 @@
   .tab {
     position: relative;
 
-    background: none;
+    background: var(--bg-fill);
     border: none;
 
     font-weight: 500;
     cursor: pointer;
 
     white-space: nowrap;
-    border-radius: 8px;
-    transition: background 0.2s,
-      color 0.2s;
+    border-radius: 15px;
+    transition: background 0.18s, color 0.18s;
 
-    padding: 12px 14px;
-    min-height: 44px;
-    font-size: .8824rem;
+    padding: 0 14px;
+    min-height: 32px;
+    font-size: 0.8235rem;
     color: var(--text-muted);
+    display: flex;
+    align-items: center;
   }
 
   .shaking .tab {
     background: var(--bg-surface);
     color: var(--text-primary);
     border: 1px solid var(--border-subtle);
-    padding: 9px 15px;
   }
 
   .tab:hover {
@@ -271,21 +271,9 @@
   }
 
   .tab.active {
-
     color: var(--accent-primary);
     font-weight: 600;
-  }
-
-  .tab.active:not(.shaking .tab)::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%) scaleX(1);
-    width: 80%;
-    height: 3px;
-    background-color: var(--accent-primary);
-    border-radius: 3px 3px 0 0;
+    background: var(--accent-subtle);
   }
 
   .edit-btn {
@@ -305,12 +293,13 @@
   }
 
   .add-tab-btn {
-    background: var(--bg-surface);
-    border: 1px dashed var(--border-subtle);
-    color: var(--text-secondary);
-    padding: 6px 14px;
-    margin: 4px;
-    border-radius: 8px;
+    background: transparent;
+    border: 1.5px dashed var(--border-subtle);
+    color: var(--text-muted);
+    padding: 0 12px;
+    margin: 0 4px;
+    border-radius: 15px;
+    min-height: 32px;
     font-size: 1.059rem;
     line-height: 1;
     cursor: pointer;
@@ -322,7 +311,7 @@
   }
 
   .add-tab-btn:hover {
-    background: var(--bg-surface-2);
+    background: var(--bg-hover);
     color: var(--text-primary);
     border-color: var(--border-subtle);
   }

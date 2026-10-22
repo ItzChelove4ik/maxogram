@@ -64,7 +64,7 @@
         }}
         class="button"
       >
-        <a>{$safeAvatarDebugStore ? "Отключить" : "Включить"} отладку аватарок Max+</a>
+        <a>{$safeAvatarDebugStore ? "Отключить" : "Включить"} отладку аватарок Orbit</a>
       </div>
     </div>
     <div class="group">

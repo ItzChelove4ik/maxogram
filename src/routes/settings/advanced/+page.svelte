@@ -33,9 +33,9 @@
         on:click={() => disableMaxPlusAvatars.toggle()}
       >
         <div class="toggle-info">
-          <span class="toggle-title">Отключить аватарки Max+</span>
+          <span class="toggle-title">Отключить аватарки Orbit</span>
           <span class="toggle-desc"
-            >Показывать только стандартные аватарки Max, игнорировать кастомные и анимированные</span
+            >Показывать только стандартные аватарки Orbit, игнорировать кастомные и анимированные</span
           >
         </div>
         <div class="toggle-track" class:active={$disableMaxPlusAvatars}>

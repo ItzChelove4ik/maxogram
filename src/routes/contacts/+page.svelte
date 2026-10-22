@@ -202,8 +202,8 @@
     margin-bottom: 5px;
 
     margin: 0;
-    padding: 20px 0 12px;
-    gap: 12px;
+    padding: 18px 0 8px;
+    gap: 8px;
     background: var(--bg-surface);
   }
 
@@ -211,9 +211,9 @@
     margin: 0;
 
 
-    font-size: 2rem;
+    font-size: 1.375rem;
     font-weight: 700;
-    letter-spacing: -.035em;
+    letter-spacing: -.02em;
     color: var(--text-primary);
   }
 
@@ -316,9 +316,9 @@
     gap: 16px;
 
     height: auto;
-    min-height: 72px;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border-card);
+    min-height: 64px;
+    padding: 8px 0;
+    border-bottom: 0.5px solid var(--border-card);
   }
 
   .contact .column {

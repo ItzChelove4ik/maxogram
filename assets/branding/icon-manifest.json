@@ -1,7 +1,7 @@
 {
-  "default": "maxogram-icon.png",
-  "bg_color": "#0A0A0A",
-  "android_bg": "maxogram-background.svg",
-  "android_fg": "maxogram-foreground.png",
-  "android_fg_scale": 85
+  "default": "orbit-icon.png",
+  "bg_color": "#000000",
+  "android_bg": "orbit-background.svg",
+  "android_fg": "orbit-foreground.png",
+  "android_fg_scale": 92
 }

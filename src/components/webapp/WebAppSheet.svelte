@@ -470,7 +470,7 @@
 
   function handleDownloadDesktopShortcut() {
     if (!app.url) return;
-    const desktopEntry = `[Desktop Entry]\nVersion=1.0\nType=Application\nName=${app.title}\nComment=Mini App in Max\nExec=xdg-open "${app.url}"\nIcon=applications-internet\nTerminal=false\n`;
+    const desktopEntry = `[Desktop Entry]\nVersion=1.0\nType=Application\nName=${app.title}\nComment=Mini App in Orbit\nExec=xdg-open "${app.url}"\nIcon=applications-internet\nTerminal=false\n`;
     const blob = new Blob([desktopEntry], { type: "application/x-desktop" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);

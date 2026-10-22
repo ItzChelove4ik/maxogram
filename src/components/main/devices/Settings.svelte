@@ -133,7 +133,7 @@
       await saveDevice(cut);
       update(cut, true);
     } else {
-      return alert("Это конфиг для более новой версии Max+!")
+      return alert("Это конфиг для более новой версии Orbit!")
     }
   }
 

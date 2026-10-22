@@ -7,43 +7,43 @@
   --safe-bottom: 0px;
   --safe-area-top: env(safe-area-inset-top, 0px);
   --safe-area-bottom: env(safe-area-inset-bottom, 0px);
-  --tabbar-height: max(72px, 4.25rem);
+  --tabbar-height: max(60px, 3.5rem);
   --tabbar-inset: var(--safe-area-bottom);
-  --bg-app: #f2f2f7;
+  --bg-app: #ffffff;
   --bg-chat: #e9eef3;
   --bg-surface: #ffffff;
-  --bg-surface-2: #e9e9ef;
+  --bg-surface-2: #f2f2f7;
   --bg-sheet: #ffffff;
-  --bg-panel: rgba(250, 250, 252, .92);
-  --bg-topbar: rgba(250, 250, 252, .94);
+  --bg-panel: rgba(248, 248, 250, .92);
+  --bg-topbar: rgba(255, 255, 255, .94);
   --bg-hover: rgba(60, 60, 67, .06);
   --bg-fill: rgba(120, 120, 128, .14);
-  --bg-input: #e6e7ed;
-  --accent-primary: #0063cf;
-  --accent-primary-hover: #0058b9;
-  --accent-rgb: 0, 99, 207;
-  --accent-subtle: rgba(0, 99, 207, .1);
-  --accent-subtle-hover: rgba(0, 99, 207, .16);
-  --bubble-outgoing: #d7edff;
+  --bg-input: #eeeff2;
+  --accent-primary: #2f7ed6;
+  --accent-primary-hover: #2a6fc0;
+  --accent-rgb: 47, 126, 214;
+  --accent-subtle: rgba(47, 126, 214, .1);
+  --accent-subtle-hover: rgba(47, 126, 214, .16);
+  --bubble-outgoing: #e1ffc7;
   --bubble-incoming: #ffffff;
   --bubble-text: #111827;
   --bubble-meta: #526a80;
-  --text-primary: #17171b;
+  --text-primary: #101014;
   --text-secondary: #3c3c43;
-  --text-muted: #62626b;
-  --text-subtle: #66666f;
+  --text-muted: #6f6f78;
+  --text-subtle: #6f6f78;
   --text-on-accent: #ffffff;
   --text-on-success: #ffffff;
   --text-on-danger: #ffffff;
   --text-on-media: #ffffff;
-  --border-subtle: rgba(60, 60, 67, .16);
-  --border-card: rgba(60, 60, 67, .11);
-  --status-success: #168345;
-  --status-danger: #c92b31;
+  --border-subtle: rgba(60, 60, 67, .14);
+  --border-card: rgba(60, 60, 67, .1);
+  --status-success: #1fae57;
+  --status-danger: #e54d42;
   --status-warning: #946500;
-  --badge-unread: #0063cf;
-  --read-tick: #0063cf;
-  --online: #168345;
+  --badge-unread: #2f7ed6;
+  --read-tick: #2f7ed6;
+  --online: #1fae57;
   --scrim: rgba(0, 0, 0, .48);
   --media-bg: #000000;
   --media-surface: #2c2c2e;
@@ -54,8 +54,8 @@
   --switch-on: #34c759;
   --icon-filter: brightness(0) saturate(100%);
   --shadow-sheet: 0 12px 48px rgba(0, 0, 0, .18);
-  --radius-card: 16px;
-  --radius-sheet: 28px;
+  --radius-card: 12px;
+  --radius-sheet: 16px;
   --duration-press: 120ms;
   --duration-ui: 220ms;
   --duration-page: 280ms;
@@ -69,33 +69,33 @@
   --bg-surface: #1c1c1e;
   --bg-surface-2: #2c2c2e;
   --bg-sheet: #1c1c1e;
-  --bg-panel: rgba(24, 24, 26, .94);
-  --bg-topbar: rgba(24, 24, 26, .94);
+  --bg-panel: rgba(18, 18, 20, .92);
+  --bg-topbar: rgba(18, 18, 20, .94);
   --bg-hover: rgba(255, 255, 255, .07);
   --bg-fill: rgba(120, 120, 128, .26);
   --bg-input: #2c2c2e;
-  --accent-primary: #64aeff;
+  --accent-primary: #5aa9f7;
   --accent-primary-hover: #8bc3ff;
-  --accent-rgb: 100, 174, 255;
-  --accent-subtle: rgba(100, 174, 255, .13);
-  --accent-subtle-hover: rgba(100, 174, 255, .21);
-  --bubble-outgoing: #1c4163;
+  --accent-rgb: 90, 169, 247;
+  --accent-subtle: rgba(90, 169, 247, .14);
+  --accent-subtle-hover: rgba(90, 169, 247, .22);
+  --bubble-outgoing: #8ed84f33;
   --bubble-incoming: #252a32;
   --bubble-text: #ffffff;
   --bubble-meta: #bac8d7;
   --text-primary: #f5f5f7;
   --text-secondary: #d1d1d6;
-  --text-muted: #a3a3ac;
-  --text-subtle: #a3a3ac;
+  --text-muted: #a0a0a8;
+  --text-subtle: #a0a0a8;
   --text-on-accent: #071b30;
   --text-on-success: #071b30;
   --text-on-danger: #071b30;
-  --border-subtle: rgba(255, 255, 255, .16);
+  --border-subtle: rgba(255, 255, 255, .14);
   --border-card: rgba(255, 255, 255, .1);
   --status-success: #58da83;
   --status-danger: #ff787c;
   --status-warning: #ffd166;
-  --badge-unread: #64aeff;
+  --badge-unread: #5aa9f7;
   --read-tick: #91c6ff;
   --online: #58da83;
   --scrim: rgba(0, 0, 0, .62);
@@ -148,24 +148,25 @@ button:focus-visible, a:focus-visible, [tabindex]:focus-visible, input:focus-vis
 }
 button:active:not(:disabled), [role='button']:active { opacity: .72; }
 h1, h2, h3, p { overflow-wrap: break-word; }
-h1 { font-size: 2rem; line-height: 1.15; letter-spacing: -.035em; }
-h2 { font-size: 1.5rem; line-height: 1.2; letter-spacing: -.025em; }
+h1 { font-size: 1.375rem; line-height: 1.2; letter-spacing: -.02em; }
+h2 { font-size: 1.188rem; line-height: 1.25; letter-spacing: -.015em; }
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-thumb { background: var(--bg-fill); border-radius: 4px; }
 
-/* Shared sheets and menus: the same materials across every feature. */
-:where(.modal-sheet, .sheet, .popup, .dialog, .confirm-modal, .input-modal, .contacts-modal-panel, .bottom-sheet) {
-  background: var(--bg-sheet);
-  color: var(--text-primary);
-  border-radius: var(--radius-sheet) var(--radius-sheet) 0 0;
-  box-shadow: var(--shadow-sheet);
-}
+/* Telegram-style shared patterns: flat surfaces, hairline separators, compact labels. */
 :where(.section-title, .group-title, .section-label) { color: var(--text-muted); letter-spacing: .025em; }
 :where(.empty-state, .empty-hint, .empty-list) { color: var(--text-muted); text-align: center; padding: 36px 24px; }
 :where(.primary-btn, .submit-btn, .save-btn, .confirm-btn) { color: var(--text-on-accent); }
+/* Large-title iOS headers used across tabs. */
+:where(.large-title, h1.tab-title, .nav-title) {
+  font-size: 1.375rem;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  color: var(--text-primary);
+}
 
 @media (min-width: 768px) {
-  :root { --tabbar-height: max(76px, 4.5rem); }
+  :root { --tabbar-height: max(64px, 3.75rem); }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

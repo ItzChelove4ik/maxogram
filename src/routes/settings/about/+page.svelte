@@ -98,9 +98,9 @@
   <div class="content">
     <div class="hero-section">
       <div on:click={updatePhrase} class="app-icon-wrap">
-        <img class="app-logo" src="/favicon.png" alt="Maxogram" />
+        <img class="app-logo" src="/favicon.png" alt="Orbit" />
       </div>
-      <h1>Maxogram</h1>
+      <h1>Orbit</h1>
       <p class="description">Клиент «Макс» {phrase}</p>
     </div>
 

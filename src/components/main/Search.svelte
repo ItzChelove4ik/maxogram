@@ -16,8 +16,8 @@
 </div>
 
 <style>
-  .search-block { background: var(--bg-input); color: var(--text-muted); width: calc(100% - 32px); min-height: 44px; border-radius: 12px; display: flex; align-items: center; align-self: center; padding: 0 12px; gap: 8px; }
-  input { flex: 1; width: 0; min-width: 0; min-height: 44px; border: none; background: transparent; color: var(--text-primary); font-size: 1rem; padding: 0; outline: none; }
+  .search-block { background: var(--bg-input); color: var(--text-muted); width: calc(100% - 32px); min-height: 40px; border-radius: 11px; display: flex; align-items: center; align-self: center; padding: 0 12px; gap: 8px; }
+  input { flex: 1; width: 0; min-width: 0; min-height: 40px; border: none; background: transparent; color: var(--text-primary); font-size: 1rem; padding: 0; outline: none; }
   input::-webkit-search-cancel-button { display: none; }
   button { display: flex; align-items: center; justify-content: center; flex-shrink: 0; width: 44px; margin-right: -12px; border: 0; background: transparent; color: var(--text-muted); }
 </style>

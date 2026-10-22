@@ -414,7 +414,7 @@ import { goto } from "$app/navigation";
     align-items: center;
 
     margin: 16px auto 0;
-    padding: 24px 16px;
+    padding: 20px 16px;
     background: var(--bg-surface);
     border-radius: var(--radius-card);
     max-width: 680px;
@@ -470,7 +470,7 @@ import { goto } from "$app/navigation";
   .info .name {
 
 
-    font-size: 1.35rem;
+    font-size: 1.25rem;
     font-weight: 600;
     color: var(--text-primary);
     margin-top: 14px;
@@ -509,8 +509,8 @@ import { goto } from "$app/navigation";
     cursor: pointer;
     align-items: center;
 
-    padding: 11px 16px;
-    min-height: 56px;
+    padding: 10px 14px;
+    min-height: 48px;
     width: 100%;
     border: 0;
     background: transparent;
@@ -562,14 +562,15 @@ import { goto } from "$app/navigation";
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 24px 0 8px;
+    padding: 20px 0 8px;
     max-width: 680px;
     margin: 0 auto;
   }
   .settings-header h1 {
     margin: 0;
-    font-size: 2rem;
+    font-size: 1.375rem;
     font-weight: 700;
+    letter-spacing: -.02em;
   }
   .scanner-button {
     width: 44px;
@@ -579,7 +580,7 @@ import { goto } from "$app/navigation";
     justify-content: center;
     border: 0;
     border-radius: 50%;
-    background: var(--accent-subtle);
+    background: transparent;
     color: var(--accent-primary);
   }
   .group-heading {

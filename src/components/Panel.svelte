@@ -340,7 +340,6 @@
     backdrop-filter: blur(24px) saturate(160%);
     -webkit-backdrop-filter: blur(24px) saturate(160%);
   }
-
   .panel-container.editing {
     z-index: 999;
   }
@@ -410,16 +409,13 @@
 
     align-items: center;
 
-
-    border-top: 1px solid var(--border-subtle);
+    border-top: 0.5px solid var(--border-subtle);
     box-sizing: border-box;
     user-select: none;
     -webkit-user-select: none;
 
     height: var(--tabbar-height);
-    padding: 6px 8px;
-    padding-top: 6px;
-    padding-bottom: 6px;
+    padding: 6px 4px;
     overflow-x: auto;
     scrollbar-width: none;
     justify-content: flex-start;
@@ -445,9 +441,9 @@
     touch-action: pan-x;
     transform-origin: 50% 50%;
 
-    flex: 1 0 72px;
+    flex: 1 0 64px;
     max-width: none;
-    min-width: 72px;
+    min-width: 64px;
     padding: 2px;
   }
 
@@ -489,7 +485,7 @@
     justify-content: center;
     width: 100%;
     height: 100%;
-    font-size: 0.6471rem;
+    font-size: 0.6rem;
 
     cursor: pointer;
     position: relative;
@@ -500,9 +496,13 @@
     transform-origin: 50% 50%;
 
     color: var(--text-muted);
-    border-radius: 20px;
-    gap: 4px;
-    transition: background var(--duration-press), color var(--duration-press);
+    border-radius: 12px;
+    gap: 2px;
+    transition: color var(--duration-press), opacity var(--duration-press);
+  }
+
+  .option:active:not(.editing-item) {
+    opacity: .6;
   }
 
   .option.editing-item {
@@ -648,6 +648,11 @@
     align-items: center;
     justify-content: center;
     height: 24px;
+    transition: color var(--duration-press);
+  }
+
+  .option.active .icon-box {
+    color: var(--accent-primary);
   }
 
 
@@ -656,16 +661,18 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
-    padding: 0 4px;
+    padding: 0 2px;
     box-sizing: border-box;
     text-align: center;
-    font-size: 0.6471rem;
-    line-height: 1.2;
+    font-size: 0.6rem;
+    line-height: 1.1;
     color: var(--text-muted);
+    transition: color var(--duration-press);
   }
 
   .option.active .label {
     color: var(--accent-primary);
+    font-weight: 600;
   }
 
 
@@ -794,7 +801,6 @@
   }
   .option.active {
     color: var(--accent-primary);
-    background: var(--accent-subtle);
   }
   .panel-edit-control {
     display: flex;

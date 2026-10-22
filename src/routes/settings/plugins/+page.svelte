@@ -74,7 +74,7 @@
   async function handleImport() {
     try {
       const path = await open({
-        filters: [{ name: 'Max Plugin', extensions: ['mxp'] }]
+        filters: [{ name: 'Orbit Plugin', extensions: ['mxp'] }]
       });
 
       if (path) {

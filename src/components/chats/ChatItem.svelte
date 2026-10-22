@@ -217,13 +217,13 @@
     user-select: none;
     position: relative;
 
-    padding: 10px 16px;
-    min-height: 82px;
+    padding: 8px 16px;
+    min-height: 76px;
     gap: 12px;
     background: var(--bg-surface);
   }
 
-  .chat-item:hover {
+  .chat-item:active {
     background-color: var(--bg-hover);
   }
 
@@ -265,6 +265,7 @@
 
     font-weight: 600;
     font-size: 1rem;
+    line-height: 1.25;
   }
 
   .meta {
@@ -286,7 +287,7 @@
   }
 
   .status-icon.read {
-    color: var(--status-success);
+    color: var(--read-tick);
   }
 
   .preview {
@@ -297,8 +298,8 @@
     text-overflow: ellipsis;
     flex: 1;
 
-    font-size: .8824rem;
-    line-height: 1.35;
+    font-size: .9412rem;
+    line-height: 1.3;
     color: var(--text-muted);
   }
 
@@ -311,7 +312,7 @@
 
 
 
-    border-radius: 16px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -320,7 +321,7 @@
 
     width: auto;
     min-width: 22px;
-    padding: 0 6px;
+    padding: 0 7px;
     height: 22px;
     font-size: .7647rem;
     font-weight: 600;
@@ -367,6 +368,6 @@
     left: 82px;
     right: 0;
     bottom: 0;
-    border-bottom: 1px solid var(--border-card);
+    border-bottom: 0.5px solid var(--border-card);
   }
 </style>

@@ -136,7 +136,7 @@
         class="stego-debug-dot"
         class:stego-active={Boolean(safeAvatarUid && !safeVideoFailed)}
         class:stego-missing={Boolean(safeAvatarUid && safeVideoFailed)}
-        title={safeAvatarUid ? `Max+ Avatar: ID=${safeAvatarUid}, Target=${targetEntityId}` : `Static Avatar: Target=${targetEntityId}`}
+        title={safeAvatarUid ? `Orbit Avatar: ID=${safeAvatarUid}, Target=${targetEntityId}` : `Static Avatar: Target=${targetEntityId}`}
       >
         {#if safeAvatarUid}
           <span class="stego-debug-text">{safeAvatarUid.slice(0, 4)}</span>
