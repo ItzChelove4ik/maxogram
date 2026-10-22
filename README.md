@@ -20,6 +20,8 @@ bun run check
 bun run build
 ```
 
+Сборка интерфейса `bun run build` проверена успешно. В исходниках 0.1.7 проверка `bun run check` пока сообщает об ошибках типов в JavaScript/Svelte; они требуют отдельной работы и не блокируют сборку интерфейса.
+
 Для Android Firebase-конфигурацию необходимо предоставить самостоятельно: `src-tauri/gen/android/app/google-services.json`. Локальная конфигурация и ключи подписи исключены из Git.
 
 ## IPA для iPhone
