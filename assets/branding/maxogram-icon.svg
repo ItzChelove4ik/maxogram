@@ -1,23 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" fill="none">
-  <title>Maxogram app icon — MAX-inspired message mark</title>
-  <defs>
-    <linearGradient id="background" x1="98" y1="82" x2="926" y2="966" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#32C6F5"/>
-      <stop offset="0.5" stop-color="#228EE9"/>
-      <stop offset="1" stop-color="#6546E9"/>
-    </linearGradient>
-    <linearGradient id="fold" x1="329" y1="657" x2="362" y2="769" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#D8F1FF"/>
-      <stop offset="1" stop-color="#ABCCF5"/>
-    </linearGradient>
-    <linearGradient id="mark" x1="421" y1="236" x2="596" y2="794" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FFFFFF"/>
-      <stop offset="1" stop-color="#F2F9FF"/>
-    </linearGradient>
-  </defs>
-  <path fill="url(#background)" d="M0 0h1024v1024H0z"/>
-  <path fill-rule="evenodd" d="M516 218c-153 0-277 122-277 273 0 79 34 151 89 201l-79 95c-10 12-2 27 14 22l139-58c35 15 73 23 114 23 153 0 277-122 277-283S669 218 516 218Zm0 116c-88 0-160 70-160 157s72 157 160 157 160-70 160-157-72-157-160-157Z" fill="#174DB8" opacity="0.13" transform="translate(0 14)"/>
-  <path fill-rule="evenodd" d="M516 218c-153 0-277 122-277 273 0 79 34 151 89 201l-79 95c-10 12-2 27 14 22l139-58c35 15 73 23 114 23 153 0 277-122 277-283S669 218 516 218Zm0 116c-88 0-160 70-160 157s72 157 160 157 160-70 160-157-72-157-160-157Z" fill="url(#mark)"/>
-  <path d="m328 692 74 59-139 58c-16 5-24-10-14-22l79-95Z" fill="url(#fold)"/>
-  <path d="m328 692 74 59-146 53 72-112Z" fill="#FFFFFF" opacity="0.42"/>
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" fill="none"><title>Maxogram — original MaxPlus mark, blue edition</title><path d="M0 0h1024v1024H0z" fill="#249BE4" /><g transform="translate(512 512) scale(9.1) translate(-54 -54)">
+    <path d="M54,28.7733C68.1126,28.7733 79.5,40.1581 79.5,54.1365C79.5,68.115 68.1126,79.4998 54,79.4998C39.8874,79.4998 28.5,68.115 28.5,54.1365C28.5,40.1581 39.8874,28.7733 54,28.7733Z" fill="none" stroke="#FFFFFF" stroke-width="15" stroke-linecap="butt" stroke-linejoin="miter" />
+    <path d="M22.3915,55.3724C22.3915,55.3724 22.2564,47.3297 25.3431,39.0233C28.4297,30.717 27.7587,23.2017 29.3691,21.6194C30.9795,20.0372 38.9522,21.5956 42.7906,25.0474L22.3915,55.3724Z" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1" />
+    <path d="M85.691,56.0431C85.691,56.0431 85.825,47.8434 82.7643,39.375C79.7036,30.9066 80.369,23.2446 78.7721,21.6315C77.1752,20.0184 69.2695,21.6072 65.4633,25.1264L85.691,56.0431Z" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1" />
+  </g>
 </svg>

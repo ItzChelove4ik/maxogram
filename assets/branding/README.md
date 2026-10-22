@@ -2,7 +2,7 @@
 
 Editable source: `maxogram-icon.svg` (1024 × 1024, opaque, full bleed).
 
-The white message mark and circular opening take inspiration from MAX. A folded message tail, blue gradient, and subtle violet finish connect it to the Telegram and ExteraGram style. The operating system supplies the launcher mask; the source contains no rounded corners or transparent border.
+The white mark reuses the original MaxPlus vector geometry supplied with this project. A solid Telegram-style blue background replaces the original multicolor background. No shadows, folds, or effects are applied. The operating system supplies the launcher mask; the source contains no rounded corners or transparent border. Original attribution remains in the repository LICENSE.
 
 Regenerate all Tauri platform icons:
 

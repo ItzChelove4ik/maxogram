@@ -1,20 +1,2 @@
 <?xml version='1.0' encoding='utf-8'?>
-<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" fill="none">
-  <title>Maxogram app icon — MAX-inspired message mark</title>
-  <defs>
-    <linearGradient id="background" x1="98" y1="82" x2="926" y2="966" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#32C6F5" />
-      <stop offset="0.5" stop-color="#228EE9" />
-      <stop offset="1" stop-color="#6546E9" />
-    </linearGradient>
-    <linearGradient id="fold" x1="329" y1="657" x2="362" y2="769" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#D8F1FF" />
-      <stop offset="1" stop-color="#ABCCF5" />
-    </linearGradient>
-    <linearGradient id="mark" x1="421" y1="236" x2="596" y2="794" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FFFFFF" />
-      <stop offset="1" stop-color="#F2F9FF" />
-    </linearGradient>
-  </defs>
-  <path fill="url(#background)" d="M0 0h1024v1024H0z" />
-  </svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" fill="none"><title>Maxogram — original MaxPlus mark, blue edition</title><path d="M0 0h1024v1024H0z" fill="#249BE4" /></svg>
