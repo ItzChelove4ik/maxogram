@@ -1,7 +1,7 @@
 {
-  "default": "maxogram-icon.svg",
-  "bg_color": "#293E54",
+  "default": "maxogram-icon.png",
+  "bg_color": "#0A0A0A",
   "android_bg": "maxogram-background.svg",
-  "android_fg": "maxogram-foreground.svg",
+  "android_fg": "maxogram-foreground.png",
   "android_fg_scale": 85
 }
