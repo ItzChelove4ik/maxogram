@@ -1,24 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" fill="none">
-  <title>Maxogram app icon</title>
+  <title>Maxogram app icon — MAX-inspired message mark</title>
   <defs>
-    <linearGradient id="background" x1="148" y1="0" x2="850" y2="1024" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#38C5F5"/>
-      <stop offset="0.48" stop-color="#259BEA"/>
-      <stop offset="1" stop-color="#1672D4"/>
+    <linearGradient id="background" x1="98" y1="82" x2="926" y2="966" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#32C6F5"/>
+      <stop offset="0.5" stop-color="#228EE9"/>
+      <stop offset="1" stop-color="#6546E9"/>
     </linearGradient>
-    <linearGradient id="fold" x1="447" y1="545" x2="541" y2="715" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#DCF3FF"/>
-      <stop offset="1" stop-color="#ADDDFC"/>
+    <linearGradient id="fold" x1="329" y1="657" x2="362" y2="769" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D8F1FF"/>
+      <stop offset="1" stop-color="#ABCCF5"/>
     </linearGradient>
-    <linearGradient id="paper" x1="441" y1="343" x2="610" y2="757" gradientUnits="userSpaceOnUse">
+    <linearGradient id="mark" x1="421" y1="236" x2="596" y2="794" gradientUnits="userSpaceOnUse">
       <stop stop-color="#FFFFFF"/>
-      <stop offset="1" stop-color="#F0F9FF"/>
+      <stop offset="1" stop-color="#F2F9FF"/>
     </linearGradient>
   </defs>
   <path fill="url(#background)" d="M0 0h1024v1024H0z"/>
-  <path d="M229 463 783 248c21-8 35 3 30 27l-96 470c-5 26-20 34-40 19L514 641l-79 78c-12 12-26 7-26-10V587l-172-53c-41-13-45-55-8-71Z" fill="#075FB7" opacity="0.14" transform="translate(0 16)"/>
-  <path d="M229 463 783 248c21-8 35 3 30 27l-96 470c-5 26-20 34-40 19L514 641l-79 78c-12 12-26 7-26-10V587l-172-53c-41-13-45-55-8-71Z" fill="url(#paper)"/>
-  <path d="m409 587 316-260c10-9 19-9 7 4L487 607l27 34-79 78c-12 12-26 7-26-10V587Z" fill="url(#fold)"/>
-  <path d="m409 587 316-260c10-9 19-9 7 4L469 616l-34 103c-12 12-26 7-26-10V587Z" fill="#FFFFFF" opacity="0.38"/>
-  <path d="m469 616 45 25-79 78 34-103Z" fill="#9CCFF0"/>
+  <path fill-rule="evenodd" d="M516 218c-153 0-277 122-277 273 0 79 34 151 89 201l-79 95c-10 12-2 27 14 22l139-58c35 15 73 23 114 23 153 0 277-122 277-283S669 218 516 218Zm0 116c-88 0-160 70-160 157s72 157 160 157 160-70 160-157-72-157-160-157Z" fill="#174DB8" opacity="0.13" transform="translate(0 14)"/>
+  <path fill-rule="evenodd" d="M516 218c-153 0-277 122-277 273 0 79 34 151 89 201l-79 95c-10 12-2 27 14 22l139-58c35 15 73 23 114 23 153 0 277-122 277-283S669 218 516 218Zm0 116c-88 0-160 70-160 157s72 157 160 157 160-70 160-157-72-157-160-157Z" fill="url(#mark)"/>
+  <path d="m328 692 74 59-139 58c-16 5-24-10-14-22l79-95Z" fill="url(#fold)"/>
+  <path d="m328 692 74 59-146 53 72-112Z" fill="#FFFFFF" opacity="0.42"/>
 </svg>
