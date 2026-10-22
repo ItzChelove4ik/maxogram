@@ -1,0 +1,1246 @@
+<script>
+  import { createEventDispatcher, onMount } from "svelte";
+  import { writable } from "svelte/store";
+  import { openPath } from "@tauri-apps/plugin-opener";
+  import API, { currentUser, currentUserDetails } from "$lib/stores/api";
+  import { getChat } from "$lib/stores/messages";
+  import { getContact } from "$lib/utils/caching";
+  import Session, { openChat } from "$lib/stores/session";
+  import {
+    getAttachText, getSystemText
+  } from "$lib/utils/attachs";
+  import { scrollTo } from '$lib/utils/scroll';
+  import MessagePreview from "$components/main/MessagePreview.svelte";
+  import Avatar from "$components/main/Avatar.svelte";
+  import Reactions from "$components/ChatWindow/Reactions.svelte";
+  import Attachments from "$components/ChatWindow/Attachments.svelte";
+  import InlineKeyboard from "$components/ChatWindow/InlineKeyboard.svelte";
+  import StickerMedia from "$components/ChatWindow/Stickers/StickerMedia.svelte";
+  import FormattedText from "$components/ChatWindow/FormattedText.svelte";
+  import { transcriptions, toggleTranscriptionExpanded } from "$lib/stores/transcription";
+
+  const dispatch = createEventDispatcher();
+
+  export let msg;
+  export let chat;
+  export let dropoutActiveAt;
+  export let scrollElement;
+  export let decoded;
+  export let makeVisible = undefined;
+  export let isBot = false;
+  export let otherReadTime = 0;
+  export let selected = false;
+  export let selectionMode = false;
+
+  $: isMe = Number(msg.sender) === Number($currentUser);
+  $: isSending = msg.status === "sending" || msg.status === "pending" || msg.status === 0 || msg.sending === true;
+  $: isRead = !isSending && (isBot || msg.read === true || msg.status === 3 || msg.status === "read" || (otherReadTime > 0 && otherReadTime >= (msg.time || 0)));
+  $: isSystem = Boolean(msg.attaches?.some((x) => x._type === "CONTROL"));
+
+  $: rawText = decoded ? (decoded.text ?? "") : (msg.text || "");
+  $: isE2eDisable = Boolean(rawText && (rawText === "__E2E_DISABLE__" || rawText.includes('"e2e_control":"disable"')));
+  $: effectiveText = isE2eDisable ? (isMe ? "<b>Вы отключили сквозное шифрование</b>" : "<b>Собеседник отключил сквозное шифрование</b>") : rawText;
+  $: lines = effectiveText ? effectiveText.split("\n") : [];
+  $: effectiveAttaches = (() => {
+    if (!msg.attaches || !msg.attaches.length) return [];
+    if (!decoded?.media) return msg.attaches;
+    const media = decoded.media;
+    const targetIdx = media.attach_index ?? 0;
+    return msg.attaches.map((att, idx) => {
+      if (idx === targetIdx) {
+        const resolvedType = media.media_type || att._type || "FILE";
+        return {
+          ...att,
+          _type: resolvedType,
+          type: resolvedType,
+          originalType: media.media_type,
+          name: media.name || att.name,
+          size: media.size || att.size,
+          mime: media.mime || att.mime,
+          width: media.width ?? att.width,
+          height: media.height ?? att.height,
+          duration: media.duration ?? att.duration,
+          wave: media.wave ?? att.wave,
+          videoType: media.video_type ?? att.videoType,
+          color: media.color || null,
+          isEncryptedMedia: true,
+          encryptedAttach: att,
+          localPath: att.localPath || (isMe ? att.path : null),
+        };
+      }
+      return att;
+    });
+  })();
+  $: transcription = $transcriptions[String(msg?.id)];
+
+  function handleMediaClick(attach, originEl = null) {
+    dispatch("openMedia", { attach, originEl });
+  }
+
+  function handleForwardHeaderClick() {
+    if (msg.link?.chatId != null) {
+      return openChat(msg.link.chatId, msg.link.message?.id || msg.link.messageId);
+    }
+  }
+
+  function getFile(fileId) {
+    return $API.getFileById(chat.id, msg.id, fileId);
+  }
+
+  async function openReply(e) {
+    await makeVisible(linkedMsg.id);
+
+    const target = document.getElementById("m-" + linkedMsg.id);
+    if (!target || !scrollElement) return;
+
+    const highlight = document.createElement("div");
+    highlight.className = "msg-highlight";
+
+    target.style.position = "relative";
+    target.appendChild(highlight);
+
+    scrollTo(scrollElement, target, {
+      smooth: true,
+      onComplete: () => {
+        setTimeout(() => {
+          highlight.remove();
+        }, 1000);
+      }
+    });
+  }
+
+  $: linkedMsg = (() => {
+    if (msg.link) {
+      if (msg.link.message) return msg.link.message;
+      if (msg.link.messageId) {
+        return {
+          id: msg.link.messageId,
+          text: msg.link.text || "",
+          sender: msg.link.senderId || msg.link.sender,
+          time: msg.link.time,
+          attaches: msg.link.attaches || [],
+        };
+      }
+    }
+    if (isSystem) {
+      return msg.attaches?.find((x) => x._type === "CONTROL")?.pinnedMessage;
+    }
+    return undefined;
+  })();
+
+  $: linkedType = msg.link ? msg.link.type : "REPLY";
+  $: forwardLines = linkedMsg?.text?.split("\n");
+
+  $: isReplyToMe = Number(linkedMsg?.sender) === Number($currentUser);
+  $: cachedLinkedContact = linkedMsg?.sender ? getContact(linkedMsg.sender) : null;
+  $: linkedMsgContact = cachedLinkedContact ? $cachedLinkedContact : null;
+  $: replyAuthorName = isReplyToMe
+    ? "Вы"
+    : (linkedMsgContact?.names?.[0]?.firstName || linkedMsgContact?.names?.[0]?.first_name || (linkedMsg?.sender ? String(linkedMsg.sender) : "?"));
+
+  $: isForwardFromMe = Number(linkedMsg?.sender) === Number($currentUser);
+  $: cachedForwardContact = linkedMsg?.sender ? getContact(linkedMsg.sender) : null;
+  $: forwardContact = cachedForwardContact ? $cachedForwardContact : null;
+  $: forwardChatStore = msg.link?.chatId != null ? getChat(msg.link.chatId).chatInfo : null;
+  $: forwardChat = forwardChatStore ? $forwardChatStore : null;
+  $: isForwardChannel = linkedMsg?.type === "CHANNEL" || forwardChat?.type === "CHANNEL" || (Boolean(msg.link?.chatName) && !linkedMsg?.sender);
+
+  $: forwardAuthorName = (() => {
+    if (isForwardChannel) {
+      return msg.link?.chatName || forwardChat?.title || "Канал";
+    }
+    if (isForwardFromMe) {
+      if ($currentUserDetails?.names?.[0]?.firstName) {
+        return `${$currentUserDetails.names[0].firstName} ${$currentUserDetails.names[0].lastName || ""}`.trim();
+      }
+      return $currentUserDetails?.name || "Вы";
+    }
+    if (forwardContact?.names?.[0]?.firstName) {
+      return `${forwardContact.names[0].firstName} ${forwardContact.names[0].lastName || ""}`.trim();
+    }
+    if (forwardContact?.name) return forwardContact.name;
+    if (msg.link?.chatName) return msg.link.chatName;
+    if (forwardChat?.title) return forwardChat.title;
+    if (linkedMsg?.sender) return String(linkedMsg.sender);
+    return "Пользователь";
+  })();
+
+  $: forwardAvatarUrl = (() => {
+    if (msg.link?.chatIconUrl) return msg.link.chatIconUrl;
+    if (isForwardChannel && forwardChat) {
+      return forwardChat.avatar || forwardChat.baseIconUrl || forwardChat.iconUrl || forwardChat.baseUrl;
+    }
+    if (isForwardFromMe && $currentUserDetails) {
+      return $currentUserDetails.avatar || $currentUserDetails.baseUrl;
+    }
+    if (forwardContact) {
+      return forwardContact.avatar || forwardContact.baseUrl;
+    }
+    if (forwardChat) {
+      return forwardChat.avatar || forwardChat.baseIconUrl || forwardChat.iconUrl;
+    }
+    return null;
+  })();
+
+  $: hasBlocks = Boolean(
+    linkedMsg ||
+    effectiveAttaches?.length ||
+    msg.reactionInfo?.totalCount ||
+    msg.deleted ||
+    lines.length > 1 ||
+    (effectiveText && effectiveText.length > 30) ||
+    isSystem
+  );
+  $: isInlineRow = !hasBlocks && Boolean(effectiveText);
+
+  $: showAvatar =
+    chat.type !== "CHANNEL" &&
+    !isSystem;
+
+  $: inlineKeyboardAttach = effectiveAttaches?.find(x => x._type === "INLINE_KEYBOARD");
+  $: stickerAttach = effectiveAttaches?.find(x => x._type === "STICKER");
+  $: isStickerOnly = stickerAttach && (!lines || lines.length === 0 || (lines.length === 1 && !lines[0]?.trim())) && (!effectiveAttaches || effectiveAttaches.length === 1) && !linkedMsg;
+  $: isVideoNoteOnly = effectiveAttaches?.some(x => x._type === "VIDEO" && x.videoType === 1) && (!lines || lines.length === 0 || (lines.length === 1 && !lines[0]?.trim())) && (!effectiveAttaches || effectiveAttaches.length === 1) && !linkedMsg;
+
+  let pressTimer = null;
+  let isLongPress = false;
+  let startX = 0;
+  let startY = 0;
+
+  function handleTouchStart(e) {
+    if (e.target.closest("button, a, .rich-link, .link-dropout-card, .dropout-backdrop, input, textarea, .avatar-msg-btn")) return;
+    const touch = e.touches[0];
+    if (!touch) return;
+    startX = touch.clientX;
+    startY = touch.clientY;
+    isLongPress = false;
+    clearTimeout(pressTimer);
+    pressTimer = setTimeout(() => {
+      isLongPress = true;
+      dispatch("longpress", { msg, clientX: startX, clientY: startY, target: e.target });
+      if (typeof navigator !== "undefined" && navigator.vibrate) {
+        navigator.vibrate(40);
+      }
+    }, 450);
+  }
+
+  function handleTouchMove(e) {
+    if (!pressTimer) return;
+    const touch = e.touches[0];
+    if (!touch) return;
+    if (Math.abs(touch.clientX - startX) > 10 || Math.abs(touch.clientY - startY) > 10) {
+      clearTimeout(pressTimer);
+      pressTimer = null;
+    }
+  }
+
+  function handleTouchEnd(e) {
+    clearTimeout(pressTimer);
+    pressTimer = null;
+    if (isLongPress) {
+      e?.stopPropagation?.();
+      setTimeout(() => {
+        isLongPress = false;
+      }, 400);
+    }
+  }
+
+  function handleMouseDown() {}
+
+  function handleMouseMove() {}
+
+  function handleMouseUp() {}
+
+  function handleContextMenu(e) {
+    if (e.target.closest("input, textarea, a, .rich-link, .link-dropout-card, .dropout-backdrop")) return;
+    e.preventDefault();
+    dispatch("contextmenu", { msg, e });
+  }
+
+  function handleClick(e) {
+    if (isLongPress) {
+      e.stopPropagation();
+      e.preventDefault();
+      setTimeout(() => {
+        isLongPress = false;
+      }, 400);
+      return;
+    }
+    if (selectionMode) {
+      e.stopPropagation();
+      dispatch("toggleSelect", { id: msg.id });
+      return;
+    }
+    if (e.target.closest("button, a, .rich-link, .link-dropout-card, .dropout-backdrop, input, textarea, .avatar-msg-btn, .avatar-wrapper, .media-download-badge, .voice-play-btn, .edited-badge, .sticker-wrapper")) return;
+    const windowSel = typeof window !== "undefined" ? window.getSelection() : null;
+    if (windowSel && !windowSel.isCollapsed && windowSel.toString().trim()) return;
+    dispatch("messageClick", { msg, e });
+  }
+</script>
+
+<div
+  class="message-row"
+  class:is-me={isMe}
+  class:is-system={isSystem}
+  class:is-deleted={msg.deleted}
+  class:is-sticker={isStickerOnly}
+  class:is-video-note={isVideoNoteOnly}
+  class:is-channel={chat.type === "CHANNEL"}
+  class:is-selected={selected}
+  class:selection-active={selectionMode}
+  class:inactive={dropoutActiveAt && dropoutActiveAt?.msg?.id !== msg.id}
+  on:dragstart|preventDefault
+  on:touchstart|passive={handleTouchStart}
+  on:touchmove|passive={handleTouchMove}
+  on:touchend={handleTouchEnd}
+  on:mousedown={handleMouseDown}
+  on:mousemove={handleMouseMove}
+  on:mouseup={handleMouseUp}
+  on:contextmenu={handleContextMenu}
+  on:click={handleClick}
+>
+  <div class="indent">
+    {#if showAvatar}
+      <button
+        type="button"
+        class="avatar-msg-btn"
+        on:mousedown|stopPropagation
+        on:mouseup|stopPropagation
+        on:touchend|stopPropagation
+        on:click|stopPropagation={() => {
+          if (msg.sender) {
+            $Session.profile = { userId: Number(msg.sender) };
+          }
+        }}
+      >
+        <Avatar size={32} contactId={msg.sender} style="chat" />
+      </button>
+    {/if}
+  </div>
+
+  <div class="message-bubble-container">
+    {#if isStickerOnly}
+      <div class="message-bubble sticker-bubble">
+        <div class="sticker-wrapper" on:click|stopPropagation={() => dispatch("openStickerPack", { sticker: stickerAttach })}>
+          <StickerMedia
+            url={stickerAttach.baseUrl || stickerAttach.url}
+            lottieUrl={stickerAttach.lottieUrl}
+            size={160}
+            autoplay={true}
+            loop={true}
+          />
+          <div class="sticker-floating-meta">
+            <span class="timestamp"
+              >{new Date(msg.time).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}</span
+            >
+            {#if isMe && !isSystem}
+              <div class="status-ticks">
+                {#if isSending}
+                  <svg class="status-icon is-sending" viewBox="0 0 16 16">
+                    <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.6" />
+                    <polyline points="8,4.5 8,8 10.5,9.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                {:else if isRead}
+                  <svg class="status-icon is-read" viewBox="0 0 20 12">
+                    <path fill="currentColor" d="M4.5 10.5L0 6l1.4-1.4L4.5 7.7 12.6 0l1.4 1.4z" />
+                    <path fill="currentColor" d="M9.5 10.5L5 6l1.4-1.4L9.5 7.7 17.6 0l1.4 1.4z" />
+                  </svg>
+                {:else}
+                  <svg class="status-icon is-sent" viewBox="0 0 16 12">
+                    <path fill="currentColor" d="M5.5 10.5L1 6l1.4-1.4L5.5 7.7 13.6 0l1.4 1.4z" />
+                  </svg>
+                {/if}
+              </div>
+            {/if}
+          </div>
+        </div>
+        {#if msg.reactionInfo?.totalCount}
+          <div class="sticker-reactions">
+            <Reactions info={msg.reactionInfo} {isMe} msgId={msg.id} on:react={(e) => dispatch("react", e.detail)} />
+          </div>
+        {/if}
+      </div>
+    {:else}
+      <div class="message-bubble" class:is-row={isInlineRow}>
+        <div class="bubble-content">
+          {#if linkedMsg}
+            {#if linkedType === "FORWARD"}
+              <div class="forward-block">
+                <div
+                  class="forward-header"
+                  on:click|stopPropagation={handleForwardHeaderClick}
+                >
+                  <div class="forward-avatar-placeholder">
+                    <Avatar
+                      contactId={isForwardChannel ? null : (isForwardFromMe ? Number($currentUser) : (linkedMsg?.sender ? Number(linkedMsg.sender) : null))}
+                      chat={isForwardChannel ? (forwardChat || { title: forwardAuthorName }) : forwardChat}
+                      src={forwardAvatarUrl}
+                      title={forwardAuthorName}
+                      size={22}
+                    />
+                  </div>
+                  <div class="forward-info">
+                    <span class="forward-name">{forwardAuthorName}</span>
+                    <span class="forward-label">Пересланное сообщение</span>
+                  </div>
+                  <svg class="forward-arrow" viewBox="0 0 24 24"
+                    ><path
+                      d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+                    /></svg
+                  >
+                </div>
+
+                {#if forwardLines}
+                  <div class="forward-content">
+                    {#each forwardLines as fLine}
+                      <p class="line allow-selection">{fLine}</p>
+                    {/each}
+                  </div>
+                {/if}
+
+                {#if linkedMsg.attaches}
+                  <Attachments
+                    {getFile}
+                    attaches={linkedMsg.attaches}
+                    {handleMediaClick}
+                    chatId={linkedMsg.chatId || chat?.id}
+                    messageId={linkedMsg.id}
+                  />
+                {/if}
+              </div>
+            {:else if linkedType === "REPLY"}
+              <div on:click|stopPropagation={openReply} class="reply-block">
+                <div class="reply-content">
+                  <p class="line allow-selection">
+                    <b>{replyAuthorName}</b>
+                    <MessagePreview {chat} msg={linkedMsg} cut={true} />
+                  </p>
+                </div>
+              </div>
+            {/if}
+          {/if}
+
+          {#if isSystem}
+            {@const sysText = getSystemText(msg) || ""}
+            {#if sysText}
+              {#each sysText.split("\n") as line}
+                <p class="line system">{@html line}</p>
+              {/each}
+            {/if}
+          {:else}
+            {#if msg.deleted}
+              <div class="deleted-notice">
+                <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+                  <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                </svg>
+                <span>Сообщение удалено</span>
+                {#if msg.deleted_at || msg.deletedAt}
+                  <span class="deleted-notice-time">({new Date(msg.deleted_at || msg.deletedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })})</span>
+                {/if}
+              </div>
+            {/if}
+
+            {#if decoded?.error || effectiveText.includes('<b style="color:#f66">')}
+              {#each lines as line}
+                <p class="line crypto-error">{@html line}</p>
+              {/each}
+            {:else if isE2eDisable || decoded?.is_handshake_request || decoded?.is_handshake_accept || (typeof effectiveText === "string" && /<\/?(b|i|u|s|span|div|p|a|code|strong|em)(\s+[^>]*)?>/i.test(effectiveText))}
+              {#each lines as line}
+                <p class="line">{@html line}</p>
+              {/each}
+            {:else if effectiveText}
+              <FormattedText
+                text={effectiveText}
+                elements={msg.elements || []}
+                deleted={msg.deleted}
+                {isSystem}
+              />
+            {/if}
+
+            {#if effectiveAttaches?.length}
+              <Attachments
+                {getFile}
+                attaches={effectiveAttaches}
+                {handleMediaClick}
+                chatId={msg?.chatId ?? chat?.id}
+                messageId={msg?.id}
+                {isMe}
+              />
+            {/if}
+          {/if}
+        </div>
+
+        <div class="message-footer">
+          {#if msg.reactionInfo?.totalCount}
+            <Reactions info={msg.reactionInfo} {isMe} msgId={msg.id} on:react={(e) => dispatch("react", e.detail)} />
+          {/if}
+
+          <div class="message-status">
+            {#if msg.stats?.views}
+              <span class="views">
+                <svg viewBox="0 0 24 24" class="views-icon"
+                  ><path
+                    d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
+                  /></svg
+                >
+                {msg.stats.views}
+              </span>
+            {/if}
+            {#if msg.deleted}
+              <span class="deleted-badge" title="Удалено">удалено</span>
+            {:else if msg.edited || msg.status === 'EDITED' || (Array.isArray(msg.history) && msg.history.length > 0)}
+              <button
+                type="button"
+                class="edited-badge"
+                title="История изменений"
+                on:click|stopPropagation={() => dispatch('openHistory', { msg })}
+              >
+                изм.
+              </button>
+            {/if}
+            {#if !isSystem && decoded?.obf && !isE2eDisable}
+              <span class="obf-type" title="Шифрование: {decoded.obf}">{decoded.obf}</span>
+            {/if}
+            <span class="timestamp"
+              >{new Date(msg.time).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}</span
+            >
+            {#if isMe && !isSystem}
+              <span class="status-ticks">
+                {#if isSending}
+                  <svg class="status-icon is-sending" viewBox="0 0 16 16">
+                    <circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.6" />
+                    <polyline points="8,4.5 8,8 10.5,9.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                  </svg>
+                {:else if isRead}
+                  <svg class="status-icon is-read" viewBox="0 0 20 12">
+                    <path fill="currentColor" d="M4.5 10.5L0 6l1.4-1.4L4.5 7.7 12.6 0l1.4 1.4z" />
+                    <path fill="currentColor" d="M9.5 10.5L5 6l1.4-1.4L9.5 7.7 17.6 0l1.4 1.4z" />
+                  </svg>
+                {:else}
+                  <svg class="status-icon is-sent" viewBox="0 0 16 12">
+                    <path fill="currentColor" d="M5.5 10.5L1 6l1.4-1.4L5.5 7.7 13.6 0l1.4 1.4z" />
+                  </svg>
+                {/if}
+              </span>
+            {/if}
+          </div>
+        </div>
+      </div>
+    {/if}
+
+  {#if transcription && transcription.expanded}
+    <div class="transcription-card" class:is-me={isMe}>
+      <div class="transcription-header">
+        <div class="transcription-title">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor">
+            <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/>
+          </svg>
+          <span>Транскрипция</span>
+        </div>
+        <button
+          type="button"
+          class="transcription-close-btn"
+          on:click|stopPropagation={() => toggleTranscriptionExpanded(msg.id)}
+          title="Скрыть"
+        >✕</button>
+      </div>
+      {#if transcription.status === 'loading'}
+        <div class="transcription-loading">
+          <div class="transcription-spinner"></div>
+          <span>Распознавание речи...</span>
+        </div>
+      {:else}
+        <div class="transcription-text">{transcription.text}</div>
+      {/if}
+    </div>
+  {/if}
+
+  {#if inlineKeyboardAttach}
+    <InlineKeyboard {chat} {msg} attach={inlineKeyboardAttach} />
+  {/if}
+</div>
+</div>
+
+<style>
+  .message-row {
+    display: flex;
+    align-items: flex-end;
+    width: 100%;
+    transition: opacity 0.2s;
+    border-radius: 0;
+  }
+
+  .message-row.selection-active,
+  .message-row.selection-active * {
+    cursor: pointer;
+    user-select: none !important;
+    -webkit-user-select: none !important;
+    -webkit-user-drag: none !important;
+  }
+
+  .message-row.is-selected {
+    background: transparent;
+  }
+
+  .placeholder {
+    height: 80px;
+    width: 100%;
+    opacity: 0;
+  }
+
+  .message-row.inactive {
+    opacity: 0.5;
+  }
+
+  .indent {
+    margin: 0 12px 0 9px;
+  }
+
+  @media screen and (max-width: 500px) {
+    .message-row.is-me .indent {
+      display: none;
+    }
+    .message-bubble-container {
+      max-width: 85%;
+    }
+  }
+
+  .indent:empty {
+    display: none;
+  }
+
+  .message-bubble-container {
+    display: flex;
+    flex-direction: column;
+    max-width: min(480px, 72%);
+    min-width: 100px;
+    margin-right: 10px;
+    position: relative;
+    width: fit-content;
+  }
+
+  .message-bubble {
+    color: #fff;
+    padding: 7px 10px 6px 12px;
+    border-radius: 16px 16px 16px 0;
+    min-width: 90px;
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 13px;
+    position: relative;
+    user-select: text;
+    -webkit-user-select: text;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .message-bubble.is-row {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 10px;
+    width: fit-content;
+  }
+
+  .bubble-content {
+    min-width: 0;
+    user-select: text;
+    -webkit-user-select: text;
+    cursor: text;
+    width: 100%;
+  }
+
+  .message-bubble.is-row .bubble-content {
+    width: auto;
+  }
+
+  .message-row .message-bubble::before {
+    content: "";
+    left: -10px;
+    clip-path: path("M10 0 Q5 10 0 10 Q0 10 10 10 Z");
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    bottom: 0;
+    background: inherit;
+  }
+
+  .message-row.is-system {
+    display: flex;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100%;
+    margin: 6px 0;
+  }
+
+  .message-row.is-system .indent {
+    display: none !important;
+  }
+
+  .message-row.is-system .message-bubble-container {
+    margin: 0 auto;
+    align-items: center;
+    justify-content: center;
+    max-width: 90%;
+    width: auto;
+  }
+
+  .message-row.is-system .message-bubble::before {
+    display: none !important;
+  }
+
+  .message-row.is-system .message-bubble {
+    border-radius: 12px;
+    padding: 6px 14px;
+    background: rgba(45, 48, 60, 0.85);
+    width: auto;
+    min-width: 0;
+    text-align: center;
+  }
+
+  .message-row.is-system .bubble-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-align: center;
+    width: 100%;
+  }
+
+  .message-row.is-me:not(.is-system) {
+    justify-content: flex-end;
+  }
+
+  .message-row.is-me:not(.is-system) .message-bubble-container {
+    align-items: flex-end;
+  }
+
+  .message-row.is-me:not(.is-system) .message-bubble {
+    border-radius: 16px 16px 0px 16px;
+    background: #7b4cd6;
+  }
+
+  .message-row.is-me:not(.is-system) .message-bubble::before {
+    left: inherit;
+    right: -10px;
+    clip-path: path("M0 0 Q5 10 10 10 Q10 10 0 10 Z");
+  }
+
+  .message-row.is-me:not(.is-system) .indent {
+    display: none;
+  }
+
+  @media screen and (min-width: 501px) {
+    .message-row.is-me:not(.is-system) {
+      justify-content: flex-start;
+      flex-direction: row;
+    }
+
+    .message-row.is-me:not(.is-system) .message-bubble-container {
+      align-items: flex-start;
+    }
+
+    .message-row.is-me:not(.is-system) .message-bubble {
+      border-radius: 16px 16px 16px 0;
+    }
+
+    .message-row.is-me:not(.is-system) .message-bubble::before {
+      left: -10px;
+      right: inherit;
+      clip-path: path("M10 0 Q5 10 0 10 Q0 10 10 10 Z");
+    }
+
+    .message-row.is-me:not(.is-system) .indent {
+      display: block;
+    }
+  }
+
+  .message-row.is-channel:not(.is-system) {
+    justify-content: flex-start;
+  }
+
+  .message-row.is-channel:not(.is-system) .indent {
+    display: none;
+  }
+
+  .message-row.is-channel:not(.is-system) .message-bubble-container {
+    align-items: flex-start;
+    margin-left: 14px;
+  }
+
+  .message-row.is-channel:not(.is-system) .message-bubble {
+    border-radius: 16px 16px 16px 0;
+  }
+
+  .message-row.is-channel:not(.is-system) .message-bubble::before {
+    left: -10px;
+    right: inherit;
+    clip-path: path("M10 0 Q5 10 0 10 Q0 10 10 10 Z");
+  }
+
+  .message-row:not(.is-me, .is-system) .message-bubble {
+      background: #3a3c55;
+  }
+
+  .message-row.is-deleted .message-bubble {
+    background-color: #c99;
+  }
+
+  .forward-block {
+    border-left: 2px solid #34b7f1;
+    padding: 4px 8px;
+    margin-bottom: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px 8px 8px 4px;
+    overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .forward-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    margin-bottom: 4px;
+  }
+
+  .forward-avatar-placeholder {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+
+  .forward-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    line-height: 1.25;
+  }
+
+  .forward-label {
+    font-size: 10px;
+    opacity: 0.65;
+    color: inherit;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  .forward-name {
+    font-weight: 600;
+    color: #34b7f1;
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .forward-arrow {
+    width: 14px;
+    height: 14px;
+    fill: #34b7f1;
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+
+  .reply-block {
+    border-left: 3px solid #38bdf8;
+    padding: 4px 8px;
+    margin-bottom: 6px;
+    border-radius: 4px 8px 8px 4px;
+    opacity: 0.9;
+    font-size: 12px;
+    background-color: rgba(255, 255, 255, 0.06);
+    cursor: pointer;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .reply-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .message-row.is-system .reply-block {
+    border-left: 3px solid rgba(255, 255, 255, 0.4);
+  }
+
+  .message-footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 3px;
+    width: 100%;
+    line-height: 1;
+  }
+
+  .message-bubble.is-row .message-footer {
+    width: auto;
+    margin-top: 0;
+    margin-left: auto;
+    flex-shrink: 0;
+    align-self: flex-end;
+  }
+
+  .message-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    line-height: 1;
+    white-space: nowrap;
+    margin-left: auto;
+    flex-shrink: 0;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .views {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 10px;
+    opacity: 0.65;
+    line-height: 1;
+  }
+
+  .views-icon {
+    width: 12px;
+    height: 12px;
+    fill: currentColor;
+    display: block;
+  }
+
+  .deleted-notice {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: #ef4444;
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+
+  .deleted-notice-time {
+    color: rgba(239, 68, 68, 0.7);
+    font-size: 10px;
+  }
+
+  .line.deleted-text {
+    opacity: 0.6;
+    text-decoration: line-through;
+  }
+
+  .deleted-badge {
+    font-size: 10px;
+    color: #ef4444;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  .edited-badge {
+    background: transparent;
+    border: none;
+    font-size: 10px;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    padding: 0;
+    border-radius: 3px;
+    transition: color 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .edited-badge:hover {
+    color: #38bdf8;
+    text-decoration: underline;
+  }
+
+  .obf-type {
+    font-size: 9px;
+    font-weight: 700;
+    color: #4ade80;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .timestamp {
+    font-size: 11px;
+    line-height: 1;
+    opacity: 0.65;
+    display: inline-block;
+  }
+
+  .status-ticks {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    height: 11px;
+  }
+
+  .status-icon {
+    width: 14px;
+    height: 10px;
+    display: block;
+    fill: currentColor;
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  .status-icon.is-sending {
+    width: 11px;
+    height: 11px;
+    color: rgba(255, 255, 255, 0.65);
+    stroke: currentColor;
+    fill: none;
+    display: block;
+  }
+
+  .status-icon.is-sent {
+    width: 13px;
+    height: 10px;
+    color: rgba(255, 255, 255, 0.65);
+    fill: currentColor;
+    display: block;
+  }
+
+  .status-icon.is-read {
+    width: 16px;
+    height: 10px;
+    color: #38bdf8;
+    fill: currentColor;
+    display: block;
+  }
+
+  .line {
+    margin: 0;
+    line-height: 1.4;
+    word-break: break-word;
+    pointer-events: auto;
+    user-select: text;
+    -webkit-user-select: text;
+    cursor: text;
+  }
+
+  .line.system {
+    text-align: center;
+  }
+
+  @keyframes pulseHighlight {
+    0% {
+      background: rgba(255,255,255,0);
+    }
+    30% {
+      background: rgba(255,255,255,0.12);
+    }
+    100% {
+      background: rgba(255,255,255,0);
+    }
+  }
+
+  .msg-highlight {
+    position: absolute;
+    top: -3px;
+    left: 0;
+    width: 100%;
+    height: calc(100% + 6px);
+    pointer-events: none;
+    animation: pulseHighlight 1.2s ease-out forwards;
+  }
+
+  .message-row.is-sticker .message-bubble-container,
+  .message-row.is-video-note .message-bubble-container {
+    background: transparent !important;
+  }
+
+  .message-row.is-video-note .message-bubble {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+  }
+
+  .message-row.is-video-note .message-bubble::before {
+    display: none !important;
+  }
+
+  .sticker-bubble {
+    background: transparent !important;
+    box-shadow: none !important;
+    border: none !important;
+    padding: 0 !important;
+    position: relative;
+    cursor: pointer;
+    overflow: visible !important;
+  }
+
+  .sticker-wrapper {
+    position: relative;
+    display: inline-flex;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .sticker-wrapper:hover {
+    transform: scale(1.03);
+  }
+
+  .sticker-wrapper:active {
+    transform: scale(0.97);
+  }
+
+  .sticker-floating-meta {
+    position: absolute;
+    bottom: 6px;
+    right: 6px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 12px;
+    padding: 2px 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    pointer-events: none;
+  }
+
+  .sticker-floating-meta .timestamp {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 11px;
+    font-weight: 500;
+  }
+
+  .sticker-floating-meta .status-ticks svg {
+    width: 13px;
+    height: 10px;
+    fill: currentColor;
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .sticker-floating-meta .status-ticks svg.is-sending {
+    width: 12px;
+    height: 12px;
+    stroke: currentColor;
+    fill: none;
+  }
+
+  .sticker-floating-meta .status-ticks svg.is-read {
+    width: 16px;
+    color: #34b7f1;
+    fill: currentColor;
+  }
+
+  .sticker-reactions {
+    margin-top: 4px;
+  }
+
+  .avatar-msg-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: transform 0.15s ease, opacity 0.15s ease;
+  }
+
+  .avatar-msg-btn:hover {
+    opacity: 0.85;
+    transform: scale(1.06);
+  }
+
+  .avatar-msg-btn:active {
+    transform: scale(0.95);
+  }
+
+  .transcription-card {
+    margin-top: 4px;
+    max-width: 380px;
+    background: rgba(30, 41, 59, 0.98);
+    border: 1px solid rgba(56, 189, 248, 0.25);
+    border-radius: 12px;
+    padding: 8px 12px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+    user-select: text;
+  }
+
+  .transcription-card.is-me {
+    border-color: rgba(56, 189, 248, 0.4);
+  }
+
+  .transcription-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #38bdf8;
+  }
+
+  .transcription-title {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .transcription-close-btn {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    font-size: 11px;
+    padding: 2px 4px;
+    border-radius: 4px;
+  }
+
+  .transcription-close-btn:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .transcription-loading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.65);
+    font-style: italic;
+    padding: 4px 0;
+  }
+
+  .transcription-spinner {
+    width: 14px;
+    height: 14px;
+    border: 2px solid rgba(56, 189, 248, 0.25);
+    border-top-color: #38bdf8;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  .transcription-text {
+    font-size: 13px;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.92);
+    word-break: break-word;
+    white-space: pre-wrap;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+</style>

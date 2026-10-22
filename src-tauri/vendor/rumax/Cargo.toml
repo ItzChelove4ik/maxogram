@@ -1,0 +1,37 @@
+[package]
+name = "rumax"
+version = "0.2.1"
+edition = "2021"
+description = "Rust client for the internal Max Messenger API"
+license = "MIT"
+keywords = ["messenger", "api", "client"]
+categories = ["api-bindings"]
+
+[lib]
+name = "rumax"
+path = "src/lib.rs"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+http = "1.3.1"
+yawc = { version = "0.2" }
+tokio = { version = "1", features = ["rt", "rt-multi-thread", "sync", "time", "net", "io-util", "macros"] }
+futures-util = "0.3"
+chrono = { version = "0.4", features = ["serde"] }
+url = "2.5"
+log = "0.4"
+rand = { version = "0.8.5" }
+bytes = "1.11.0"
+async-trait = "0.1.89"
+lz4_flex = "0.12.0"
+rustls-pki-types = "1.13.0"
+tokio-rustls = { version = "0.26.4", default-features = false, features = ["ring", "logging", "tls12"] }
+rustls = { version = "0.23", default-features = false, features = ["ring", "logging", "std", "tls12"] }
+rmpv = "1"
+webpki-roots = "1.0.4" 
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls-webpki-roots", "multipart", "stream"] }
+tokio-util = { version = "0.7.18", features = ["io"] }
+hex = "0.4.3"
+sha2 = "0.11.0"
+

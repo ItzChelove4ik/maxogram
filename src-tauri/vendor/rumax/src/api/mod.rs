@@ -1,0 +1,11 @@
+pub mod auth;
+pub mod messaging;
+pub mod telemetry;
+pub mod contacts;
+pub mod chats;
+pub mod files;
+pub mod calls;
+pub mod user;
+pub mod channels;
+pub mod bots;
+pub mod stickers;

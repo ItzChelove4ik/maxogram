@@ -1,0 +1,77 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "MAX",
+  "version": "0.1.7",
+  "identifier": "org.meowkie.max",
+  "build": {
+    "removeUnusedCommands": true,
+    "beforeDevCommand": "bun run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "bun run build",
+    "frontendDist": "../build"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Max",
+        "width": 800,
+        "height": 600,
+        "incognito": false
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self' ipc: http://ipc.localhost; frame-src 'self' https: http:; connect-src 'self' https: http: stream: ws: wss:; img-src 'self' data: blob: asset: http://asset.localhost https: http:; media-src 'self' blob: asset: http://asset.localhost http: https: stream:; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' blob:; style-src 'self' 'unsafe-inline';",
+      "dangerousDisableAssetCspModification": [
+        "style-src"
+      ],
+      "assetProtocol": {
+        "enable": true,
+        "scope": {
+          "requireLiteralLeadingDot": false,
+          "allow": ["**/*"]
+        }
+      }
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "iOS": {
+      "minimumSystemVersion": "15.0"
+    },
+    "linux": {
+      "appimage": {
+        "bundleMediaFramework": false
+      }
+    }
+  },
+  "plugins": {
+    "deep-link": {
+      "desktop": {
+        "schemes": ["max"]
+      },
+      "mobile": [
+        {
+          "scheme": ["max"]
+        },
+        {
+          "host": "max.ru",
+          "scheme": ["https", "http"],
+          "appLink": false
+        },
+        {
+          "host": "www.max.ru",
+          "scheme": ["https", "http"],
+          "appLink": false
+        }
+      ]
+    }
+  }
+}

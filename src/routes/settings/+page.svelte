@@ -1,0 +1,536 @@
+<script>
+import { goto } from "$app/navigation";
+  import {
+    onMount,
+    onDestroy
+  } from "svelte";
+  import { registerBackHandler } from "$lib/utils/backButton.js";
+
+  import {
+    platform as getPlatform
+  } from "@tauri-apps/plugin-os";
+  import { convertFileSrc, invoke } from "@tauri-apps/api/core";
+  import {
+    open
+  } from "@tauri-apps/plugin-dialog";
+  import {
+    scan,
+    cancel,
+    Format,
+    checkPermissions,
+    requestPermissions,
+    openAppSettings,
+  } from "@tauri-apps/plugin-barcode-scanner";
+
+  import { set as sessionSet, openSettingsPage, openAvatarGallery } from "$lib/stores/session";
+  import { currentUserDetails } from "$lib/stores/api";
+  import Avatar from "$components/main/Avatar.svelte";
+  import SafeAvatarPickerModal from "$components/main/SafeAvatarPickerModal.svelte";
+  import API, { currentUser } from "$lib/stores/api";
+  import { openDigitalIdApp, openSferumApp } from "$lib/stores/webapp.js";
+  import { safeAvatarMapStore } from "$lib/services/AvatarSyncManager";
+  import { getSafeAvatarMediaUrl } from "$lib/services/uplink";
+  import { disableMaxPlusAvatars } from "$lib/stores/avatarSettings";
+
+  let platform;
+
+  let contact;
+  let phone;
+  let name;
+  let selfAvatarBusy = false;
+  let selfAvatarWrapEl;
+  let safeAvatarModalOpen = false;
+
+  $: selfAvatarUrl = $currentUserDetails?.baseRawUrl || $currentUserDetails?.avatar || $currentUserDetails?.baseUrl || null;
+  $: selfPhotoId = $currentUserDetails?.photoId || null;
+  $: canDeleteSelfAvatar = Boolean(selfPhotoId || selfAvatarUrl);
+  $: selfSafeAvatarUid = !$disableMaxPlusAvatars && $currentUser && $safeAvatarMapStore.has(Number($currentUser)) ? $safeAvatarMapStore.get(Number($currentUser)) : null;
+
+  function openSelfAvatar(e) {
+    const highResSafeUrl = selfSafeAvatarUid ? getSafeAvatarMediaUrl(selfSafeAvatarUid) : null;
+    const galleryUrl = highResSafeUrl || selfAvatarUrl;
+    if (galleryUrl || contact?.id) {
+      const targetEl = selfAvatarWrapEl || e?.currentTarget;
+      const rect = targetEl?.getBoundingClientRect?.();
+      openAvatarGallery({
+        initialUrl: galleryUrl,
+        initialPhotoId: selfPhotoId,
+        userId: contact?.id ?? $currentUser,
+        isOwnProfile: true,
+        canUpload: true,
+        originEl: targetEl,
+        originRect: rect ? { left: rect.left, top: rect.top, width: rect.width, height: rect.height } : null,
+        originRadius: 50,
+        onUpload: handleSelfAvatarUpload,
+        onDelete: handleSelfAvatarDelete,
+      });
+    } else {
+      handleSelfAvatarUpload();
+    }
+  }
+
+  async function handleSelfAvatarUpload() {
+    if (selfAvatarBusy) return null;
+    selfAvatarBusy = true;
+    try {
+      return await $API.uploadProfilePhoto();
+    } catch (e) {
+      console.error(e);
+      throw e;
+    } finally {
+      selfAvatarBusy = false;
+    }
+  }
+
+  async function handleSelfAvatarDelete(targetPhotoId = null, targetUrl = null) {
+    if (selfAvatarBusy || !canDeleteSelfAvatar) return;
+    selfAvatarBusy = true;
+    try {
+      await $API.deleteProfilePhoto(targetPhotoId || selfPhotoId, targetUrl || selfAvatarUrl);
+    } catch (e) {
+      console.error(e);
+      throw e;
+    } finally {
+      selfAvatarBusy = false;
+    }
+  }
+
+  let closeScanner = null;
+  let unregisterScanner = null;
+
+  onDestroy(() => {
+    if (unregisterScanner) unregisterScanner();
+  });
+
+  currentUserDetails.subscribe(updateSelf);
+
+  function updateSelf(user) {
+    if (!user || !user.names) return;
+    phone = user.phone
+      ? "+ " +
+        user.phone.toString()[0] +
+        " " +
+        user.phone.toString().slice(1, 4) +
+        " *** ** " +
+        user.phone.toString().slice(-2, user.phone.toString().length)
+      : "";
+    name = user.names[0].firstName + " " + user.names[0].lastName;
+    contact = user;
+  }
+
+  $: buttons = [
+    [
+      {
+        icon: "profile.svg",
+        text: "Настроить профиль",
+        action: () => openSettingsPage("profile"),
+      },
+      {
+        icon: "bell.svg",
+        text: "Уведомления",
+        action: () => openSettingsPage("notifications"),
+      },
+      {
+        icon: "crypto.svg",
+        text: "Защита пин-кодом",
+        action: () => openSettingsPage("lock"),
+      },
+      {
+        icon: "book.svg",
+        text: "Словарь шифрования",
+        action: () => openSettingsPage("dictionary"),
+      },
+    ],
+    [
+      {
+        icon: "digital_id.svg",
+        text: "Цифровой ID",
+        action: () => openDigitalIdApp(),
+      },
+      {
+        icon: "bot.svg",
+        text: "Войти в Сферум",
+        action: () => openSferumApp(),
+      },
+    ],
+    [
+      {
+        icon: "logs.svg",
+        text: "Сетевые логи",
+        action: () => openSettingsPage("logs"),
+      },
+      {
+        icon: "about.svg",
+        text: "О приложении",
+        action: () => openSettingsPage("about"),
+      },
+    ],
+    [
+      {
+        icon: "phone.svg",
+        text: "Плагины",
+        action: () => openSettingsPage("plugins"),
+      },
+      {
+        icon: "params.svg",
+        text: "Расширенные настройки",
+        action: () => openSettingsPage("advanced"),
+      },
+    ],
+    [
+      {
+        icon: "devices.png",
+        text: "Активные сессии",
+        action: () => openSettingsPage("sessions"),
+      },
+      {
+        icon: "logout.svg",
+        text: "Сменить аккаунт",
+        action: () => goto("/auth/select")
+      },
+    ],
+  ];
+
+  function clearAllKeys() {
+    clearKeys();
+  }
+
+  async function readQRCode(filePath) {
+    let url = "";
+    try {
+      const cleanPath = filePath.replace(/^file:\/\//, "");
+      try {
+        url = convertFileSrc(cleanPath);
+      } catch {
+        const bytes = await invoke("read_file", { path: cleanPath });
+        const blob = new Blob([new Uint8Array(bytes)]);
+        url = URL.createObjectURL(blob);
+      }
+
+      const img = new Image();
+      img.crossOrigin = "anonymous";
+      img.src = url;
+
+      await new Promise((resolve, reject) => {
+        img.onload = resolve;
+        img.onerror = reject;
+      });
+
+      const canvas = document.createElement("canvas");
+      canvas.width = img.naturalWidth || img.width;
+      canvas.height = img.naturalHeight || img.height;
+      const ctx = canvas.getContext("2d", { willReadFrequently: true });
+      if (!ctx) return null;
+      ctx.drawImage(img, 0, 0);
+
+      if (typeof window !== "undefined" && "BarcodeDetector" in window) {
+        try {
+          const detector = new window.BarcodeDetector({ formats: ["qr_code"] });
+          const barcodes = await detector.detect(canvas);
+          if (barcodes?.length > 0 && barcodes[0].rawValue) {
+            return barcodes[0].rawValue;
+          }
+        } catch {}
+      }
+
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const { default: jsQR } = await import("jsqr");
+      const code = jsQR(imageData.data, imageData.width, imageData.height, {
+        inversionAttempts: "attemptBoth",
+      });
+      return code?.data || null;
+    } finally {
+      if (url.startsWith("blob:")) {
+        URL.revokeObjectURL(url);
+      }
+    }
+  }
+
+  async function scanner() {
+    let content = "";
+
+    if (/android|ios/.test(platform)) {
+      let cameraAllowed = await checkPermissions();
+
+      if (cameraAllowed.includes("prompt")) await requestPermissions();
+      else if (cameraAllowed === "denied") {
+        alert(
+          "Для сканирования QR нужно разрешение камеры." +
+            "\nА зачем ещё вы это используете?",
+        );
+        await openAppSettings();
+      }
+
+      if ((await checkPermissions()) !== "granted") return;
+
+      closeScanner = () => cancel();
+      unregisterScanner = registerBackHandler(() => {
+        if (closeScanner) closeScanner();
+      });
+      let scanned;
+      try {
+        scanned = await scan({ formats: [Format.QRCode] });
+      } finally {
+        closeScanner = null;
+        if (unregisterScanner) {
+          unregisterScanner();
+          unregisterScanner = null;
+        }
+      }
+      if (!scanned?.content) return;
+      content = scanned.content;
+    } else {
+      const image = await open({
+        multiple: false,
+        directory: false,
+        filters: [
+          {
+            name: "Изображения",
+            extensions: ["png", "jpeg", "jpg"],
+          },
+        ],
+      });
+
+      if (!image) return;
+
+      const data = await readQRCode(image);
+
+      if (!data) return alert("QR-код не найден!");
+
+      content = data;
+    }
+
+    if (content.includes(":auth")) {
+      $API.call(1, { interactive: true });
+      $API.call(96, {});
+      const response = await $API.call(290, { qrLink: content });
+      if (response.error) alert(response.title);
+    } else alert(content);
+  }
+
+  onMount(async () => {
+    platform = await getPlatform();
+  });
+</script>
+
+<div class="settings">
+  <img on:click={scanner} src={"icons/qr.svg"} class="scanner-icon icon" />
+
+  <div class="info">
+    <div
+      class="self-avatar-wrap"
+      bind:this={selfAvatarWrapEl}
+    >
+      <div class="self-avatar-clickable" on:click={openSelfAvatar}>
+        <Avatar size={85} isSelf={true} contactId={contact?.id}/>
+      </div>
+      <button
+        type="button"
+        class="self-avatar-safe-badge"
+        title="Сменить аватарку"
+        on:click|stopPropagation={() => (safeAvatarModalOpen = true)}
+      >
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"/>
+          <line x1="5" y1="12" x2="19" y2="12"/>
+        </svg>
+      </button>
+    </div>
+    <a class="name">{name}</a>
+    <a class="phone">{phone}</a>
+  </div>
+
+  <div class="buttons">
+    {#each buttons as group}
+      <div class="group">
+        {#each group as btn}
+          <div on:click={btn.action} class="button">
+            <img src={"icons/" + btn.icon} class="icon" />
+            <a>{btn.text}</a>
+            {#if btn.isToggle}
+              <div class="toggle-track" class:active={btn.toggleValue}>
+                <div class="toggle-thumb" class:active={btn.toggleValue}></div>
+              </div>
+            {:else}
+              <svg
+                width="40"
+                height="20"
+                viewBox="0 0 40 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <polyline
+                  points="30,3 38,10 30,17"
+                  stroke="#999"
+                  fill="none"
+                  stroke-width="3"
+                />
+              </svg>
+            {/if}
+          </div>
+        {/each}
+      </div>
+    {/each}
+  </div>
+</div>
+
+{#if safeAvatarModalOpen}
+  <SafeAvatarPickerModal
+    onClose={() => (safeAvatarModalOpen = false)}
+  />
+{/if}
+
+<style>
+  .settings {
+    position: relative;
+    width: 100%;
+    color: #bbb;
+    overflow-y: auto;
+    flex-grow: 1;
+    min-height: 0;
+  }
+
+  .info {
+    margin-top: 20px;
+    top: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .self-avatar-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .self-avatar-clickable {
+    cursor: pointer;
+    transition: transform 0.14s;
+  }
+
+  .self-avatar-clickable:active {
+    transform: scale(0.96);
+  }
+
+  .self-avatar-safe-badge {
+    position: absolute;
+    right: -2px;
+    bottom: -2px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid #26262e;
+    background: #0ea5e9;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
+    transition: background 0.15s, transform 0.12s;
+  }
+
+  .self-avatar-safe-badge:hover {
+    background: #38bdf8;
+    transform: scale(1.08);
+  }
+
+  .self-avatar-safe-badge:active {
+    transform: scale(0.92);
+  }
+
+  .info .name {
+    margin-top: 15px;
+    font-size: 20px;
+    font-weight: 800;
+    color: #bbb;
+  }
+
+  .info .phone {
+    color: #3ff;
+    font-size: 13px;
+  }
+
+  .buttons {
+    margin: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-size: 14px;
+  }
+
+  .buttons .group {
+    background-color: #26262e;
+    border-radius: 15px;
+  }
+
+  .buttons .group .button {
+    padding: 12px 15px;
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+    align-items: center;
+  }
+
+  .buttons .group .icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 15px;
+    object-fit: contain;
+    display: block;
+    flex-shrink: 0;
+  }
+
+  .buttons .group .button a {
+    line-height: 1;
+    letter-spacing: 0.5px;
+  }
+
+  .buttons .group .button svg {
+    margin-left: auto;
+  }
+
+  .scanner-icon {
+    position: absolute;
+    width: 45px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.1s;
+  }
+
+  .scanner-icon:hover {
+    opacity: 1;
+  }
+
+  .toggle-track {
+    margin-left: auto;
+    width: 44px;
+    height: 24px;
+    background: #3a3a3c;
+    border-radius: 12px;
+    position: relative;
+    transition: background-color 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .toggle-track.active {
+    background: #248bfe;
+  }
+
+  .toggle-thumb {
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .toggle-thumb.active {
+    transform: translateX(20px);
+  }
+</style>

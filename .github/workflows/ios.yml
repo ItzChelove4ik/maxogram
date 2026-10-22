@@ -1,0 +1,80 @@
+name: Build iOS IPA
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ios-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: macos-15
+    timeout-minutes: 90
+    env:
+      CI: "true"
+      CARGO_TERM_COLOR: always
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-ios
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri
+      - name: Install dependencies
+        run: |
+          bun install --frozen-lockfile
+          brew list xcodegen >/dev/null 2>&1 || brew install xcodegen
+          xcodebuild -version
+      - name: Initialize iOS project
+        run: bun run tauri ios init --ci --skip-targets-install
+      - name: Build unsigned ARM64 IPA
+        run: |
+          set -o pipefail
+          bun run tauri ios build --ci --target aarch64 --no-sign 2>&1 | tee ios-build.log
+      - name: Validate and collect IPA
+        run: |
+          mkdir -p artifacts
+          python3 scripts/validate_ipa.py src-tauri/gen/apple --output artifacts/Maxogram-unsigned.ipa
+          cd artifacts
+          shasum -a 256 Maxogram-unsigned.ipa > Maxogram-unsigned.ipa.sha256
+      - name: Upload IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: Maxogram-iOS-unsigned
+          path: artifacts/
+          if-no-files-found: error
+          retention-days: 30
+      - name: Publish IPA release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version=$(bun -e 'console.log(require("./package.json").version)')
+          tag="ios-v${version}-build.${GITHUB_RUN_NUMBER}"
+          cat > release-notes.md <<'NOTES'
+          Unsigned ARM64 IPA for iPhone, built from this repository using Tauri and Xcode.
+
+          Sign the IPA with AltStore, SideStore, or your own Apple certificate before installation. This is not an App Store or TestFlight build. Device functionality has not been tested by this workflow.
+
+          Download `Maxogram-unsigned.ipa`. A SHA-256 checksum is provided alongside it.
+          NOTES
+          if gh release view "$tag" >/dev/null 2>&1; then
+            gh release upload "$tag" artifacts/* --clobber
+          else
+            gh release create "$tag" artifacts/* --target "$GITHUB_SHA" --title "Maxogram ${version} — iOS IPA" --notes-file release-notes.md
+          fi
+      - name: Upload build diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: iOS-build-diagnostics
+          path: ios-build.log
+          if-no-files-found: ignore
+          retention-days: 7

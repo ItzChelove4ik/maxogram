@@ -1,0 +1,537 @@
+use reqwest::header::{
+    CONTENT_LENGTH, CONTENT_RANGE, CONTENT_TYPE, ETAG, IF_MODIFIED_SINCE, IF_NONE_MATCH,
+    IF_RANGE, LAST_MODIFIED, RANGE,
+};
+use std::collections::HashMap;
+use std::io::{Cursor, Read};
+use std::sync::{Arc, LazyLock, OnceLock, RwLock};
+use std::thread;
+use std::time::Duration;
+use tauri::Manager;
+use tiny_http::{Header, Method, Response, Server};
+
+static MIME_CACHE: LazyLock<RwLock<HashMap<String, String>>> =
+    LazyLock::new(|| RwLock::new(HashMap::new()));
+
+static VIDEO_APP_HANDLE: OnceLock<tauri::AppHandle> = OnceLock::new();
+
+pub fn set_app_handle(handle: tauri::AppHandle) {
+    let _ = VIDEO_APP_HANDLE.set(handle);
+}
+
+fn get_active_crypto_key() -> Option<[u8; 32]> {
+    VIDEO_APP_HANDLE.get().and_then(|app| {
+        app.state::<crate::AppState>()
+            .crypto
+            .read()
+            .unwrap()
+            .as_ref()
+            .map(|s| s.key)
+    })
+}
+
+fn detect_mime_from_bytes(bytes: &[u8], path: &str) -> String {
+    if bytes.starts_with(b"\x89PNG\r\n\x1a\n") {
+        return "image/png".to_string();
+    }
+    if bytes.starts_with(b"\xff\xd8\xff") {
+        return "image/jpeg".to_string();
+    }
+    if bytes.len() >= 12 && &bytes[0..4] == b"RIFF" && &bytes[8..12] == b"WEBP" {
+        return "image/webp".to_string();
+    }
+    if bytes.starts_with(b"GIF87a") || bytes.starts_with(b"GIF89a") {
+        return "image/gif".to_string();
+    }
+    if bytes.starts_with(b"<svg") || (bytes.starts_with(b"<?xml") && bytes.windows(4).any(|w| w == b"<svg")) {
+        return "image/svg+xml".to_string();
+    }
+    if bytes.starts_with(b"%PDF") {
+        return "application/pdf".to_string();
+    }
+    if bytes.starts_with(b"OggS") {
+        return "audio/ogg".to_string();
+    }
+    if bytes.starts_with(b"\x1a\x45\xdf\xa3") {
+        return "video/webm".to_string();
+    }
+    if (bytes.len() >= 8 && &bytes[4..8] == b"ftyp") || bytes.windows(4).any(|w| w == b"ftyp" || w == b"moov") {
+        return "video/mp4".to_string();
+    }
+    if bytes.starts_with(b"ID3") || (bytes.len() >= 2 && bytes[0] == 0xff && (bytes[1] & 0xe0) == 0xe0) {
+        return "audio/mpeg".to_string();
+    }
+    if bytes.len() >= 12 && &bytes[0..4] == b"RIFF" && &bytes[8..12] == b"WAVE" {
+        return "audio/wav".to_string();
+    }
+    if bytes.starts_with(b"fLaC") {
+        return "audio/flac".to_string();
+    }
+    let guess = mime_guess::from_path(path).first_or_octet_stream().to_string();
+    if guess != "application/octet-stream" && guess != "binary/octet-stream" {
+        return guess;
+    }
+    "application/octet-stream".to_string()
+}
+
+fn handle_local_file(request: tiny_http::Request, mut path: &str) {
+    if let Some(stripped) = path.strip_prefix("file://") {
+        path = stripped;
+    }
+    let fixed_path;
+    let path = if !path.starts_with('/') && !path.contains("://") && !path.starts_with('\\') {
+        let candidate = format!("/{}", path);
+        if std::path::Path::new(&candidate).exists() {
+            fixed_path = candidate;
+            &fixed_path
+        } else {
+            path
+        }
+    } else {
+        path
+    };
+
+    let raw_bytes = match std::fs::read(path) {
+        Ok(b) => b,
+        Err(e) => {
+            eprintln!("[VideoProxy] File Not Found: {} (error: {})", path, e);
+            let _ = request.respond(Response::from_string("File Not Found").with_status_code(404));
+            return;
+        }
+    };
+
+    let data = if raw_bytes.starts_with(b"ENC") {
+        let Some(key) = get_active_crypto_key() else {
+            let _ = request.respond(Response::from_string("Encrypted file locked").with_status_code(403));
+            return;
+        };
+
+        match crate::stores::Storage::decrypt(&raw_bytes, &key) {
+            Ok(d) => d,
+            Err(_) => {
+                let _ = request.respond(Response::from_string("Decryption error").with_status_code(500));
+                return;
+            }
+        }
+    } else {
+        raw_bytes
+    };
+
+    let file_len = data.len() as u64;
+    let mime = detect_mime_from_bytes(&data, path);
+
+    let mut range_header = None;
+    for h in request.headers() {
+        if h.field.as_str().as_str().eq_ignore_ascii_case("Range") {
+            range_header = Some(h.value.to_string());
+            break;
+        }
+    }
+
+    let mut headers = vec![
+        Header::from_bytes(&b"Access-Control-Allow-Origin"[..], b"*").unwrap(),
+        Header::from_bytes(&b"Accept-Ranges"[..], b"bytes").unwrap(),
+        Header::from_bytes(&b"Content-Type"[..], mime.as_bytes()).unwrap(),
+        Header::from_bytes(&b"Content-Disposition"[..], b"inline").unwrap(),
+        Header::from_bytes(&b"Cache-Control"[..], b"public, max-age=31536000, immutable").unwrap(),
+    ];
+
+    if let Some(rh) = range_header {
+        if let Some(range_spec) = rh.strip_prefix("bytes=") {
+            let parts: Vec<&str> = range_spec.split('-').collect();
+            if parts.len() == 2 {
+                let s_str = parts[0].trim();
+                let e_str = parts[1].trim();
+
+                let (start, end) = if s_str.is_empty() {
+                    let suffix = e_str.parse::<u64>().unwrap_or(0);
+                    let s = file_len.saturating_sub(suffix);
+                    let e = file_len.saturating_sub(1);
+                    (s, e)
+                } else if e_str.is_empty() {
+                    let s = s_str.parse::<u64>().unwrap_or(0);
+                    let e = file_len.saturating_sub(1);
+                    (s, e)
+                } else {
+                    let s = s_str.parse::<u64>().unwrap_or(0);
+                    let e = e_str.parse::<u64>().unwrap_or(file_len.saturating_sub(1));
+                    (s, std::cmp::min(e, file_len.saturating_sub(1)))
+                };
+
+                if start <= end && start < file_len {
+                    let length = (end - start + 1) as usize;
+                    let slice = data[start as usize..start as usize + length].to_vec();
+
+                    headers.push(
+                        Header::from_bytes(
+                            &b"Content-Range"[..],
+                            format!("bytes {}-{}/{}", start, end, file_len).as_bytes(),
+                        )
+                        .unwrap(),
+                    );
+                    headers.push(
+                        Header::from_bytes(
+                            &b"Content-Length"[..],
+                            length.to_string().as_bytes(),
+                        )
+                        .unwrap(),
+                    );
+
+                    let res = Response::new(
+                        206.into(),
+                        headers,
+                        Cursor::new(slice),
+                        Some(length),
+                        None,
+                    );
+                    let _ = request.respond(res);
+                    return;
+                }
+            }
+        }
+    }
+
+    headers.push(Header::from_bytes(
+        &b"Content-Length"[..],
+        file_len.to_string().as_bytes(),
+    ).unwrap());
+
+    let res = Response::new(
+        200.into(),
+        headers,
+        Cursor::new(data),
+        Some(file_len as usize),
+        None,
+    );
+    let _ = request.respond(res);
+}
+
+fn handle_request(request: tiny_http::Request, client: &reqwest::blocking::Client, token: &str) {
+    let clean_path = match crate::proxy_auth::validate_and_strip_token(&request, token) {
+        Some(p) => p,
+        None => {
+            drop(request.into_writer());
+            return;
+        }
+    };
+
+    if request.method() == &Method::Options {
+        let headers = vec![
+            Header::from_bytes(&b"Access-Control-Allow-Origin"[..], b"*").unwrap(),
+            Header::from_bytes(&b"Access-Control-Allow-Methods"[..], b"GET, HEAD, OPTIONS").unwrap(),
+            Header::from_bytes(
+                &b"Access-Control-Allow-Headers"[..],
+                b"Range, Origin, X-Requested-With, Content-Type, Accept, X-Proxy-Token, X-Maxplus-Token, Authorization",
+            )
+            .unwrap(),
+            Header::from_bytes(&b"Access-Control-Max-Age"[..], b"86400").unwrap(),
+        ];
+        let res = Response::new(200.into(), headers, Cursor::new(Vec::new()), Some(0), None);
+        let _ = request.respond(res);
+        return;
+    }
+
+    let raw_url = if clean_path.starts_with('/') {
+        &clean_path[1..]
+    } else {
+        &clean_path
+    };
+    let url = match urlencoding::decode(raw_url) {
+        Ok(u) => u.into_owned(),
+        Err(_) => {
+            let _ = request.respond(Response::from_string("Invalid URL").with_status_code(400));
+            return;
+        }
+    };
+
+    if url.starts_with('/') {
+        handle_local_file(request, &url);
+        return;
+    }
+    if let Some(local_path) = url.strip_prefix("file://") {
+        handle_local_file(request, local_path);
+        return;
+    }
+    if let Some(asset_path) = url.strip_prefix("asset://") {
+        let trimmed = asset_path.strip_prefix("localhost/").unwrap_or(asset_path);
+        let decoded = urlencoding::decode(trimmed).unwrap_or(std::borrow::Cow::Borrowed(trimmed));
+        let path = if !decoded.starts_with('/') && !decoded.contains("://") {
+            format!("/{}", decoded)
+        } else {
+            decoded.into_owned()
+        };
+        handle_local_file(request, &path);
+        return;
+    }
+    if let Some(asset_path) = url.strip_prefix("http://asset.localhost/") {
+        let decoded = urlencoding::decode(asset_path).unwrap_or(std::borrow::Cow::Borrowed(asset_path));
+        let path = if !decoded.starts_with('/') && !decoded.contains("://") {
+            format!("/{}", decoded)
+        } else {
+            decoded.into_owned()
+        };
+        handle_local_file(request, &path);
+        return;
+    }
+    if !url.starts_with("http://") && !url.starts_with("https://") {
+        let candidate = format!("/{}", url.trim_start_matches('/'));
+        if std::path::Path::new(&candidate).exists() {
+            handle_local_file(request, &candidate);
+            return;
+        }
+    }
+
+    if url.starts_with("http://") || url.starts_with("https://") {
+        if let Some(app) = VIDEO_APP_HANDLE.get() {
+            let acc = app.state::<crate::AppState>()
+                .crypto
+                .read()
+                .unwrap()
+                .as_ref()
+                .map(|s| s.account)
+                .or_else(|| {
+                    crate::stores::load_accounts(app)
+                        .get("current")
+                        .and_then(|v| v.as_u64())
+                })
+                .unwrap_or(0);
+
+            if let Ok(Some(cached_path)) = crate::stores::get_cached_file_sync(app, acc, &url) {
+                if std::path::Path::new(&cached_path).exists() {
+                    handle_local_file(request, &cached_path);
+                    return;
+                }
+            }
+
+            let paths = crate::stores::Paths::new(app, acc);
+            let p1 = paths.cache_file(&crate::stores::hash(&url));
+            if p1.exists() && std::fs::metadata(&p1).map(|m| m.len()).unwrap_or(0) > 0 {
+                handle_local_file(request, &p1.to_string_lossy());
+                return;
+            }
+            if let Some(pos) = url.find('?') {
+                let clean = &url[..pos];
+                let is_media = clean.ends_with(".mp4")
+                    || clean.ends_with(".webm")
+                    || clean.ends_with(".ogg")
+                    || clean.ends_with(".opus")
+                    || clean.ends_with(".mp3")
+                    || clean.ends_with(".m4a")
+                    || clean.ends_with(".wav")
+                    || clean.ends_with(".mov");
+                if is_media {
+                    let p2 = paths.cache_file(&crate::stores::hash(clean));
+                    if p2.exists() && std::fs::metadata(&p2).map(|m| m.len()).unwrap_or(0) > 0 {
+                        handle_local_file(request, &p2.to_string_lossy());
+                        return;
+                    }
+                }
+            }
+        }
+    }
+
+    let mut rb = client
+        .get(&url)
+        .header(
+            "User-Agent",
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        )
+        .header("Referer", "https://max.ru/");
+
+    let mut is_range_offset = false;
+    for h in request.headers() {
+        let name = h.field.as_str().as_str();
+        if name.eq_ignore_ascii_case("Range") {
+            let val = h.value.as_str();
+            if !val.starts_with("bytes=0-") {
+                is_range_offset = true;
+            }
+            rb = rb.header(RANGE, val);
+        } else if name.eq_ignore_ascii_case("If-Range") {
+            rb = rb.header(IF_RANGE, h.value.as_str());
+        } else if name.eq_ignore_ascii_case("If-None-Match") {
+            rb = rb.header(IF_NONE_MATCH, h.value.as_str());
+        } else if name.eq_ignore_ascii_case("If-Modified-Since") {
+            rb = rb.header(IF_MODIFIED_SINCE, h.value.as_str());
+        }
+    }
+
+    let mut res = match rb.send() {
+        Ok(r) => r,
+        Err(e) => {
+            eprintln!("Upstream request error: {}", e);
+            let _ = request.respond(Response::from_string("Bad Gateway").with_status_code(502));
+            return;
+        }
+    };
+
+    let status = res.status().as_u16();
+
+    let mut content_length_val = res
+        .headers()
+        .get(CONTENT_LENGTH)
+        .and_then(|v| v.to_str().ok())
+        .and_then(|s| s.parse::<usize>().ok());
+
+    if content_length_val.is_none() {
+        if let Some(cr) = res.headers().get(CONTENT_RANGE).and_then(|v| v.to_str().ok()) {
+            if let Some(range_part) = cr.strip_prefix("bytes ") {
+                if let Some(dash) = range_part.find('-') {
+                    if let Some(slash) = range_part.find('/') {
+                        let start = range_part[..dash].parse::<usize>().ok();
+                        let end = range_part[dash + 1..slash].parse::<usize>().ok();
+                        if let (Some(s), Some(e)) = (start, end) {
+                            if e >= s {
+                                content_length_val = Some(e - s + 1);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    let upstream_ct = res
+        .headers()
+        .get(CONTENT_TYPE)
+        .and_then(|h| h.to_str().ok())
+        .map(|s| s.to_string());
+
+    let mut peek_buf = [0u8; 16];
+    let n = res.read(&mut peek_buf).unwrap_or(0);
+    let peeked = &peek_buf[..n];
+
+    let cached_ct = MIME_CACHE.read().ok().and_then(|c| c.get(&url).cloned());
+    let content_type = if let Some(ct) = cached_ct {
+        ct
+    } else if is_range_offset {
+        let lower_url = url.to_lowercase();
+        if lower_url.contains(".ogg") || lower_url.contains(".opus") || lower_url.contains("audio") || lower_url.contains("voice") {
+            "audio/ogg".to_string()
+        } else if lower_url.contains(".mp3") {
+            "audio/mpeg".to_string()
+        } else if lower_url.contains(".wav") {
+            "audio/wav".to_string()
+        } else if lower_url.contains(".webm") {
+            "video/webm".to_string()
+        } else {
+            "video/mp4".to_string()
+        }
+    } else {
+        let ct = match upstream_ct {
+            Some(ct) if ct != "application/octet-stream" && ct != "binary/octet-stream" => ct,
+            _ => {
+                if peeked.starts_with(b"OggS") {
+                    "audio/ogg".to_string()
+                } else if peeked.starts_with(b"\x1a\x45\xdf\xa3") {
+                    "video/webm".to_string()
+                } else if peeked.len() >= 8 && &peeked[4..8] == b"ftyp" {
+                    "video/mp4".to_string()
+                } else if peeked.starts_with(b"ID3") || (peeked.len() >= 2 && peeked[0] == 0xff && (peeked[1] & 0xe0) == 0xe0) {
+                    "audio/mpeg".to_string()
+                } else if peeked.starts_with(b"RIFF") {
+                    "audio/wav".to_string()
+                } else {
+                    let lower_url = url.to_lowercase();
+                    if lower_url.contains(".ogg") || lower_url.contains(".opus") || lower_url.contains("audio") || lower_url.contains("voice") {
+                        "audio/ogg".to_string()
+                    } else if lower_url.contains(".mp3") {
+                        "audio/mpeg".to_string()
+                    } else if lower_url.contains(".wav") {
+                        "audio/wav".to_string()
+                    } else if lower_url.contains(".webm") {
+                        "video/webm".to_string()
+                    } else {
+                        "video/mp4".to_string()
+                    }
+                }
+            }
+        };
+        if let Ok(mut lock) = MIME_CACHE.write() {
+            lock.insert(url.clone(), ct.clone());
+        }
+        ct
+    };
+
+    let mut headers = vec![
+        Header::from_bytes(&b"Content-Type"[..], content_type.as_bytes()).unwrap(),
+        Header::from_bytes(&b"Access-Control-Allow-Origin"[..], b"*").unwrap(),
+        Header::from_bytes(
+            &b"Access-Control-Expose-Headers"[..],
+            b"Content-Range, Content-Length, Accept-Ranges",
+        )
+        .unwrap(),
+        Header::from_bytes(&b"Accept-Ranges"[..], b"bytes").unwrap(),
+        Header::from_bytes(&b"Cache-Control"[..], b"no-store, no-cache, must-revalidate").unwrap(),
+        Header::from_bytes(&b"Pragma"[..], b"no-cache").unwrap(),
+        Header::from_bytes(&b"Expires"[..], b"0").unwrap(),
+    ];
+
+    if let Some(cr) = res.headers().get(CONTENT_RANGE) {
+        if let Ok(h) = Header::from_bytes(&b"Content-Range"[..], cr.as_bytes()) {
+            headers.push(h);
+        }
+    }
+
+    if let Some(cl) = res.headers().get(CONTENT_LENGTH) {
+        if let Ok(h) = Header::from_bytes(&b"Content-Length"[..], cl.as_bytes()) {
+            headers.push(h);
+        }
+    }
+
+    if let Some(etag) = res.headers().get(ETAG) {
+        if let Ok(h) = Header::from_bytes(&b"ETag"[..], etag.as_bytes()) {
+            headers.push(h);
+        }
+    }
+
+    if let Some(lm) = res.headers().get(LAST_MODIFIED) {
+        if let Ok(h) = Header::from_bytes(&b"Last-Modified"[..], lm.as_bytes()) {
+            headers.push(h);
+        }
+    }
+
+    let chained = Cursor::new(peeked.to_vec()).chain(res);
+    let mut response = Response::new(status.into(), headers, chained, content_length_val, None);
+    response = response.with_chunked_threshold(usize::MAX);
+    let _ = request.respond(response);
+}
+
+pub fn start_video_proxy() {
+    let token = crate::proxy_auth::get_video_token();
+    let bind_addr = std::env::var("MAXPLUS_VIDEO_PORT")
+        .ok()
+        .and_then(|p| p.parse::<u16>().ok())
+        .map(|p| format!("127.0.0.1:{}", p))
+        .unwrap_or_else(|| "127.0.0.1:0".to_string());
+
+    let server = match Server::http(&bind_addr) {
+        Ok(s) => {
+            if let Some(addr) = s.server_addr().to_ip() {
+                crate::proxy_auth::set_video_proxy_info(addr.port(), token.clone());
+            }
+            Arc::new(s)
+        }
+        Err(e) => {
+            eprintln!("Failed to bind video proxy: {}", e);
+            return;
+        }
+    };
+
+    thread::spawn(move || {
+        let mut builder = reqwest::blocking::Client::builder()
+            .connect_timeout(Duration::from_secs(10));
+        if let Ok(cert) = reqwest::Certificate::from_pem(rumax::MINTSIFRY_ROOT_CA) {
+            builder = builder.add_root_certificate(cert);
+        }
+        let client = Arc::new(builder.build().unwrap_or_default());
+
+        for request in server.incoming_requests() {
+            let client = Arc::clone(&client);
+            let token = token.clone();
+            thread::spawn(move || {
+                handle_request(request, &client, &token);
+            });
+        }
+    });
+}

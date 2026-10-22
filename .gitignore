@@ -1,0 +1,41 @@
+# Frontend dependencies and generated output
+node_modules/
+.svelte-kit/
+build/
+dist/
+
+# Rust and native build output
+src-tauri/target/
+src-tauri/gen/apple/build/
+src-tauri/gen/apple/DerivedData/
+src-tauri/gen/apple/Pods/
+src-tauri/gen/apple/*.xcodeproj/
+src-tauri/gen/apple/*.xcworkspace/
+src-tauri/gen/android/.gradle/
+src-tauri/gen/android/.kotlin/
+src-tauri/gen/android/build/
+src-tauri/gen/android/app/build/
+src-tauri/gen/android/app/src/main/jniLibs/
+
+# Local configuration, signing material, and service credentials
+.env
+.env.*
+!.env.example
+*.p12
+*.p8
+*.mobileprovision
+*.jks
+*.keystore
+keystore.properties
+local.properties
+google-services.json
+GoogleService-Info.plist
+
+# Local tools and exported binaries
+.codex-build/
+artifacts/
+*.ipa
+*.xcarchive/
+*.log
+.DS_Store
+Thumbs.db

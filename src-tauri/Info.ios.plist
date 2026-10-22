@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>NSFaceIDUsageDescription</key>
+    <string>Authenticate with biometric</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Camera access for photos and video notes</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Microphone access for voice and video notes</string>
+  </dict>
+</plist>
