@@ -1,24 +1,24 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 108 108" fill="none">
-  <g transform="translate(54 54) scale(0.68) translate(-54 -54)">
-    <path
-      d="M54,28.7733C68.1126,28.7733 79.5,40.1581 79.5,54.1365C79.5,68.115 68.1126,79.4998 54,79.4998C39.8874,79.4998 28.5,68.115 28.5,54.1365C28.5,40.1581 39.8874,28.7733 54,28.7733Z"
-      fill="none"
-      stroke="#FFFFFF"
-      stroke-width="15"
-      stroke-linecap="butt"
-      stroke-linejoin="miter"
-    />
-    <path
-      d="M22.3915,55.3724C22.3915,55.3724 22.2564,47.3297 25.3431,39.0233C28.4297,30.717 27.7587,23.2017 29.3691,21.6194C30.9795,20.0372 38.9522,21.5956 42.7906,25.0474L22.3915,55.3724Z"
-      fill="#FFFFFF"
-      stroke="#FFFFFF"
-      stroke-width="1"
-    />
-    <path
-      d="M85.691,56.0431C85.691,56.0431 85.825,47.8434 82.7643,39.375C79.7036,30.9066 80.369,23.2446 78.7721,21.6315C77.1752,20.0184 69.2695,21.6072 65.4633,25.1264L85.691,56.0431Z"
-      fill="#FFFFFF"
-      stroke="#FFFFFF"
-      stroke-width="1"
-    />
-  </g>
+<?xml version='1.0' encoding='utf-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" fill="none">
+  <title>Maxogram app icon</title>
+  <defs>
+    <linearGradient id="background" x1="148" y1="0" x2="850" y2="1024" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#38C5F5" />
+      <stop offset="0.48" stop-color="#259BEA" />
+      <stop offset="1" stop-color="#1672D4" />
+    </linearGradient>
+    <linearGradient id="fold" x1="447" y1="545" x2="541" y2="715" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#DCF3FF" />
+      <stop offset="1" stop-color="#ADDDFC" />
+    </linearGradient>
+    <linearGradient id="paper" x1="441" y1="343" x2="610" y2="757" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" />
+      <stop offset="1" stop-color="#F0F9FF" />
+    </linearGradient>
+  </defs>
+  <path d="M229 463 783 248c21-8 35 3 30 27l-96 470c-5 26-20 34-40 19L514 641l-79 78c-12 12-26 7-26-10V587l-172-53c-41-13-45-55-8-71Z" fill="#075FB7" opacity="0.14" transform="translate(0 16)" />
+  <path d="M229 463 783 248c21-8 35 3 30 27l-96 470c-5 26-20 34-40 19L514 641l-79 78c-12 12-26 7-26-10V587l-172-53c-41-13-45-55-8-71Z" fill="url(#paper)" />
+  <path d="m409 587 316-260c10-9 19-9 7 4L487 607l27 34-79 78c-12 12-26 7-26-10V587Z" fill="url(#fold)" />
+  <path d="m409 587 316-260c10-9 19-9 7 4L469 616l-34 103c-12 12-26 7-26-10V587Z" fill="#FFFFFF" opacity="0.38" />
+  <path d="m469 616 45 25-79 78 34-103Z" fill="#9CCFF0" />
 </svg>
