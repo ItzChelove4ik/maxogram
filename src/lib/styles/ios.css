@@ -14,8 +14,8 @@
   --bg-surface: #ffffff;
   --bg-surface-2: #f2f2f7;
   --bg-sheet: #ffffff;
-  --bg-panel: rgba(248, 248, 250, .92);
-  --bg-topbar: rgba(255, 255, 255, .94);
+  --bg-panel: rgba(248, 248, 250, .72);
+  --bg-topbar: rgba(255, 255, 255, .72);
   --bg-hover: rgba(60, 60, 67, .06);
   --bg-fill: rgba(120, 120, 128, .14);
   --bg-input: #eeeff2;
@@ -41,6 +41,9 @@
   --status-success: #1fae57;
   --status-danger: #e54d42;
   --status-warning: #946500;
+  --success-rgb: 31, 174, 87;
+  --danger-rgb: 229, 77, 66;
+  --warning-rgb: 148, 101, 0;
   --badge-unread: #2f7ed6;
   --read-tick: #2f7ed6;
   --online: #1fae57;
@@ -56,6 +59,20 @@
   --shadow-sheet: 0 12px 48px rgba(0, 0, 0, .18);
   --radius-card: 12px;
   --radius-sheet: 16px;
+  /* Liquid Glass */
+  --glass-blur: 28px;
+  --glass-blur-strong: 40px;
+  --glass-saturate: 170%;
+  --glass-light-bg: rgba(255, 255, 255, .62);
+  --glass-light-border: rgba(255, 255, 255, .75);
+  --glass-light-highlight: rgba(255, 255, 255, .95);
+  --glass-dark-bg: rgba(22, 22, 25, .58);
+  --glass-dark-border: rgba(255, 255, 255, .14);
+  --glass-dark-highlight: rgba(255, 255, 255, .22);
+  --glass-specular: inset 0 1px 0 rgba(255, 255, 255, .35), inset 0 -1px 0 rgba(255, 255, 255, .08);
+  --glass-specular-dark: inset 0 1px 0 rgba(255, 255, 255, .18), inset 0 -1px 0 rgba(0, 0, 0, .4);
+  --island-bg: rgba(255, 255, 255, .9);
+  --island-shadow: 0 4px 20px rgba(0, 0, 0, .12);
   --duration-press: 120ms;
   --duration-ui: 220ms;
   --duration-page: 280ms;
@@ -69,8 +86,8 @@
   --bg-surface: #1c1c1e;
   --bg-surface-2: #2c2c2e;
   --bg-sheet: #1c1c1e;
-  --bg-panel: rgba(18, 18, 20, .92);
-  --bg-topbar: rgba(18, 18, 20, .94);
+  --bg-panel: rgba(18, 18, 20, .72);
+  --bg-topbar: rgba(18, 18, 20, .72);
   --bg-hover: rgba(255, 255, 255, .07);
   --bg-fill: rgba(120, 120, 128, .26);
   --bg-input: #2c2c2e;
@@ -95,6 +112,9 @@
   --status-success: #58da83;
   --status-danger: #ff787c;
   --status-warning: #ffd166;
+  --success-rgb: 88, 218, 131;
+  --danger-rgb: 255, 120, 124;
+  --warning-rgb: 255, 209, 102;
   --badge-unread: #5aa9f7;
   --read-tick: #91c6ff;
   --online: #58da83;
@@ -102,6 +122,15 @@
   --switch-off: #39393d;
   --icon-filter: brightness(0) invert(1);
   --shadow-sheet: 0 12px 48px rgba(0, 0, 0, .45);
+  /* Liquid Glass dark */
+  --glass-light-bg: rgba(28, 28, 32, .58);
+  --glass-light-border: rgba(255, 255, 255, .14);
+  --glass-light-highlight: rgba(255, 255, 255, .22);
+  --glass-dark-bg: rgba(18, 18, 21, .58);
+  --glass-dark-border: rgba(255, 255, 255, .14);
+  --glass-dark-highlight: rgba(255, 255, 255, .22);
+  --island-bg: rgba(255, 255, 255, .14);
+  --island-shadow: 0 4px 20px rgba(0, 0, 0, .35);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -163,6 +192,34 @@ h2 { font-size: 1.188rem; line-height: 1.25; letter-spacing: -.015em; }
   font-weight: 700;
   letter-spacing: -.02em;
   color: var(--text-primary);
+}
+/* Liquid Glass shared materials — every frosted surface in the app uses these. */
+:where(.modal-sheet, .sheet, .popup, .dialog, .confirm-modal, .input-modal, .contacts-modal-panel, .bottom-sheet) {
+  background: var(--glass-light-bg);
+  color: var(--text-primary);
+  border: 1px solid var(--glass-light-border);
+  border-radius: var(--radius-sheet) var(--radius-sheet) 0 0;
+  box-shadow: var(--shadow-sheet), var(--glass-specular);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+}
+.glass, :where(.glass-panel, .glass-card) {
+  background: var(--glass-light-bg);
+  border: 1px solid var(--glass-light-border);
+  box-shadow: var(--glass-specular);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+}
+/* Floating glass island (Telegram-style active tab pill). */
+.glass-island {
+  background: var(--island-bg);
+  border: 1px solid var(--glass-light-highlight);
+  box-shadow: var(--island-shadow), var(--glass-specular);
+  backdrop-filter: blur(var(--glass-blur-strong)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur-strong)) saturate(var(--glass-saturate));
+}
+@media (prefers-reduced-transparency: reduce) {
+  :root { --glass-blur: 0px; --glass-blur-strong: 0px; --glass-light-bg: var(--bg-surface); --island-bg: var(--bg-surface); }
 }
 
 @media (min-width: 768px) {

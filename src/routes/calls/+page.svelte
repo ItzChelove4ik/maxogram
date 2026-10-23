@@ -995,6 +995,9 @@
     flex-shrink: 0;
 
     padding: 18px 16px 8px;
+    background: var(--bg-topbar);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
   }
 
   .nav-title {
@@ -1013,7 +1016,7 @@
     gap: 12px;
     padding: 10px 14px;
     margin-bottom: 14px;
-    background: rgba(74, 222, 128, 0.12);
+    background: rgba(var(--success-rgb), 0.12);
     border: 1px solid var(--status-success);
     border-radius: 14px;
     cursor: pointer;
@@ -1025,7 +1028,7 @@
     height: 10px;
     border-radius: 50%;
     background: var(--status-success);
-    box-shadow: 0 0 10px #4ade80;
+    box-shadow: 0 0 10px rgba(var(--success-rgb), .6);
     animation: ringGlow 1.8s infinite;
   }
 
@@ -1056,7 +1059,7 @@
     padding: 5px 12px;
     border-radius: 16px;
     background: var(--status-success);
-    color: var(--text-muted);
+    color: var(--text-on-success);
     font-size: 0.7059rem;
     font-weight: 600;
     border: none;
@@ -1083,7 +1086,7 @@
     padding: 10px 14px;
 
     cursor: pointer;
-    transition: background 0.18s, transform 0.12s;
+    transition: background 0.18s, transform 0.12s, box-shadow 0.18s;
     min-width: 0;
     overflow: hidden;
     box-sizing: border-box;
@@ -1091,15 +1094,18 @@
     user-select: none;
     -webkit-user-select: none;
 
-    background: var(--bg-surface);
-    border: 0;
+    background: var(--glass-light-bg);
+    border: 1px solid var(--glass-light-border);
+    box-shadow: var(--glass-specular);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
     border-radius: 14px;
-    box-shadow: none;
     min-height: 64px;
   }
 
   .action-tile:hover {
-    background: var(--bg-surface-2);
+    background: var(--glass-light-bg);
+    box-shadow: var(--island-shadow), var(--glass-specular);
   }
 
   .action-tile:active {
@@ -1122,7 +1128,7 @@
   }
 
   .tile-icon--green {
-    background: rgba(74, 222, 128, 0.15);
+    background: rgba(var(--success-rgb), 0.15);
     color: var(--status-success);
   }
 
@@ -1226,7 +1232,7 @@
   }
 
   .count-tag--danger {
-    background: rgba(239, 68, 68, 0.2);
+    background: rgba(var(--danger-rgb), 0.2);
     color: var(--status-danger);
   }
 
@@ -1481,10 +1487,12 @@
     right: 0;
     z-index: 150;
     min-width: 190px;
-    background: var(--bg-surface-2);
-    border: 1px solid var(--border-subtle);
+    background: var(--glass-light-bg);
+    border: 1px solid var(--glass-light-border);
     border-radius: 14px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35), var(--glass-specular);
+    backdrop-filter: blur(var(--glass-blur-strong)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur-strong)) saturate(var(--glass-saturate));
     padding: 6px;
     display: flex;
     flex-direction: column;
@@ -1516,7 +1524,7 @@
   }
 
   .popup-item--danger:hover {
-    background: rgba(239, 68, 68, 0.12);
+    background: rgba(var(--danger-rgb), 0.12);
   }
 
   .popup-divider {
@@ -1535,7 +1543,7 @@
     border: none;
     background: var(--accent-primary);
     color: var(--text-on-accent);
-    box-shadow: 0 4px 16px rgba(var(--accent-rgb), 0.4);
+    box-shadow: 0 4px 16px rgba(var(--accent-rgb), 0.4), var(--glass-specular);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1565,12 +1573,15 @@
   .sheet-panel {
     width: 100%;
     max-width: 480px;
-    background: var(--bg-surface);
-    border-top: 0.5px solid var(--border-subtle);
+    background: var(--glass-light-bg);
+    border: 1px solid var(--glass-light-border);
+    border-top: 0.5px solid var(--glass-light-border);
     border-radius: 16px 16px 0 0;
     padding: 24px 20px calc(24px + env(safe-area-inset-bottom, 0px));
     box-sizing: border-box;
-    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.35), var(--glass-specular);
+    backdrop-filter: blur(var(--glass-blur-strong)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur-strong)) saturate(var(--glass-saturate));
   }
 
   .sheet-panel--tall {
@@ -1637,7 +1648,7 @@
 
   .copy-action-btn.copied {
     background: var(--status-success);
-    color: var(--text-muted);
+    color: var(--text-on-success);
   }
 
   .sheet-actions-row {

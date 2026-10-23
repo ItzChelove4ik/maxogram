@@ -140,7 +140,7 @@
     width: 52px;
     height: 52px;
     border-radius: 50%;
-    background: rgba(34, 197, 94, 0.12);
+    background: rgba(var(--success-rgb), 0.12);
     color: var(--status-success);
   }
 

@@ -269,7 +269,7 @@
   }
 
   .chunk-add {
-    background: rgba(34, 197, 94, 0.2);
+    background: rgba(var(--success-rgb), 0.2);
     color: var(--status-success);
     text-decoration: none;
     border-radius: 2px;
@@ -277,7 +277,7 @@
   }
 
   .chunk-del {
-    background: rgba(239, 68, 68, 0.2);
+    background: rgba(var(--danger-rgb), 0.2);
     color: var(--status-danger);
     text-decoration: line-through;
     border-radius: 2px;

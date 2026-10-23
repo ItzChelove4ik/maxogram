@@ -420,7 +420,9 @@
 
     padding: 18px 16px 8px;
     min-height: 56px;
-    background: var(--bg-app);
+    background: var(--bg-topbar);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
   }
 
   .header-placeholder {
@@ -494,8 +496,11 @@
   .card {
     padding: 16px;
 
-    background: var(--bg-surface);
-    border: 0;
+    background: var(--glass-light-bg);
+    border: 1px solid var(--glass-light-border);
+    box-shadow: var(--glass-specular);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
     border-radius: 12px;
   }
 
@@ -503,9 +508,11 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    background: var(--bg-surface);
-    border: 0.5px solid var(--border-card);
-    box-shadow: none;
+    background: var(--glass-light-bg);
+    border: 1px solid var(--glass-light-border);
+    box-shadow: var(--island-shadow), var(--glass-specular);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
   }
 
   .id-card-top {
@@ -544,7 +551,7 @@
   }
 
   .id-badge.linked {
-    background: rgba(34, 197, 94, 0.15);
+    background: rgba(var(--success-rgb), 0.15);
     color: var(--status-success);
   }
 
@@ -555,7 +562,7 @@
 
   .error-banner {
     padding: 10px;
-    background: rgba(239, 68, 68, 0.15);
+    background: rgba(var(--danger-rgb), 0.15);
     border: 1px solid var(--status-danger);
     border-radius: 8px;
     color: var(--status-danger);
@@ -612,7 +619,7 @@
   }
 
   .secondary-btn.danger-btn:hover:not(:disabled) {
-    background: rgba(239, 68, 68, 0.1);
+    background: rgba(var(--danger-rgb), 0.1);
   }
 
   .section-title {
@@ -778,7 +785,7 @@
     font-size: 0.6471rem;
     padding: 2px 8px;
     border-radius: 12px;
-    background: rgba(34, 197, 94, 0.15);
+    background: rgba(var(--success-rgb), 0.15);
     color: var(--status-success);
   }
 

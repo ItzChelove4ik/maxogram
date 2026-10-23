@@ -594,7 +594,7 @@
     margin: 6px 20px 0;
     padding: 10px 14px;
     border-radius: 10px;
-    background: rgba(239, 68, 68, 0.15);
+    background: rgba(var(--danger-rgb), 0.15);
     border: 1px solid var(--status-danger);
     color: var(--status-danger);
     font-size: 0.7059rem;

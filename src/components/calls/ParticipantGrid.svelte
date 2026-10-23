@@ -310,7 +310,7 @@
     width: 22px;
     height: 22px;
     border-radius: 50%;
-    background: rgba(239, 68, 68, 0.9);
+    background: rgba(var(--danger-rgb), 0.9);
     display: flex;
     align-items: center;
     justify-content: center;

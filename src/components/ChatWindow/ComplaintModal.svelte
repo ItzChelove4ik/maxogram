@@ -117,7 +117,7 @@
     width: 38px;
     height: 38px;
     border-radius: 50%;
-    background: rgba(239, 68, 68, 0.14);
+    background: rgba(var(--danger-rgb), 0.14);
     color: var(--status-danger);
     display: flex;
     align-items: center;

@@ -372,7 +372,7 @@
 
   .error-banner {
     padding: 10px 14px;
-    background: rgba(239, 68, 68, 0.12);
+    background: rgba(var(--danger-rgb), 0.12);
     border: 1px solid var(--status-danger);
     border-radius: 10px;
     color: var(--status-danger);
@@ -425,12 +425,12 @@
 
   .btn-danger-action {
     margin-right: auto;
-    background: rgba(239, 68, 68, 0.12);
+    background: rgba(var(--danger-rgb), 0.12);
     color: var(--status-danger);
     border: 1px solid var(--status-danger);
   }
 
   .btn-danger-action:hover:not(:disabled) {
-    background: rgba(239, 68, 68, 0.22);
+    background: rgba(var(--danger-rgb), 0.22);
   }
 </style>

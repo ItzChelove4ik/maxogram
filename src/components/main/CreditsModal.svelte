@@ -164,7 +164,7 @@
     ctx.moveTo(0, 0);
     ctx.bezierCurveTo(-15, -20, -38, 0, 0, 36);
     ctx.bezierCurveTo(38, 0, 15, -20, 0, 0);
-    ctx.fillStyle = "#ef4444";
+    ctx.fillStyle = "#e54d42";
     ctx.fill();
     ctx.restore();
 
@@ -862,7 +862,7 @@
   }
 
   .close-btn:hover {
-    background: rgba(239, 68, 68, 0.35);
+    background: rgba(var(--danger-rgb), 0.35);
     border-color: var(--status-danger);
   }
 

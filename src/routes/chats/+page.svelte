@@ -761,7 +761,9 @@
     flex-direction: column;
     gap: 8px;
     padding: 18px 0 8px;
-    background: var(--bg-surface);
+    background: var(--bg-topbar);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
   }
 
   .action-header {
@@ -777,7 +779,9 @@
     padding: 0 10px;
     box-sizing: border-box;
     border-bottom: 0.5px solid var(--border-subtle);
-    background: var(--bg-surface);
+    background: var(--bg-topbar);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
   }
 
   .action-left {
@@ -914,9 +918,12 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.4), var(--glass-specular);
 
-    background: var(--bg-sheet);
+    background: var(--glass-light-bg);
+    border: 1px solid var(--glass-light-border);
+    backdrop-filter: blur(var(--glass-blur-strong)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur-strong)) saturate(var(--glass-saturate));
     border-top-left-radius: var(--radius-sheet);
     border-top-right-radius: var(--radius-sheet);
     padding-bottom: var(--safe-area-bottom);

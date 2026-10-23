@@ -115,7 +115,7 @@
   .error-box {
     margin-bottom: 16px;
     padding: 10px 14px;
-    background: rgba(239, 68, 68, 0.15);
+    background: rgba(var(--danger-rgb), 0.15);
     border: 1px solid var(--status-danger);
     border-radius: 10px;
     color: var(--status-danger);

@@ -1143,12 +1143,12 @@
   }
 
   .modal-btn.danger {
-    background: rgba(239, 68, 68, 0.15);
+    background: rgba(var(--danger-rgb), 0.15);
     color: var(--status-danger);
   }
 
   .modal-btn.danger:hover {
-    background: rgba(239, 68, 68, 0.25);
+    background: rgba(var(--danger-rgb), 0.25);
   }
 
   .modal-btn.danger-filled {

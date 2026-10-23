@@ -337,8 +337,9 @@
 
     padding-bottom: var(--tabbar-inset);
     background: var(--bg-panel);
-    backdrop-filter: blur(24px) saturate(160%);
-    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    backdrop-filter: blur(var(--glass-blur-strong)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur-strong)) saturate(var(--glass-saturate));
+    box-shadow: var(--glass-specular);
   }
   .panel-container.editing {
     z-index: 999;
@@ -415,7 +416,7 @@
     -webkit-user-select: none;
 
     height: var(--tabbar-height);
-    padding: 6px 4px;
+    padding: 8px 4px;
     overflow-x: auto;
     scrollbar-width: none;
     justify-content: flex-start;
@@ -491,18 +492,27 @@
     position: relative;
     box-sizing: border-box;
 
-    border: 1px solid transparent;
+    border: 0;
 
     transform-origin: 50% 50%;
 
     color: var(--text-muted);
-    border-radius: 12px;
-    gap: 2px;
-    transition: color var(--duration-press), opacity var(--duration-press);
+    border-radius: 22px;
+    gap: 3px;
+    transition: background var(--duration-ui), box-shadow var(--duration-ui), color var(--duration-press), transform var(--duration-press);
   }
 
   .option:active:not(.editing-item) {
-    opacity: .6;
+    opacity: .7;
+  }
+
+  .option.active {
+    background: var(--island-bg);
+    border: 1px solid var(--glass-light-highlight);
+    box-shadow: var(--island-shadow), var(--glass-specular);
+    backdrop-filter: blur(var(--glass-blur-strong)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur-strong)) saturate(var(--glass-saturate));
+    color: var(--accent-primary);
   }
 
   .option.editing-item {
@@ -653,6 +663,7 @@
 
   .option.active .icon-box {
     color: var(--accent-primary);
+    filter: drop-shadow(0 1px 6px rgba(var(--accent-rgb), .45));
   }
 
 
@@ -798,9 +809,6 @@
     text-align: center;
     color: var(--text-muted);
     font-size: 0.8235rem;
-  }
-  .option.active {
-    color: var(--accent-primary);
   }
   .panel-edit-control {
     display: flex;

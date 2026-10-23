@@ -315,21 +315,21 @@
   }
 
   .btn-icon.accept {
-    background: rgba(34, 197, 94, 0.14);
+    background: rgba(var(--success-rgb), 0.14);
     color: var(--status-success);
   }
 
   .btn-icon.accept:hover:not(:disabled) {
-    background: rgba(34, 197, 94, 0.28);
+    background: rgba(var(--success-rgb), 0.28);
   }
 
   .btn-icon.decline {
-    background: rgba(239, 68, 68, 0.14);
+    background: rgba(var(--danger-rgb), 0.14);
     color: var(--status-danger);
   }
 
   .btn-icon.decline:hover:not(:disabled) {
-    background: rgba(239, 68, 68, 0.28);
+    background: rgba(var(--danger-rgb), 0.28);
   }
 
   .btn-icon:disabled {

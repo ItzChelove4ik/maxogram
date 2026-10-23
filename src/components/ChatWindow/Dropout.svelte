@@ -711,7 +711,7 @@
   }
 
   .delete-row:hover {
-    background: rgba(239, 68, 68, 0.12);
+    background: rgba(var(--danger-rgb), 0.12);
   }
 
   .seen-by-row {

@@ -7,7 +7,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
-    <meta name="theme-color" content="#f2f2f7" />
+    <meta name="theme-color" content="#ffffff" />
     <meta name="color-scheme" content="light dark" />
     <title>Orbit</title>
     <script>
@@ -15,14 +15,14 @@
         const mode = localStorage.getItem('maxogram_appearance');
         const dark = mode === 'dark' || (mode !== 'light' && matchMedia('(prefers-color-scheme: dark)').matches);
         document.documentElement.dataset.theme = dark ? 'dark' : 'light';
-        document.querySelector('meta[name="theme-color"]').content = dark ? '#000000' : '#f2f2f7';
+        document.querySelector('meta[name="theme-color"]').content = dark ? '#000000' : '#ffffff';
       } catch {}
     </script>
     %sveltekit.head%
     <style>
       body {
         margin: 0;
-        background-color: var(--bg-app, #f2f2f7);
+        background-color: var(--bg-app, #ffffff);
         overflow: hidden;
       }
 
@@ -37,7 +37,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        background: var(--bg-app, #f2f2f7);
+        background: var(--bg-app, #ffffff);
         z-index: 99999;
         user-select: none;
         -webkit-user-select: none;

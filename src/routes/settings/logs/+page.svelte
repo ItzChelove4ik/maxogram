@@ -695,7 +695,7 @@
 
   .rule-del-btn:hover {
     color: var(--status-danger);
-    background: rgba(239, 68, 68, 0.15);
+    background: rgba(var(--danger-rgb), 0.15);
   }
 
   .logs-container::-webkit-scrollbar {

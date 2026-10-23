@@ -56,7 +56,7 @@
   <div class="modal-card" on:click|stopPropagation transition:fly={{ y: 20, duration: 200, easing: cubicOut }}>
     <div class="modal-header">
       <div class="modal-title">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--status-danger)" stroke-width="2.5" stroke-linecap="round">
           <circle cx="12" cy="12" r="10"></circle>
           <line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line>
         </svg>
@@ -217,7 +217,7 @@
   }
 
   .error-banner {
-    background: rgba(239, 68, 68, 0.15);
+    background: rgba(var(--danger-rgb), 0.15);
     border: 1px solid var(--status-danger);
     color: var(--status-danger);
     padding: 8px 12px;

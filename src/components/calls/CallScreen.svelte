@@ -620,7 +620,7 @@
     <div class="secure-req-backdrop" transition:fade={{ duration: 150 }} role="presentation">
       <div class="secure-req-card" transition:scale={{ start: 0.95, duration: 150 }} on:click|stopPropagation role="dialog">
         <div class="secure-req-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--status-success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
             <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
           </svg>
@@ -721,7 +721,7 @@
     right: 16px;
     padding: 10px 14px;
     border-radius: 12px;
-    background: rgba(239, 68, 68, 0.92);
+    background: rgba(var(--danger-rgb), 0.92);
     color: var(--text-on-media);
     display: flex;
     align-items: center;
@@ -741,8 +741,8 @@
   }
 
   .secure-badge--unsupported {
-    background: rgba(239, 68, 68, 0.18) !important;
-    border-color: rgba(239, 68, 68, 0.4) !important;
+    background: rgba(var(--danger-rgb), 0.18) !important;
+    border-color: rgba(var(--danger-rgb), 0.4) !important;
     color: #f87171 !important;
   }
 
@@ -844,7 +844,7 @@
     max-width: 180px;
   }
 
-  .text-green { color: #4ade80 !important; }
+  .text-green { color: var(--status-success) !important; }
   .text-red { color: #f87171 !important; }
 
   .avatar-backdrop {
@@ -1006,8 +1006,8 @@
     display: flex;
     align-items: center;
     gap: 4px;
-    background: rgba(74, 222, 128, 0.15);
-    border: 1px solid rgba(74, 222, 128, 0.3);
+    background: rgba(var(--success-rgb), 0.15);
+    border: 1px solid rgba(var(--success-rgb), 0.3);
     border-radius: 20px;
     padding: 3px 10px;
     cursor: pointer;
@@ -1042,7 +1042,7 @@
   .secure-text {
     font-size: 0.6471rem;
     font-weight: 600;
-    color: #4ade80;
+    color: var(--status-success);
     letter-spacing: 0.5px;
   }
 
@@ -1156,13 +1156,13 @@
   .action-btn:active { transform: scale(0.93); }
 
   .action-btn--decline {
-    background: #ef4444;
+    background: var(--status-danger);
     box-shadow: 0 4px 20px rgba(239,68,68,0.4);
     color: var(--text-on-media);
   }
 
   .action-btn--accept {
-    background: #22c55e;
+    background: var(--status-success);
     box-shadow: 0 4px 20px rgba(34,197,94,0.4);
     color: var(--text-on-media);
   }
@@ -1236,12 +1236,12 @@
   .ctrl-btn--active { background: rgba(255,255,255,0.22); }
 
   .ctrl-btn--secure {
-    background: rgba(74, 222, 128, 0.18);
-    border: 1px solid rgba(74, 222, 128, 0.4);
+    background: rgba(var(--success-rgb), 0.18);
+    border: 1px solid rgba(var(--success-rgb), 0.4);
   }
 
   .ctrl-btn--hangup {
-    background: #ef4444;
+    background: var(--status-danger);
     box-shadow: 0 2px 14px rgba(239,68,68,0.4);
     width: clamp(44px, 11.5vw, 52px);
     height: clamp(44px, 11.5vw, 52px);
@@ -1313,7 +1313,7 @@
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    background: rgba(34, 197, 94, 0.15);
+    background: rgba(var(--success-rgb), 0.15);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1353,7 +1353,7 @@
   }
 
   .btn-secure-agree {
-    background: #22c55e;
+    background: var(--status-success);
     color: var(--text-on-media);
   }
 

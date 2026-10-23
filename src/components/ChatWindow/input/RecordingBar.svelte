@@ -37,7 +37,7 @@
     <svg class="rec-wave-svg" viewBox="0 0 {Math.max(1, liveAmplitudes.length * 3)} 24" preserveAspectRatio="none">
       {#each liveAmplitudes as amp, i}
         {@const h = Math.max(2, Math.round((amp / 255) * 22))}
-        <rect x={i * 3} y={(24 - h) / 2} width="2" height={h} rx="1" fill="#248bfe" />
+        <rect x={i * 3} y={(24 - h) / 2} width="2" height={h} rx="1" fill="var(--accent-primary)" />
       {/each}
     </svg>
   {:else}
@@ -205,7 +205,7 @@
   }
 
   .rec-trash-btn:hover {
-    background: rgba(239, 68, 68, 0.15);
+    background: rgba(var(--danger-rgb), 0.15);
   }
 
   .rec-stop-btn {

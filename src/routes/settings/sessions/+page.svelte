@@ -248,7 +248,7 @@
   .terminate-btn {
     width: 100%;
     height: 44px;
-    background: rgba(239, 68, 68, 0.15);
+    background: rgba(var(--danger-rgb), 0.15);
     color: var(--status-danger);
     border: 1px solid var(--status-danger);
     border-radius: 12px;
@@ -262,7 +262,7 @@
   }
 
   .terminate-btn:hover {
-    background: rgba(239, 68, 68, 0.25);
+    background: rgba(var(--danger-rgb), 0.25);
   }
 
   .terminate-btn:active {

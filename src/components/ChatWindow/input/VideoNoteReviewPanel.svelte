@@ -282,12 +282,12 @@
   }
 
   .review-action-btn.trash {
-    background: rgba(239, 68, 68, 0.15);
+    background: rgba(var(--danger-rgb), 0.15);
     color: var(--status-danger);
   }
 
   .review-action-btn.trash:hover {
-    background: rgba(239, 68, 68, 0.3);
+    background: rgba(var(--danger-rgb), 0.3);
   }
 
   .review-action-btn.mute {

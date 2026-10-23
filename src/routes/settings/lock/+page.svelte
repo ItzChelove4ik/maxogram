@@ -170,13 +170,13 @@
   }
 
   .danger-btn {
-    background: rgba(239, 68, 68, 0.15);
+    background: rgba(var(--danger-rgb), 0.15);
     color: var(--status-danger);
     border: 1px solid var(--status-danger);
   }
 
   .danger-btn:hover {
-    background: rgba(239, 68, 68, 0.25);
+    background: rgba(var(--danger-rgb), 0.25);
   }
 
   .status-msg {

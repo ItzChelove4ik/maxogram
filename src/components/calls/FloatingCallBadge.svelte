@@ -258,7 +258,7 @@
   }
 
   .badge-btn:active { transform: scale(0.88); }
-  .badge-btn--muted { background: rgba(239, 68, 68, 0.20); color: var(--status-danger); }
+  .badge-btn--muted { background: rgba(var(--danger-rgb), 0.20); color: var(--status-danger); }
   .badge-btn--hangup { background: rgba(239,68,68,0.85); }
   .badge-btn--hangup:hover { background: var(--status-danger); }
 </style>

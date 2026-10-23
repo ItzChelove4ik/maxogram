@@ -155,7 +155,9 @@
     user-select: none;
     -webkit-user-select: none;
 
-    background: var(--bg-surface);
+    background: var(--bg-topbar);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
     border-bottom: 0.5px solid var(--border-subtle);
     min-height: 44px;
   }
@@ -250,7 +252,7 @@
 
     white-space: nowrap;
     border-radius: 15px;
-    transition: background 0.18s, color 0.18s;
+    transition: background 0.18s, color 0.18s, box-shadow 0.18s;
 
     padding: 0 14px;
     min-height: 32px;
@@ -273,7 +275,11 @@
   .tab.active {
     color: var(--accent-primary);
     font-weight: 600;
-    background: var(--accent-subtle);
+    background: var(--island-bg);
+    border: 1px solid var(--glass-light-highlight);
+    box-shadow: var(--island-shadow), var(--glass-specular);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
   }
 
   .edit-btn {

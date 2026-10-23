@@ -204,7 +204,9 @@
     margin: 0;
     padding: 18px 0 8px;
     gap: 8px;
-    background: var(--bg-surface);
+    background: var(--bg-topbar);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
   }
 
   header h3 {

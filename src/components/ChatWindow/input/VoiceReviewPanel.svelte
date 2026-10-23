@@ -160,7 +160,7 @@
       </div>
       <div class="review-trim-times" style="font-size:10px;display:flex;justify-content:space-between;color:rgba(255,255,255,0.5);margin-top:2px;">
         <span>{formatSeconds(reviewAudioTrimStart)}</span>
-        <span style="color:#248bfe;font-weight:600;">{(reviewAudioTrimEnd - reviewAudioTrimStart).toFixed(1)}s</span>
+        <span style="color:var(--accent-primary);font-weight:600;">{(reviewAudioTrimEnd - reviewAudioTrimStart).toFixed(1)}s</span>
         <span>{formatSeconds(reviewAudioTrimEnd)}</span>
       </div>
     </div>
@@ -234,12 +234,12 @@
   }
 
   .review-action-btn.trash {
-    background: rgba(239, 68, 68, 0.15);
+    background: rgba(var(--danger-rgb), 0.15);
     color: var(--status-danger);
   }
 
   .review-action-btn.trash:hover {
-    background: rgba(239, 68, 68, 0.3);
+    background: rgba(var(--danger-rgb), 0.3);
   }
 
   .review-action-btn.send {

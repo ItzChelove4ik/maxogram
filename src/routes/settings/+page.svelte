@@ -415,7 +415,11 @@ import { goto } from "$app/navigation";
 
     margin: 16px auto 0;
     padding: 20px 16px;
-    background: var(--bg-surface);
+    background: var(--glass-light-bg);
+    border: 1px solid var(--glass-light-border);
+    box-shadow: var(--glass-specular);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
     border-radius: var(--radius-card);
     max-width: 680px;
   }
@@ -497,8 +501,11 @@ import { goto } from "$app/navigation";
 
   .buttons .group {
 
-    background: var(--bg-surface);
-    background-color: var(--bg-surface);
+    background: var(--glass-light-bg);
+    border: 1px solid var(--glass-light-border);
+    box-shadow: var(--glass-specular);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
     overflow: hidden;
     border-radius: var(--radius-card);
   }
