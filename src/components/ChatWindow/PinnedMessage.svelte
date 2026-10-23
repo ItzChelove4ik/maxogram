@@ -35,14 +35,14 @@
     gap: 10px;
     width: 100%;
     padding: 10px 12px;
-    background: #161722;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--bg-app);
+    border-bottom: 1px solid var(--border-subtle);
     cursor: pointer;
   }
 
   .pin-icon {
     flex: 0 0 auto;
-    font-size: 14px;
+    font-size: 0.8235rem;
     opacity: 0.8;
     padding: 8px;
   }
@@ -53,13 +53,13 @@
   }
 
   .pinned-title {
-    font-size: 11px;
+    font-size: 0.6471rem;
     opacity: 0.6;
     margin-bottom: 2px;
   }
 
   .pinned-text {
-    font-size: 13px;
+    font-size: 0.7647rem;
 
     white-space: nowrap;
     overflow: hidden;
@@ -73,16 +73,16 @@
     border: none;
     background: transparent;
     cursor: pointer;
-    font-size: 13px;
-    color: #ffffff;
+    font-size: 0.7647rem;
+    color: var(--text-primary);
     opacity: 0.9;
     padding: 4px 6px;
     border-radius: 6px;
   }
 
   .unpin-btn:hover {
-    color: #ffffff;
+    color: var(--text-primary);
     opacity: 1;
-    background: rgba(255, 255, 255, 0.12);
+    background: var(--bg-fill);
   }
 </style>

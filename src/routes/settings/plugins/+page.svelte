@@ -23,8 +23,8 @@
 
   $: installedPlugins = Array.from($pluginStore.plugins.values()).sort((a, b) => (a.order || 0) - (b.order || 0));
 
-  $: filteredStorePlugins = storePlugins.filter(p => 
-    p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+  $: filteredStorePlugins = storePlugins.filter(p =>
+    p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     p.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -74,7 +74,7 @@
   async function handleImport() {
     try {
       const path = await open({
-        filters: [{ name: 'Max Plugin', extensions: ['mxp'] }]
+        filters: [{ name: 'Orbit Plugin', extensions: ['mxp'] }]
       });
 
       if (path) {
@@ -129,16 +129,16 @@
 
 <SettingsPageWrapper title="Плагины" {onClose}>
   <div slot="header-extra" class="tabs-container">
-    <button 
-      class="tab-btn" 
-      class:active={activeTab === 'installed'} 
+    <button
+      class="tab-btn"
+      class:active={activeTab === 'installed'}
       on:click={() => activeTab = 'installed'}
     >
       Установленные
     </button>
-    <button 
-      class="tab-btn" 
-      class:active={activeTab === 'store'} 
+    <button
+      class="tab-btn"
+      class:active={activeTab === 'store'}
       on:click={() => activeTab = 'store'}
     >
       Каталог
@@ -167,11 +167,11 @@
       </div>
     {:else}
       <div class="search-container">
-        <input 
-          type="text" 
-          class="search-input" 
-          placeholder="Поиск плагинов..." 
-          bind:value={searchQuery} 
+        <input
+          type="text"
+          class="search-input"
+          placeholder="Поиск плагинов..."
+          bind:value={searchQuery}
         />
       </div>
 
@@ -237,7 +237,7 @@
     border: none;
     color: var(--text-secondary);
     padding: 6px 12px;
-    font-size: 13px;
+    font-size: 0.7647rem;
     font-weight: 500;
     border-radius: 6px;
     cursor: pointer;
@@ -257,9 +257,14 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 16px;
+
     gap: 16px;
     overflow-y: auto;
+
+    padding: 20px 16px 32px;
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto;
   }
 
   .empty-state {
@@ -274,13 +279,13 @@
   }
 
   .empty-title {
-    font-size: 16px;
+    font-size: 0.9412rem;
     font-weight: 600;
     color: var(--text-primary);
   }
 
   .empty-desc {
-    font-size: 14px;
+    font-size: 0.8235rem;
     color: var(--text-secondary);
     line-height: 1.4;
     max-width: 300px;
@@ -290,7 +295,7 @@
     text-align: center;
     padding: 40px;
     color: var(--text-secondary);
-    font-size: 14px;
+    font-size: 0.8235rem;
   }
 
   .plugin-list {
@@ -311,7 +316,7 @@
     color: var(--text-primary);
     border: 1px solid var(--border-card);
     border-radius: 12px;
-    font-size: 15px;
+    font-size: 0.8824rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 150ms ease;
@@ -336,7 +341,7 @@
     border: 1px solid var(--border-card);
     border-radius: 12px;
     color: var(--text-primary);
-    font-size: 15px;
+    font-size: 0.8824rem;
     box-sizing: border-box;
     transition: border-color 150ms ease;
   }
@@ -347,13 +352,15 @@
   }
 
   .store-card {
-    background: var(--bg-surface);
-    border: 1px solid var(--border-card);
-    border-radius: 12px;
-    padding: 10px 12px;
     display: flex;
     flex-direction: column;
     gap: 6px;
+
+    background: var(--bg-surface);
+    border: 0;
+    border-radius: var(--radius-card);
+    padding: 16px;
+    box-shadow: none;
   }
 
   .store-card-header {
@@ -374,18 +381,18 @@
   .plugin-name {
     font-weight: 600;
     color: var(--text-primary);
-    font-size: 15px;
+    font-size: 0.8824rem;
   }
 
   .plugin-author {
     color: var(--text-muted);
-    font-size: 13px;
+    font-size: 0.7647rem;
   }
 
   .badge {
     padding: 2px 7px;
     border-radius: 999px;
-    font-size: 11px;
+    font-size: 0.6471rem;
     font-weight: 500;
   }
 
@@ -395,23 +402,26 @@
   }
 
   .description {
-    color: var(--text-secondary);
-    font-size: 13px;
+
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
-    line-height: 1.35;
+
+
+    font-size: .8824rem;
+    line-height: 1.4;
+    color: var(--text-muted);
   }
 
   .install-store-btn {
     background: var(--accent-primary);
-    color: #fff;
+    color: var(--text-on-accent);
     border: none;
     padding: 6px 14px;
     border-radius: 7px;
     font-weight: 600;
-    font-size: 13px;
+    font-size: 0.7647rem;
     cursor: pointer;
     white-space: nowrap;
     flex-shrink: 0;
@@ -424,18 +434,18 @@
 
   .install-store-btn.rate-limited {
     background: rgba(231, 76, 60, 0.9) !important;
-    border: 1px solid #e74c3c !important;
-    color: #fff !important;
+    border: 1px solid var(--status-danger) !important;
+    color: var(--text-primary) !important;
     cursor: not-allowed;
   }
 
   .rate-limit-banner {
     background: rgba(231, 76, 60, 0.15);
-    border: 1px solid rgba(231, 76, 60, 0.4);
-    color: #e74c3c;
+    border: 1px solid var(--status-danger);
+    color: var(--status-danger);
     padding: 10px 14px;
     border-radius: 8px;
-    font-size: 13px;
+    font-size: 0.7647rem;
     font-weight: 500;
     text-align: center;
   }

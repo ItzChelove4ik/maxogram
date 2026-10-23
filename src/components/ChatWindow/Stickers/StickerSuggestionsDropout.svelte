@@ -46,7 +46,7 @@
     left: 8px;
     right: 8px;
     max-width: 600px;
-    background: #1e2025;
+    background: var(--bg-surface);
     border: none;
     border-radius: 14px;
     padding: 6px 10px 8px;
@@ -77,16 +77,16 @@
   }
 
   .title {
-    font-size: 12px;
+    font-size: 0.7059rem;
     font-weight: 600;
-    color: #8b929e;
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
 
   .count {
-    font-size: 11px;
-    color: #636b77;
+    font-size: 0.6471rem;
+    color: var(--text-muted);
     font-variant-numeric: tabular-nums;
   }
 
@@ -106,7 +106,7 @@
   }
 
   .list::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--text-on-media);
     border-radius: 2px;
   }
 
@@ -125,7 +125,7 @@
 
   .sticker-suggestion-item:hover {
     transform: scale(1.15);
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--bg-hover);
   }
 
   .sticker-suggestion-item:active {

@@ -417,7 +417,7 @@
               cy={circlePx.cy}
               r={circlePx.r}
               fill="none"
-              stroke="#ffffff"
+              stroke="currentColor"
               stroke-width="2"
               class="crop-circle-ring"
             />
@@ -553,7 +553,7 @@
   }
 
   .header-title {
-    font-size: 16px;
+    font-size: 0.9412rem;
     font-weight: 600;
     color: #f0f2f5;
   }
@@ -562,7 +562,7 @@
     background: transparent;
     border: none;
     color: rgba(255, 255, 255, 0.6);
-    font-size: 18px;
+    font-size: 1.059rem;
     cursor: pointer;
     padding: 6px 10px;
     border-radius: 8px;
@@ -571,7 +571,7 @@
 
   .close-btn:hover {
     background: rgba(255, 255, 255, 0.1);
-    color: #fff;
+    color: var(--text-on-media);
   }
 
   .crop-viewport {
@@ -619,7 +619,7 @@
     border-radius: 50%;
     background: rgba(0, 0, 0, 0.75);
     border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #fff;
+    color: var(--text-on-media);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -644,7 +644,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 13px;
+    font-size: 0.7647rem;
     color: rgba(255, 255, 255, 0.7);
   }
 
@@ -652,7 +652,7 @@
     background: rgba(255, 255, 255, 0.1);
     padding: 2px 8px;
     border-radius: 10px;
-    font-size: 12px;
+    font-size: 0.7059rem;
     font-weight: 500;
     color: #4da3ff;
   }
@@ -722,7 +722,7 @@
     align-items: center;
     gap: 12px;
     color: rgba(255, 255, 255, 0.6);
-    font-size: 13px;
+    font-size: 0.7647rem;
   }
 
   .zoom-slider {
@@ -754,7 +754,7 @@
 
   .error-text {
     color: #ff5c5c;
-    font-size: 13px;
+    font-size: 0.7647rem;
     text-align: center;
   }
 
@@ -772,7 +772,7 @@
     gap: 8px;
     padding: 12px 18px;
     border-radius: 12px;
-    font-size: 14px;
+    font-size: 0.8235rem;
     font-weight: 600;
     cursor: pointer;
     border: none;
@@ -794,7 +794,7 @@
 
   .confirm-btn {
     background: #0077ff;
-    color: #ffffff;
+    color: var(--text-on-media);
   }
 
   .confirm-btn:hover {

@@ -798,7 +798,7 @@
     }
 
     .panel-mode-toggle::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.2);
+      background: var(--text-on-media);
       border-radius: 4px;
     }
   }
@@ -822,7 +822,7 @@
     border: none;
     border-radius: 20px;
     color: var(--text-muted);
-    font-size: 14px;
+    font-size: 0.8235rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.15s ease;
@@ -838,13 +838,13 @@
   }
 
   .mode-btn:hover {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.04);
+    color: var(--text-primary);
+    background: var(--bg-hover);
   }
 
   .mode-btn.active,
   :global(.plugin-tab-btn-wrap.active .mode-btn) {
-    color: #fff;
+    color: var(--text-primary);
     background: var(--accent-subtle-hover);
   }
 
@@ -884,19 +884,19 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 1.059rem;
     line-height: 1;
     transition: background-color 0.15s, transform 0.12s;
     flex-shrink: 0;
   }
 
   .emoji-tab-item:hover {
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--bg-hover);
     transform: scale(1.1);
   }
 
   .emoji-tab-item.selected {
-    background: rgba(255, 255, 255, 0.14);
+    background: var(--bg-fill);
   }
 
   .emoji-scroll-area {
@@ -911,7 +911,7 @@
   }
 
   .category-title {
-    font-size: 12px;
+    font-size: 0.7059rem;
     font-weight: 700;
     color: var(--text-muted);
     text-transform: uppercase;
@@ -928,7 +928,7 @@
   .emoji-item {
     background: none;
     border: none;
-    font-size: 22px;
+    font-size: 1.294rem;
     height: 36px;
     border-radius: 8px;
     display: flex;
@@ -939,7 +939,7 @@
   }
 
   .emoji-item:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--bg-hover);
     transform: scale(1.2);
   }
 
@@ -961,7 +961,7 @@
   .search-input-box {
     display: flex;
     align-items: center;
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--bg-hover);
     border-radius: 20px;
     padding: 8px 12px;
     gap: 8px;
@@ -976,13 +976,13 @@
     flex: 1;
     background: transparent;
     border: none;
-    color: #fff;
-    font-size: 13px;
+    color: var(--text-primary);
+    font-size: 0.7647rem;
     outline: none;
   }
 
   .search-input-box input::placeholder {
-    color: #636b77;
+    color: var(--text-muted);
   }
 
   .clear-btn {
@@ -1027,24 +1027,24 @@
   }
 
   .pack-tab-item:hover {
-    background: rgba(255, 255, 255, 0.06);
-    color: #fff;
+    background: var(--bg-hover);
+    color: var(--text-primary);
   }
 
   .pack-tab-item.selected {
-    background: rgba(255, 255, 255, 0.12);
-    color: #fff;
+    background: var(--bg-fill);
+    color: var(--text-primary);
   }
 
   .add-pack-tab {
-    color: #248bfe;
-    background: rgba(36, 139, 254, 0.08);
+    color: var(--accent-primary);
+    background: rgba(var(--accent-rgb), 0.08);
     margin-left: auto;
   }
 
   .add-pack-tab:hover {
-    background: rgba(36, 139, 254, 0.18);
-    color: #fff;
+    background: rgba(var(--accent-rgb), 0.18);
+    color: var(--text-primary);
   }
 
   .tab-pack-img {
@@ -1055,7 +1055,7 @@
   }
 
   .tab-placeholder {
-    font-size: 13px;
+    font-size: 0.7647rem;
     font-weight: 700;
     color: var(--text-muted);
   }
@@ -1072,9 +1072,9 @@
   }
 
   .group-title {
-    font-size: 11px;
+    font-size: 0.6471rem;
     font-weight: 700;
-    color: #636b77;
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.8px;
     margin: 8px 4px 6px;
@@ -1112,7 +1112,7 @@
   }
 
   .sticker-cell:hover {
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--bg-hover);
     transform: scale(1.05);
   }
 
@@ -1129,14 +1129,14 @@
     gap: 10px;
     padding: 40px 0;
     color: var(--text-muted);
-    font-size: 13px;
+    font-size: 0.7647rem;
   }
 
   .spinner {
     width: 24px;
     height: 24px;
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    border-top-color: #248bfe;
+    border: 2px solid var(--border-subtle);
+    border-top-color: var(--accent-primary);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
   }
@@ -1184,6 +1184,6 @@
   }
 
   .peek-tag {
-    font-size: 16px;
+    font-size: 0.9412rem;
   }
 </style>

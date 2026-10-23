@@ -77,12 +77,14 @@
     <div class="hint">Подсказка: {challenge.hint}</div>
   {/if}
   <div class="form">
-    <div class="error">{error}</div>
+    <div class="error" role="alert">{error}</div>
     <div class="input-wrapper">
       <input
         type={showPassword ? "text" : "password"}
         bind:value={password}
         placeholder="Пароль"
+        aria-label="Пароль двухфакторной аутентификации"
+        autocomplete="current-password"
         on:keydown={handleKeydown}
         required
       />
@@ -90,7 +92,8 @@
         type="button"
         class="toggle-visibility"
         on:click={() => (showPassword = !showPassword)}
-        aria-label="Показать пароль"
+        aria-label={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
+        aria-pressed={showPassword}
       >
         {#if showPassword}
           <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
@@ -109,33 +112,43 @@
 </div>
 
 <style>
+
   .auth-page {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+
     text-align: center;
-    color: #ddd;
+    color: var(--text-primary);
     max-width: min(340px, 90%);
     margin: 0 auto;
+
+    min-height: 100%;
+    height: 100%;
+    overflow-y: auto;
+    padding: 32px 24px calc(32px + var(--safe-area-bottom));
+    background: var(--bg-app);
   }
 
   .auth-page h1 {
-    margin: 0;
-    font-size: 22px;
-    font-weight: 500;
+
+
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -.03em;
+    margin: 16px 0 8px;
   }
 
   .auth-page p {
     margin: 10px 0 6px 0;
-    font-size: 14px;
-    color: #8e8e93;
+    font-size: 0.8235rem;
+    color: var(--text-muted);
   }
 
   .hint {
-    font-size: 13px;
-    color: #4a90e2;
+    font-size: 0.7647rem;
+    color: var(--accent-primary);
     margin-bottom: 8px;
     word-break: break-word;
   }
@@ -143,8 +156,13 @@
   .form {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+
+
+
+    max-width: 360px;
     width: 100%;
+    gap: 12px;
+    margin-top: 24px;
   }
 
   .input-wrapper {
@@ -158,10 +176,10 @@
     width: 100%;
     padding: 0.75rem 2.5rem 0.75rem 0.75rem;
     border-radius: 8px;
-    border: 1px solid #333;
+    border: 1px solid var(--border-subtle);
     font-size: 1rem;
-    background-color: #26262e;
-    color: #ccc;
+    background-color: var(--bg-surface);
+    color: var(--text-secondary);
     outline: none;
     box-sizing: border-box;
   }
@@ -171,7 +189,7 @@
     right: 10px;
     background: transparent;
     border: none;
-    color: #8e8e93;
+    color: var(--text-muted);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -184,8 +202,8 @@
   }
 
   .error {
-    color: #ff5555;
-    font-size: 14px;
+    color: var(--status-danger);
+    font-size: 0.8235rem;
     min-height: 20px;
     word-break: break-word;
   }

@@ -227,11 +227,11 @@
     min-width: 0;
     min-height: 34px;
     padding: 6px 10px;
-    background: rgba(255, 255, 255, 0.12);
+    background: var(--bg-fill);
     border: none;
     border-radius: 8px;
-    color: #ffffff;
-    font-size: 13px;
+    color: var(--text-primary);
+    font-size: 0.7647rem;
     font-weight: 500;
     cursor: pointer;
     display: flex;
@@ -244,11 +244,11 @@
   }
 
   .inline-btn:hover {
-    background: rgba(255, 255, 255, 0.15);
+    background: var(--bg-fill);
   }
 
   .inline-btn:active {
-    background: rgba(255, 255, 255, 0.22);
+    background: var(--bg-fill);
     transform: scale(0.98);
   }
 
@@ -271,8 +271,8 @@
   .btn-spinner {
     width: 14px;
     height: 14px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-top-color: #ffffff;
+    border: 2px solid var(--border-subtle);
+    border-top-color: var(--border-subtle);
     border-radius: 50%;
     animation: btn-spin 0.6s linear infinite;
     display: inline-block;

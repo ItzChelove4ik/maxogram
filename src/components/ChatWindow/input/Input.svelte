@@ -1924,7 +1924,7 @@
   }
 
   .input-container:focus-within {
-    background-color: #23262d;
+    background-color: var(--bg-surface);
   }
 
   .textarea-wrapper {
@@ -1942,7 +1942,7 @@
     right: 0;
     bottom: 0;
     padding: 11px 14px;
-    font-size: 15px;
+    font-size: 0.8824rem;
     line-height: 22px;
     font-family: inherit;
     letter-spacing: normal;
@@ -1960,7 +1960,7 @@
 
   .backdrop-span.bold-text {
     font-weight: 700;
-    color: #ffffff;
+    color: var(--text-primary);
   }
 
   .backdrop-span.italic-text {
@@ -1981,18 +1981,18 @@
   }
 
   .backdrop-span.code-text {
-    background: rgba(255, 255, 255, 0.12);
-    color: #f59e0b;
+    background: var(--bg-fill);
+    color: var(--status-warning);
     border-radius: 3px;
   }
 
   .backdrop-span.quote-text {
-    background: rgba(80, 160, 255, 0.15);
-    color: #7cb8ff;
+    background: rgba(var(--accent-rgb), 0.15);
+    color: var(--accent-primary);
   }
 
   .backdrop-span.link-text {
-    color: #50b0f0;
+    color: var(--accent-primary);
     text-decoration: underline;
     text-underline-offset: 3px;
   }
@@ -2007,13 +2007,13 @@
     box-sizing: border-box;
     flex-grow: 1;
     background-color: transparent;
-    color: var(--text-secondary);
+
     border: none;
     resize: none;
     overflow-y: auto;
     min-height: 44px;
     max-height: 120px;
-    font-size: 15px;
+
     line-height: 22px;
     letter-spacing: normal;
     white-space: pre-wrap;
@@ -2024,16 +2024,19 @@
     outline: none;
     font-family: inherit;
     width: 0;
+
+    font-size: 1rem;
+    color: var(--text-primary);
   }
 
   textarea.has-formatting {
     color: transparent !important;
-    caret-color: var(--text-color, #ffffff) !important;
+    caret-color: var(--text-color, var(--text-primary)) !important;
   }
 
   textarea.has-formatting::selection {
-    background: rgba(59, 130, 246, 0.4);
-    color: #ffffff !important;
+    background: rgba(var(--accent-rgb), 0.4);
+    color: var(--text-primary) !important;
   }
 
   textarea::placeholder {
@@ -2056,8 +2059,8 @@
   }
 
   .button:hover {
-    color: #fff;
-    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-primary);
+    background: var(--bg-hover);
   }
 
   .button:active {
@@ -2070,12 +2073,14 @@
   }
 
   .send-button {
-    color: var(--accent-primary);
-    background: var(--accent-subtle);
+
+
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
   }
 
   .send-button:hover {
-    color: #fff;
+    color: var(--text-on-accent);
     background: var(--accent-primary);
   }
 
@@ -2083,8 +2088,7 @@
     background: none;
     border: none;
     cursor: pointer;
-    width: 38px;
-    height: 38px;
+
     margin-right: 5px;
     margin-bottom: 5px;
     display: flex;
@@ -2094,6 +2098,9 @@
     border-radius: 50%;
     transition: all 0.18s ease;
     flex-shrink: 0;
+
+    width: 44px;
+    height: 44px;
   }
 
   .emoji-btn img {
@@ -2103,7 +2110,7 @@
 
   .emoji-btn:hover {
     opacity: 1;
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--bg-hover);
   }
 
   .emoji-btn.active {
@@ -2117,8 +2124,7 @@
     border: none;
     cursor: pointer;
     padding: 0;
-    width: 38px;
-    height: 38px;
+
     margin-right: 2px;
     margin-bottom: 5px;
     display: flex;
@@ -2129,12 +2135,15 @@
     border-radius: 50%;
     flex-shrink: 0;
     transition: all 0.18s ease;
+
+    width: 44px;
+    height: 44px;
   }
 
   .bot-cmd-btn:hover {
     opacity: 1;
-    color: #fff;
-    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+    background: var(--bg-hover);
   }
 
   .bot-cmd-btn.active {
@@ -2145,7 +2154,7 @@
   }
 
   .slash-icon {
-    font-size: 19px;
+    font-size: 1.118rem;
     font-weight: 600;
     line-height: 1;
     display: flex;

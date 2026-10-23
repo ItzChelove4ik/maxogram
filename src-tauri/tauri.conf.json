@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "MAX",
+  "productName": "Orbit",
   "version": "0.1.7",
   "identifier": "org.meowkie.max",
   "build": {
@@ -13,7 +13,7 @@
   "app": {
     "windows": [
       {
-        "title": "Max",
+        "title": "Orbit",
         "width": 800,
         "height": 600,
         "incognito": false

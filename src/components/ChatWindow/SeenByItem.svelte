@@ -61,7 +61,7 @@
   }
 
   .seen-by-item:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--bg-hover);
   }
 
   .avatar-wrap {
@@ -77,24 +77,24 @@
   }
 
   .user-name {
-    font-size: 14px;
+    font-size: 0.8235rem;
     font-weight: 500;
-    color: #edf0f5;
+    color: var(--text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
   .user-read-time {
-    font-size: 12px;
-    color: #8b98a5;
+    font-size: 0.7059rem;
+    color: var(--text-muted);
   }
 
   .reaction-badge {
     flex-shrink: 0;
-    font-size: 18px;
+    font-size: 1.059rem;
     padding: 2px 6px;
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--bg-hover);
     border-radius: 8px;
     display: flex;
     align-items: center;

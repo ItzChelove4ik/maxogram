@@ -269,9 +269,9 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: #3b82f6;
+    background: var(--accent-primary);
     border: none;
-    color: white;
+    color: var(--text-on-accent);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -281,7 +281,7 @@
   }
 
   .voice-play-btn:hover {
-    background: #2563eb;
+    background: var(--accent-primary);
     transform: scale(1.05);
   }
 
@@ -315,24 +315,24 @@
   }
 
   .svg-bar {
-    fill: rgba(255, 255, 255, 0.35);
+    fill: var(--text-primary);
     transition: fill 0.1s;
   }
 
   .is-me .svg-bar {
-    fill: rgba(255, 255, 255, 0.45);
+    fill: var(--text-primary);
   }
 
   .svg-bar.played {
-    fill: #38bdf8;
+    fill: var(--accent-primary);
   }
 
   .voice-meta {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.6471rem;
+    color: var(--text-primary);
     min-height: 20px;
   }
 
@@ -343,28 +343,28 @@
   }
 
   .voice-btn {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--bg-fill);
     border: none;
-    color: rgba(255, 255, 255, 0.85);
+    color: var(--text-primary);
     border-radius: 12px;
     padding: 2px 6px;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    font-size: 11px;
+    font-size: 0.6471rem;
     transition: background 0.15s, transform 0.1s;
   }
 
   .voice-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--bg-fill);
   }
 
   .mini-spinner {
     width: 12px;
     height: 12px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-top-color: #38bdf8;
+    border: 2px solid var(--border-subtle);
+    border-top-color: var(--accent-primary);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
   }

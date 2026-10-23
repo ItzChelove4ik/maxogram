@@ -169,8 +169,8 @@
     z-index: 4000;
     max-width: 290px;
     min-width: 220px;
-    background: #1c1e2a;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
     border-radius: 12px;
     box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6), 0 2px 10px rgba(0, 0, 0, 0.3);
     padding: 8px 0 6px;
@@ -195,21 +195,21 @@
   }
 
   .url-scroll-container::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--text-on-media);
     border-radius: 2px;
   }
 
   .url-text {
-    font-size: 12.5px;
+    font-size: 0.7353rem;
     line-height: 18px;
-    color: #60a5fa;
+    color: var(--accent-primary);
     user-select: text;
     display: inline-block;
   }
 
   .divider {
     height: 1px;
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--bg-hover);
     margin: 4px 0 2px;
   }
 
@@ -226,23 +226,23 @@
     padding: 8px 12px;
     border: none;
     background: transparent;
-    color: #ffffff;
-    font-size: 13px;
+    color: var(--text-primary);
+    font-size: 0.7647rem;
     cursor: pointer;
     text-align: left;
     transition: background 0.12s ease;
   }
 
   .action-btn:hover {
-    background: rgba(255, 255, 255, 0.09);
+    background: var(--bg-hover);
   }
 
   .action-btn:active {
-    background: rgba(255, 255, 255, 0.15);
+    background: var(--bg-fill);
   }
 
   .action-btn.is-copied {
-    color: #4ade80;
+    color: var(--status-success);
   }
 
   .btn-icon {
@@ -251,12 +251,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--text-primary);
     flex-shrink: 0;
   }
 
   .action-btn.is-copied .btn-icon {
-    color: #4ade80;
+    color: var(--status-success);
   }
 
   .btn-label {

@@ -1,5 +1,6 @@
 <script>
   import '../app.css';
+  import { initAppearance } from '$lib/stores/appearance.js';
 
   import { onBackButtonPress } from "@tauri-apps/api/app";
   import { listen } from "@tauri-apps/api/event";
@@ -58,6 +59,8 @@
     },
   });
   let cleanupDeepLink = null;
+  /** @type {(() => void) | null} */
+  let cleanupAppearance = null;
   let unlistenBackButton = null;
   let unlistenCallAction = null;
   let handleKeydown = null;
@@ -65,6 +68,7 @@
   setContext("onBack", onBack);
 
   onMount(async () => {
+    cleanupAppearance = initAppearance();
     await initProxyConfig();
     cleanupDeepLink = await initDeepLink();
 
@@ -166,6 +170,7 @@
     if (unlistenBackButton) unlistenBackButton();
     if (unlistenCallAction) unlistenCallAction();
     if (cleanupDeepLink) cleanupDeepLink();
+    if (cleanupAppearance) cleanupAppearance();
     $API.unlisten();
   });
 

@@ -202,15 +202,15 @@
   }
 
   .modal {
-    background: #252525;
+    background: var(--bg-surface);
     width: 90%;
     max-width: 350px;
     border-radius: 14px;
     display: flex;
     flex-direction: column;
-    color: #fff;
+    color: var(--text-primary);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-    border: 1px solid #333;
+    border: 1px solid var(--border-subtle);
   }
 
   .tabs {
@@ -222,23 +222,23 @@
 
   .tabs button {
     flex: 1;
-    background: #1a1a1a;
+    background: var(--bg-app);
     border: none;
-    color: #aaa;
+    color: var(--text-muted);
     padding: 8px 6px;
     border-radius: 12px;
     cursor: pointer;
   }
 
   .tabs button.active {
-    background: #007afd;
-    color: white;
-    border-color: #007afd;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
+    border-color: var(--accent-primary);
   }
 
   .header {
     padding: 15px 20px;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid var(--border-subtle);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -246,22 +246,22 @@
 
   .header h3 {
     margin: 0;
-    font-size: 17px;
+    font-size: 1rem;
     font-weight: 600;
   }
 
   .close-btn {
     background: none;
     border: none;
-    color: #888;
-    font-size: 24px;
+    color: var(--text-muted);
+    font-size: 1.412rem;
     cursor: pointer;
     padding: 0;
     line-height: 1;
   }
 
   .close-btn:hover {
-    color: #fff;
+    color: var(--text-primary);
   }
 
   .content {
@@ -274,23 +274,23 @@
   .input-group label {
     display: block;
     margin-bottom: 8px;
-    color: #aaa;
-    font-size: 13px;
+    color: var(--text-muted);
+    font-size: 0.7647rem;
     font-weight: 500;
   }
 
   .input-wrapper {
-    background: #1a1a1a;
-    border: 1px solid #444;
+    background: var(--bg-app);
+    border: 1px solid var(--border-subtle);
     border-radius: 8px;
     transition: 0.2s;
   }
   .input-wrapper:focus-within {
-    border-color: #007afd;
-    background: #151515;
+    border-color: var(--accent-primary);
+    background: var(--bg-app);
   }
   .input-wrapper.has-error {
-    border-color: #ff4b4b;
+    border-color: var(--status-danger);
   }
 
   input {
@@ -298,29 +298,29 @@
     padding: 10px 12px;
     background: transparent;
     border: none;
-    color: #fff;
-    font-size: 15px;
+    color: var(--text-primary);
+    font-size: 0.8824rem;
     outline: none;
   }
   input::placeholder {
-    color: #555;
+    color: var(--text-muted);
   }
 
   .error-msg {
     display: block;
-    color: #ff4b4b;
-    font-size: 12px;
+    color: var(--status-danger);
+    font-size: 0.7059rem;
     margin-top: 5px;
     padding-left: 2px;
   }
 
   .footer {
     padding: 15px 20px;
-    border-top: 1px solid #333;
+    border-top: 1px solid var(--border-subtle);
     display: flex;
     justify-content: flex-end;
     gap: 10px;
-    background: #222;
+    background: var(--bg-surface);
     border-radius: 0 0 14px 14px;
   }
 
@@ -330,23 +330,23 @@
     border: none;
     cursor: pointer;
     font-weight: 500;
-    font-size: 14px;
+    font-size: 0.8235rem;
     transition: 0.2s;
   }
   .btn.cancel {
     background: transparent;
-    color: #007afd;
+    color: var(--accent-primary);
   }
   .btn.cancel:hover {
-    background: rgba(0, 122, 253, 0.1);
+    background: rgba(var(--accent-rgb), 0.1);
   }
 
   .btn.save {
-    background: #007afd;
-    color: #fff;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
   }
   .btn.save:hover {
-    background: #006ce0;
+    background: var(--accent-primary);
   }
   .btn.save:disabled {
     opacity: 0.5;

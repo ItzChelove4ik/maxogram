@@ -136,7 +136,7 @@
         class="stego-debug-dot"
         class:stego-active={Boolean(safeAvatarUid && !safeVideoFailed)}
         class:stego-missing={Boolean(safeAvatarUid && safeVideoFailed)}
-        title={safeAvatarUid ? `Max+ Avatar: ID=${safeAvatarUid}, Target=${targetEntityId}` : `Static Avatar: Target=${targetEntityId}`}
+        title={safeAvatarUid ? `Orbit Avatar: ID=${safeAvatarUid}, Target=${targetEntityId}` : `Static Avatar: Target=${targetEntityId}`}
       >
         {#if safeAvatarUid}
           <span class="stego-debug-text">{safeAvatarUid.slice(0, 4)}</span>
@@ -219,7 +219,7 @@
     min-width: 8px;
     min-height: 8px;
     border-radius: 50%;
-    background: #22c55e;
+    background: var(--status-success);
     border: 2px solid var(--bg-color, #18181b);
     z-index: 4;
   }
@@ -243,13 +243,13 @@
   }
 
   .stego-debug-dot.stego-active {
-    border-color: #22c55e;
-    color: #4ade80;
+    border-color: var(--status-success);
+    color: var(--status-success);
     background: rgba(20, 83, 45, 0.85);
   }
 
   .stego-debug-dot.stego-missing {
-    border-color: #ef4444;
+    border-color: var(--status-danger);
     color: #fca5a5;
     background: rgba(127, 29, 29, 0.85);
   }

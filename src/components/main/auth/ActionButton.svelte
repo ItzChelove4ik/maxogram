@@ -46,6 +46,8 @@
 <button
   class="animated-panel"
   class:clicked={clicked}
+  disabled={clicked}
+  aria-busy={clicked}
   doing-stuff={doingStuff}
   on:click={click}>{ text }</button>
 
@@ -53,16 +55,14 @@
   button {
     padding: 0.75rem;
     border-radius: 8px;
-    border: 1px solid #333;
+    border: 1px solid var(--border-subtle);
     font-size: 1rem;
-    background-color: #26262e;
-    color: #ccc;
-    outline: none;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
     transition: opacity 0.5s;
   }
 
   button {
-    color: white;
     border: none;
     cursor: pointer;
   }

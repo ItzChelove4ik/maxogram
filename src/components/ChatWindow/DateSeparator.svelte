@@ -28,15 +28,15 @@
   .date-separator {
     text-align: center;
     margin: 8px 0 16px 0;
-    color: #aaa;
+    color: var(--text-muted);
     position: relative;
   }
 
   .date-separator a {
     padding: 4px 16px;
     border-radius: 100px;
-    background-color: #fff2;
-    font-size: 13px;
+    background-color: var(--bg-fill);
+    font-size: 0.7647rem;
     font-weight: 500;
   }
 </style>

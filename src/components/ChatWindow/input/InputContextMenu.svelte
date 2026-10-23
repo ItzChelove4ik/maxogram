@@ -687,8 +687,8 @@
     width: 216px;
     max-height: calc(100vh - 24px);
     overflow-y: auto;
-    background: #1c1e2a;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
     border-radius: 14px;
     box-shadow: 0 12px 36px rgba(0, 0, 0, 0.6), 0 2px 10px rgba(0, 0, 0, 0.3);
     padding: 6px 0;
@@ -699,13 +699,13 @@
     align-items: center;
     gap: 8px;
     padding: 6px 10px 8px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid var(--border-subtle);
   }
 
   .btn-back {
     background: transparent;
     border: none;
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--text-primary);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -714,9 +714,9 @@
   }
 
   .header-title {
-    font-size: 13px;
+    font-size: 0.7647rem;
     font-weight: 600;
-    color: #fff;
+    color: var(--text-primary);
   }
 
   .action-row {
@@ -729,23 +729,23 @@
     box-sizing: border-box;
     border: none;
     background: transparent;
-    color: #ffffff;
-    font-size: 13.5px;
+    color: var(--text-primary);
+    font-size: 0.7941rem;
     cursor: pointer;
     text-align: left;
     transition: background 0.12s ease;
   }
 
   .action-row:hover {
-    background: rgba(255, 255, 255, 0.09);
+    background: var(--bg-hover);
   }
 
   .action-row:active {
-    background: rgba(255, 255, 255, 0.15);
+    background: var(--bg-fill);
   }
 
   .action-row.is-active {
-    color: #a78bfa;
+    color: var(--accent-primary);
   }
 
   .action-row.format-menu-trigger {
@@ -759,7 +759,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--text-primary);
     flex-shrink: 0;
   }
 
@@ -798,41 +798,41 @@
 
   .code-label {
     font-family: ui-monospace, SFMono-Regular, monospace;
-    font-size: 12.5px;
+    font-size: 0.7353rem;
   }
 
   .action-shortcut {
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.6471rem;
+    color: var(--text-primary);
     margin-left: auto;
     flex-shrink: 0;
   }
 
   .action-arrow {
     margin-left: auto;
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--text-primary);
     display: flex;
     align-items: center;
   }
 
   .action-check {
-    color: #a78bfa;
+    color: var(--accent-primary);
     margin-left: 6px;
     display: flex;
     align-items: center;
   }
 
   .clear-row {
-    color: #f87171;
+    color: var(--status-danger);
   }
 
   .clear-row .action-icon {
-    color: #f87171;
+    color: var(--status-danger);
   }
 
   .divider {
     height: 1px;
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--bg-hover);
     margin: 4px 0;
   }
 
@@ -844,17 +844,17 @@
   }
 
   .link-modal-title {
-    font-size: 13px;
+    font-size: 0.7647rem;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--text-primary);
   }
 
   .link-text-input {
-    background: rgba(0, 0, 0, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: var(--bg-input);
+    border: 1px solid var(--border-subtle);
     border-radius: 8px;
-    color: #ffffff;
-    font-size: 13px;
+    color: var(--text-primary);
+    font-size: 0.7647rem;
     padding: 7px 10px;
     outline: none;
     width: 100%;
@@ -862,7 +862,7 @@
   }
 
   .link-text-input:focus {
-    border-color: #7b4cd6;
+    border-color: var(--accent-primary);
   }
 
   .link-modal-buttons {
@@ -875,27 +875,27 @@
     border: none;
     border-radius: 6px;
     padding: 6px 12px;
-    font-size: 12.5px;
+    font-size: 0.7353rem;
     cursor: pointer;
     transition: background 0.12s;
   }
 
   .btn-dialog.cancel {
-    background: rgba(255, 255, 255, 0.08);
-    color: #ccc;
+    background: var(--bg-hover);
+    color: var(--text-secondary);
   }
 
   .btn-dialog.cancel:hover {
-    background: rgba(255, 255, 255, 0.14);
+    background: var(--bg-fill);
   }
 
   .btn-dialog.confirm {
-    background: #7b4cd6;
-    color: #fff;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
     font-weight: 600;
   }
 
   .btn-dialog.confirm:hover {
-    background: #8e62e3;
+    background: var(--accent-primary);
   }
 </style>

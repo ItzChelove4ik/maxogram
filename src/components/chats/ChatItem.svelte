@@ -169,7 +169,7 @@
       </span>
       <div class="meta">
         {#if muted}
-          <svg class="muted-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#8e8e93" stroke-width="2">
+          <svg class="muted-icon" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
             <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
             <line x1="2" y1="2" x2="22" y2="22"></line>
@@ -207,29 +207,37 @@
 </div>
 
 <style>
+
   .chat-item {
     display: flex;
-    padding: 8px 10px;
+
     cursor: pointer;
     transition: background-color 0.2s;
-    gap: 12px;
+
     user-select: none;
     position: relative;
+
+    padding: 8px 16px;
+    min-height: 76px;
+    gap: 12px;
+    background: var(--bg-surface);
   }
 
-  .chat-item:hover {
-    background-color: rgba(255, 255, 255, 0.03);
+  .chat-item:active {
+    background-color: var(--bg-hover);
   }
 
   .chat-item.selected {
-    background-color: rgba(59, 130, 246, 0.15);
+    background-color: rgba(var(--accent-rgb), 0.15);
+
+    background: var(--accent-subtle);
   }
 
   /*.online-badge {
         position: absolute; bottom: 2px; right: 2px;
         width: 12px; height: 12px;
         background-color: var(--status-success);
-        border: 2px solid #1e1e1e;
+        border: 2px solid var(--border-subtle);
         border-radius: 50%;
         z-index: 1;
     }*/
@@ -250,12 +258,14 @@
   }
 
   .name {
-    font-weight: 500;
-    font-size: 16px;
     color: var(--text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1.25;
   }
 
   .meta {
@@ -266,51 +276,64 @@
   }
 
   .time {
-    font-size: 12px;
-    color: #888;
+
+    font-size: .7647rem;
+    color: var(--text-muted);
   }
 
   .status-icon {
-    font-size: 12px;
-    color: #888;
+    font-size: 0.7059rem;
+    color: var(--text-muted);
   }
 
   .status-icon.read {
-    color: var(--status-success);
+    color: var(--read-tick);
   }
 
   .preview {
     margin: 0;
-    font-size: 14px;
-    color: #aaa;
+
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     flex: 1;
+
+    font-size: .9412rem;
+    line-height: 1.3;
+    color: var(--text-muted);
   }
 
   .you-prefix {
-    color: #fff;
+    color: var(--text-primary);
   }
 
   .badge {
     background-color: var(--badge-unread);
-    color: white;
-    font-size: 11px;
-    font-weight: bold;
-    width: 20px;
-    height: 20px;
-    border-radius: 16px;
+
+
+
+    border-radius: 12px;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-left: 8px;
     flex-shrink: 0;
+
+    width: auto;
+    min-width: 22px;
+    padding: 0 7px;
+    height: 22px;
+    font-size: .7647rem;
+    font-weight: 600;
+    color: var(--text-on-accent);
   }
 
   .badge.muted {
-    background-color: #4b4b56;
-    color: #bbb;
+    background-color: var(--bg-surface-2);
+
+
+    background: var(--bg-fill);
+    color: var(--text-secondary);
   }
 
   .bot-badge-icon {
@@ -338,5 +361,13 @@
 
   .avatar-click-area:hover {
     opacity: 0.88;
+  }
+  .chat-item::after {
+    content: "";
+    position: absolute;
+    left: 82px;
+    right: 0;
+    bottom: 0;
+    border-bottom: 0.5px solid var(--border-card);
   }
 </style>

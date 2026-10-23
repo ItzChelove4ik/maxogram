@@ -276,18 +276,23 @@
     font-size: 0.75rem;
     padding: 4px 10px;
     border-radius: 999px;
-    background: #2c2c35;
-    color: #888;
+    background: var(--bg-surface-2);
+    color: var(--text-muted);
   }
 
   .content {
     flex: 1;
     overflow-y: auto;
-    padding: 16px;
+
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     gap: 16px;
+
+    padding: 20px 16px 32px;
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto;
   }
 
   .content::-webkit-scrollbar {
@@ -295,14 +300,14 @@
   }
 
   .content::-webkit-scrollbar-thumb {
-    background: #333;
+    background: var(--text-on-media);
     border-radius: 999px;
   }
 
   .avatar-section {
-    background: #26262e;
+    background: var(--bg-surface);
     border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-subtle);
     padding: 18px 16px;
     display: flex;
     flex-direction: column;
@@ -327,9 +332,9 @@
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    border: 2px solid #26262e;
-    background: #0ea5e9;
-    color: #ffffff;
+    border: 2px solid var(--border-subtle);
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -339,7 +344,7 @@
   }
 
   .avatar-safe-badge:hover {
-    background: #38bdf8;
+    background: var(--accent-primary);
     transform: scale(1.08);
   }
 
@@ -354,9 +359,9 @@
     width: 30px;
     height: 30px;
     border-radius: 50%;
-    border: 2px solid #26262e;
-    background: #3390ec;
-    color: #ffffff;
+    border: 2px solid var(--border-subtle);
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -366,7 +371,7 @@
   }
 
   .avatar-camera-badge:hover {
-    background: #4ea4f6;
+    background: var(--accent-primary);
   }
 
   .avatar-camera-badge:disabled {
@@ -401,26 +406,26 @@
   }
 
   .avatar-action-btn.primary {
-    background: rgba(51, 144, 236, 0.18);
-    color: #4ea4f6;
+    background: rgba(var(--accent-rgb), 0.18);
+    color: var(--accent-primary);
   }
 
   .avatar-action-btn.primary:hover {
-    background: rgba(51, 144, 236, 0.28);
+    background: rgba(var(--accent-rgb), 0.28);
   }
 
   .avatar-action-btn.safe {
-    background: rgba(14, 165, 233, 0.18);
-    color: #38bdf8;
+    background: rgba(var(--accent-rgb), 0.18);
+    color: var(--accent-primary);
   }
 
   .avatar-action-btn.safe:hover {
-    background: rgba(14, 165, 233, 0.28);
+    background: rgba(var(--accent-rgb), 0.28);
   }
 
   .avatar-action-btn.danger {
     background: rgba(255, 89, 90, 0.15);
-    color: #ff595a;
+    color: var(--status-danger);
   }
 
   .avatar-action-btn.danger:hover {
@@ -428,13 +433,15 @@
   }
 
   .profile-card {
-    background: #26262e;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 16px;
     display: flex;
     flex-direction: column;
     gap: 16px;
+
+    background: var(--bg-surface);
+    border: 0;
+    border-radius: var(--radius-card);
+    padding: 16px;
+    box-shadow: none;
   }
 
   .field {
@@ -445,7 +452,7 @@
 
   label {
     font-size: 0.78rem;
-    color: #7b7b88;
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
@@ -453,23 +460,22 @@
   input,
   textarea {
     width: 100%;
-    background: #1f1f26;
+    background: var(--bg-surface);
     border: 1px solid transparent;
     border-radius: 12px;
-    color: white;
+    color: var(--text-primary);
     padding: 14px;
     box-sizing: border-box;
     font-size: 0.95rem;
     outline: none;
-    transition:
-      border-color 0.15s,
+    transition: border-color 0.15s,
       background 0.15s;
   }
 
   input:focus,
   textarea:focus {
-    border-color: #3390ec;
-    background: #20202a;
+    border-color: var(--accent-primary);
+    background: var(--bg-surface);
   }
 
   textarea {
@@ -481,8 +487,8 @@
   .notice-pill {
     align-self: center;
     background: rgba(30, 30, 38, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #ffffff;
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
     font-size: 0.85rem;
     padding: 8px 16px;
     border-radius: 999px;
@@ -492,8 +498,8 @@
     flex-shrink: 0;
     display: flex;
     padding: 14px 16px;
-    background: #212126;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-subtle);
   }
 
   .save-btn {
@@ -504,16 +510,15 @@
     font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
-    background: #3390ec;
-    color: white;
-    transition:
-      transform 0.12s,
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
+    transition: transform 0.12s,
       opacity 0.15s,
       background 0.15s;
   }
 
   .save-btn:hover {
-    background: #2b7ecf;
+    background: var(--accent-primary);
   }
 
   .save-btn:active {

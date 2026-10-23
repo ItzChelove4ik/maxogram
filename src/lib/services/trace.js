@@ -473,7 +473,7 @@ export async function startTrace() {
 function formatReadableTimeline(events, sysInfo, startTime, stopTime) {
   const lines = [];
   lines.push("================================================================================");
-  lines.push("Max+ Client Trace Log");
+  lines.push("Orbit Client Trace Log");
   lines.push(`Start time:  ${new Date(startTime).toISOString()}`);
   lines.push(`Stop time:   ${new Date(stopTime).toISOString()}`);
   lines.push(`Duration:    ${Math.round((stopTime - startTime) / 1000)}s`);

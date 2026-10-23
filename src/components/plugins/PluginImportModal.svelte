@@ -53,7 +53,7 @@
 
         {#if $pluginImportModal.verificationStatus === 'verified'}
           <div class="status-banner verified">
-            ✓ Проверен командой Max+
+            ✓ Проверен командой Orbit
           </div>
         {:else if $pluginImportModal.verificationStatus === 'unverified_version'}
           <div class="status-banner warning">
@@ -61,7 +61,7 @@
           </div>
         {:else}
           <div class="status-banner danger">
-            ⚠ Плагин не найден в каталоге Max+. Устанавливайте только из доверенных источников.
+            ⚠ Плагин не найден в каталоге Orbit. Устанавливайте только из доверенных источников.
           </div>
         {/if}
 

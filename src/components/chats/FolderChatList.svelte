@@ -106,7 +106,7 @@
 
   .state {
     text-align: center;
-    color: #777;
+    color: var(--text-muted);
     margin-top: 50px;
   }
 

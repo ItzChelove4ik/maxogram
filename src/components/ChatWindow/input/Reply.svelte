@@ -36,7 +36,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    background: #17191d;
+    background: var(--bg-app);
     border-radius: 10px;
     padding: 8px 10px;
     margin: 0 8px 6px 8px;
@@ -46,7 +46,7 @@
   .reply-line {
     width: 3px;
     height: 100%;
-    background: #4a90e2;
+    background: var(--accent-primary);
     border-radius: 2px;
     flex-shrink: 0;
   }
@@ -58,15 +58,15 @@
   }
 
   .reply-author {
-    font-size: 13px;
-    color: #4a90e2;
+    font-size: 0.7647rem;
+    color: var(--accent-primary);
     font-weight: 500;
   }
 
   .reply-text {
     margin-top: 2px;
-    font-size: 14px;
-    color: #ccc;
+    font-size: 0.8235rem;
+    color: var(--text-secondary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -75,9 +75,9 @@
   .reply-close {
     background: none;
     border: none;
-    color: #aaa;
+    color: var(--text-muted);
     cursor: pointer;
-    font-size: 18px;
+    font-size: 1.059rem;
     opacity: 0.6;
     transition: 0.2s;
   }

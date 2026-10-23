@@ -95,19 +95,23 @@
       currentUser.set(undefined);
       goto("/");
     } else {
-      return alert("Это конфиг для более новой версии Max+!")
+      return alert("Это конфиг для более новой версии Orbit!")
     }
   }
 </script>
 
 <div class="auth-page">
-  <h1>Вход</h1>
+  <img class="auth-logo" src="/favicon.png" width="88" height="88" alt="" />
+  <h1>Вход в Orbit</h1>
+  <p class="auth-description">Введите номер телефона, чтобы продолжить</p>
   <div class="form">
-    <div class="error">{error}</div>
+    <div class="error" role="alert">{error}</div>
     <input
       type="tel"
       bind:value={phone}
       placeholder="Номер телефона"
+      aria-label="Номер телефона"
+      autocomplete="tel"
       required
     />
     <ActionButton text="Получить код" action={login}/>
@@ -121,44 +125,69 @@
 <OpenDevicesButton />
 
 <style>
+
   .auth-page {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+
     text-align: center;
-    color: #ddd;
+    color: var(--text-primary);
+
+    min-height: 100%;
+    height: 100%;
+    overflow-y: auto;
+    padding: 32px 24px calc(32px + var(--safe-area-bottom));
+    background: var(--bg-app);
   }
 
   .auth-page h1 {
     margin-bottom: 0px;
+
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -.03em;
+    margin: 16px 0 8px;
   }
 
   .form {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+
+
+
+
+    max-width: 360px;
     width: 100%;
-    max-width: min(300px, 90%);
+    gap: 12px;
+    margin-top: 24px;
   }
 
   input {
-    padding: 0.75rem;
-    border-radius: 8px;
-    border: 1px solid #333;
-    font-size: 1rem;
-    background-color: #26262e;
-    color: #ccc;
     outline: none;
+
+    border: 1px solid var(--border-card);
+    background: var(--bg-surface);
+    background-color: var(--bg-surface);
+    border-radius: 14px;
+    min-height: 52px;
+    padding: 14px 16px;
+    font-size: 1rem;
+    color: var(--text-primary);
   }
 
   .link {
-    margin-top: 20px;
-    font-size: 15px;
-    color: #4a90e2;
+    font-size: 0.8824rem;
+    color: var(--accent-primary);
     text-decoration: none;
     transition: transform 0.2s;
+
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8px;
   }
 
   .link:hover {
@@ -166,8 +195,7 @@
   }
 
   .error {
-    color: red;
-    font-size: 15px;
+    font-size: 0.8824rem;
     min-height: 18px;
     text-align: center;
     width: 100%;
@@ -175,5 +203,18 @@
     white-space: normal;
     overflow-wrap: break-word;
     word-break: normal;
+
+    color: var(--status-danger);
+  }
+  .auth-logo {
+    border-radius: 22px;
+    margin-bottom: 8px;
+  }
+  .auth-description {
+    font-size: .8824rem;
+    color: var(--text-muted);
+    max-width: 300px;
+    margin: 0;
+    line-height: 1.4;
   }
 </style>

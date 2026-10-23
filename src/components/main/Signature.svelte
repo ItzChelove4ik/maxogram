@@ -89,6 +89,6 @@
 
 <style>
   .online-text {
-    color: #4fc3f7;
+    color: var(--accent-primary);
   }
 </style>

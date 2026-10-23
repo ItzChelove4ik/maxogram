@@ -1,6 +1,7 @@
 <script>
   import { fade, fly } from "svelte/transition";
   import { createEventDispatcher } from "svelte";
+  import { focusDialog } from '$lib/actions/focusDialog.js';
 
   export let title = "Подтверждение";
   export let message = "Вы уверены?";
@@ -9,15 +10,26 @@
   export let isDangerous = true;
 
   const dispatch = createEventDispatcher();
+  /** @param {KeyboardEvent} event */
+  function handleKeydown(event) {
+    if (event.key === 'Escape') { event.stopPropagation(); dispatch('cancel'); }
+  }
 </script>
 
 <div
   class="modal-backdrop"
+  role="presentation"
   transition:fade={{ duration: 200 }}
   on:click={() => dispatch("cancel")}
 >
   <div
     class="modal"
+    role="dialog"
+    aria-modal="true"
+    aria-label={title}
+    tabindex="-1"
+    use:focusDialog
+    on:keydown={handleKeydown}
     transition:fly={{ y: 20, duration: 250 }}
     on:click|stopPropagation
   >
@@ -49,7 +61,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.65);
+    background: var(--scrim);
     z-index: 200;
     display: flex;
     justify-content: center;
@@ -58,18 +70,21 @@
   }
 
   .modal {
-    background: #252525;
     width: 85%;
     max-width: 320px;
-    border-radius: 14px;
+
     display: flex;
     flex-direction: column;
-    color: #fff;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-    border: 1px solid #333;
+    color: var(--text-primary);
+
     overflow: hidden;
     will-change: transform, opacity;
     transform: translateZ(0);
+
+    background: var(--bg-sheet);
+    border-radius: 24px;
+    box-shadow: var(--shadow-sheet);
+    border: 0;
   }
 
   .content {
@@ -79,21 +94,23 @@
 
   .content h3 {
     margin: 0 0 10px 0;
-    font-size: 18px;
+
+    color: var(--text-primary);
+
+    font-size: 1.176rem;
     font-weight: 600;
-    color: #fff;
   }
 
   .content p {
     margin: 0;
-    font-size: 14px;
-    color: #aaa;
+    font-size: 0.8235rem;
+    color: var(--text-muted);
     line-height: 1.5;
   }
 
   .footer {
     display: flex;
-    border-top: 1px solid #333;
+    border-top: 1px solid var(--border-subtle);
     height: 50px;
   }
 
@@ -101,26 +118,31 @@
     flex: 1;
     background: transparent;
     border: none;
-    font-size: 16px;
+
     cursor: pointer;
     transition: 0.2s;
+
+    min-height: 48px;
+    font-size: 1rem;
+    border-radius: 12px;
   }
 
   .btn:active {
-    background: #333;
+    background: var(--bg-surface-2);
   }
 
   .btn.cancel {
-    color: #007afd;
-    border-right: 1px solid #333;
+    color: var(--accent-primary);
+    border-right: 1px solid var(--border-subtle);
   }
 
   .btn.confirm {
-    color: #007afd;
     font-weight: 600;
+
+    color: var(--accent-primary);
   }
 
   .btn.confirm.danger {
-    color: #ff4b4b;
+    color: var(--status-danger);
   }
 </style>

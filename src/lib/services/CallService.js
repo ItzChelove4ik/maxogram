@@ -1,7 +1,7 @@
 import { invoke } from '@tauri-apps/api/core';
 import { listen } from '@tauri-apps/api/event';
 import { get } from 'svelte/store';
-import { activeCall, patchCallState, resetCallState, CALL_PHASE, CALL_MODE, callUseStubs } from '$lib/stores/calls.js';
+import { activeCall, patchCallState, resetCallState, CALL_PHASE, CALL_MODE } from '$lib/stores/calls.js';
 import { CallEncryptionSession } from '$lib/crypto/callEncryption.js';
 import { mediaPipeline } from '$lib/services/MediaPipelineHost.js';
 import { showAlert } from '$lib/utils/alert.js';
@@ -14,7 +14,6 @@ import { startIncomingRingtone, startOutgoingRingback, stopCallAudio, playReject
 import { showDesktopCallNotification, cancelDesktopCallNotification } from '$lib/utils/notifications.js';
 import { getContactDirect } from '$lib/stores/contacts.js';
 import { NativeRustPeerConnection } from '$lib/services/NativeRustPeerConnection.js';
-import { createSyntheticAudioStream, createSyntheticVideoStream } from '$lib/utils/mediaFallback.js';
 
 import { platform } from '@tauri-apps/plugin-os';
 
@@ -470,8 +469,6 @@ class MaxCallSession {
   #pendingOffer = false;
   #pendingLocalCandidates = [];
   #allLocalCandidates = [];
-  #syntheticAudio = null;
-  #syntheticVideo = null;
   #myCallUserId = null;
   #topology = null;
   #iceServers = ICE_DEFAULTS;
@@ -490,7 +487,6 @@ class MaxCallSession {
   #signalQueue = Promise.resolve();
   #iceRestarting = false;
   #isSfuPc = false;
-  #useStubs = false;
   #controlChannel = null;
 
   constructor() {
@@ -1348,40 +1344,23 @@ class MaxCallSession {
   }
 
   async #captureMedia(isVideo) {
-    if (this.#useStubs || get(callUseStubs)) {
-      this.#syntheticAudio = createSyntheticAudioStream();
-      this.#localStream = this.#syntheticAudio.stream;
-      patchCallState({ localStream: this.#localStream });
-    } else {
+    try {
       try {
-        try {
-          this.#localStream = await navigator.mediaDevices.getUserMedia({
-            audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true },
-          });
-        } catch {
-          this.#localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        }
-        patchCallState({ localStream: this.#localStream });
-      } catch (e) {
-        log('getUserMedia audio unavailable:', e?.name, e?.message);
-        if (e?.name === 'NotAllowedError' || e?.name === 'PermissionDeniedError') {
-          patchCallState({ muted: true, localStream: null });
-        } else {
-          try {
-            this.#syntheticAudio = createSyntheticAudioStream();
-            this.#localStream = this.#syntheticAudio.stream;
-            patchCallState({ localStream: this.#localStream });
-          } catch (err) {
-            log('synthetic audio failed:', err);
-            patchCallState({ muted: true, localStream: null });
-          }
-        }
+        this.#localStream = await navigator.mediaDevices.getUserMedia({
+          audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true },
+        });
+      } catch {
+        this.#localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
       }
+      patchCallState({ localStream: this.#localStream });
+    } catch (error) {
+      log('getUserMedia audio unavailable:', error);
+      this.#localStream = null;
+      const message = 'Микрофон недоступен. Проверьте разрешение и подключение устройства. Вас не будет слышно в звонке.';
+      patchCallState({ muted: true, localStream: null, errorText: message });
+      showAlert(message);
     }
-
-    if (isVideo) {
-      await this.enableCamera(true);
-    }
+    if (isVideo) await this.enableCamera(true);
   }
 
   async #buildPeerConnection() {
@@ -1397,7 +1376,7 @@ class MaxCallSession {
 
     log(`[call:pc:create] instantiating RTCPeerConnection (${PeerConnection.name || 'Anonymous'}), iceServers:`, this.#iceServers);
     const isVideo = get(activeCall).callType === 'video' || Boolean(this.#cameraStream);
-    const useStubs = Boolean(get(activeCall).useStubs);
+    /** @type {RTCConfiguration & {sdpSemantics: string, encodedInsertableStreams?: boolean, isAudio: boolean, isVideo: boolean}} */
     const pcConfig = {
       iceServers: this.#iceServers,
       sdpSemantics: 'unified-plan',
@@ -1406,7 +1385,6 @@ class MaxCallSession {
       encodedInsertableStreams: true,
       isAudio: true,
       isVideo,
-      useStubs,
     };
     let pc;
     try {
@@ -2277,38 +2255,21 @@ class MaxCallSession {
         }
       } else if (on && !this.#cameraStream) {
         patchCallState({ videoOn: true, cameraLoading: true });
-        if (this.#useStubs || get(callUseStubs)) {
-          this.#syntheticVideo = createSyntheticVideoStream();
-          this.#cameraStream = this.#syntheticVideo.stream;
-        } else {
+        try {
           try {
-            try {
-              this.#cameraStream = await navigator.mediaDevices.getUserMedia({
-                video: { width: { ideal: 1280 }, height: { ideal: 720 } },
-                audio: false,
-              });
-            } catch {
-              this.#cameraStream = await navigator.mediaDevices.getUserMedia({
-                video: true,
-                audio: false,
-              });
-            }
-          } catch (e) {
-            log('[call:media] getUserMedia video failed:', e?.name, e?.message);
-            if (e?.name === 'NotAllowedError' || e?.name === 'PermissionDeniedError') {
-              showAlert('Доступ к камере отклонен');
-              patchCallState({ videoOn: false, localCameraStream: null, cameraLoading: false });
-              return;
-            }
-            try {
-              this.#syntheticVideo = createSyntheticVideoStream();
-              this.#cameraStream = this.#syntheticVideo.stream;
-            } catch (err) {
-              showAlert('Не удалось получить доступ к камере');
-              patchCallState({ videoOn: false, localCameraStream: null, cameraLoading: false });
-              return;
-            }
+            this.#cameraStream = await navigator.mediaDevices.getUserMedia({
+              video: { width: { ideal: 1280 }, height: { ideal: 720 } }, audio: false,
+            });
+          } catch {
+            this.#cameraStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
           }
+        } catch (error) {
+          log('[call:media] getUserMedia video failed:', error);
+          this.#cameraStream = null;
+          const message = 'Камера недоступна. Проверьте разрешение и подключение устройства.';
+          showAlert(message);
+          patchCallState({ videoOn: false, localCameraStream: null, cameraLoading: false, errorText: message });
+          return;
         }
 
         const rawVideoTrack = this.#cameraStream.getVideoTracks()[0];
@@ -2342,10 +2303,6 @@ class MaxCallSession {
       } else if (!on && this.#cameraStream) {
         patchCallState({ videoOn: false, localCameraStream: null, cameraLoading: false });
         for (const t of this.#cameraStream.getTracks()) t.stop();
-        if (this.#syntheticVideo) {
-          this.#syntheticVideo.stop();
-          this.#syntheticVideo = null;
-        }
         this.#cameraStream = null;
         if (!get(activeCall).screenOn) {
           const transceivers = typeof this.#pc?.getTransceivers === 'function' ? this.#pc.getTransceivers() : [];
@@ -2593,14 +2550,6 @@ class MaxCallSession {
       this.#androidScreenCapture = null;
     }
     invoke('stop_android_screen_capture').catch(() => {});
-    if (this.#syntheticAudio) {
-      try { this.#syntheticAudio.stop(); } catch {}
-      this.#syntheticAudio = null;
-    }
-    if (this.#syntheticVideo) {
-      try { this.#syntheticVideo.stop(); } catch {}
-      this.#syntheticVideo = null;
-    }
     for (const t of (this.#localStream?.getTracks() || [])) {
       try { t.stop(); } catch {}
     }
@@ -2649,59 +2598,6 @@ class MaxCallSession {
   detachVideoCanvas(canvas) {
     if (this.#pc && typeof this.#pc.detachVideoCanvas === 'function') {
       this.#pc.detachVideoCanvas(canvas);
-    }
-  }
-
-  async setCallUseStubs(enabled) {
-    this.#useStubs = enabled;
-    if (!this.#pc) return;
-    try {
-      const senders = typeof this.#pc.getSenders === 'function' ? this.#pc.getSenders() : [];
-      const audioSender = senders.find(s => s.track?.kind === 'audio');
-      const videoSender = senders.find(s => s.track?.kind === 'video');
-
-      if (enabled) {
-        if (!this.#syntheticAudio) {
-          this.#syntheticAudio = createSyntheticAudioStream();
-        }
-        const stubAudioTrack = this.#syntheticAudio.stream.getAudioTracks()[0];
-        if (audioSender && stubAudioTrack) {
-          await audioSender.replaceTrack(stubAudioTrack);
-        }
-
-        if (get(activeCall).videoOn) {
-          if (!this.#syntheticVideo) {
-            this.#syntheticVideo = createSyntheticVideoStream();
-          }
-          const stubVideoTrack = this.#syntheticVideo.stream.getVideoTracks()[0];
-          if (videoSender && stubVideoTrack) {
-            await videoSender.replaceTrack(stubVideoTrack);
-          }
-          patchCallState({ localCameraStream: this.#syntheticVideo.stream });
-        }
-      } else {
-        if (this.#syntheticAudio) {
-          this.#syntheticAudio.stop();
-          this.#syntheticAudio = null;
-        }
-        if (this.#syntheticVideo) {
-          this.#syntheticVideo.stop();
-          this.#syntheticVideo = null;
-        }
-        const realAudioTrack = this.#localStream?.getAudioTracks()[0];
-        if (audioSender && realAudioTrack) {
-          await audioSender.replaceTrack(realAudioTrack);
-        }
-        if (get(activeCall).videoOn && this.#cameraStream) {
-          const realVideoTrack = this.#cameraStream.getVideoTracks()[0];
-          if (videoSender && realVideoTrack) {
-            await videoSender.replaceTrack(realVideoTrack);
-          }
-          patchCallState({ localCameraStream: this.#cameraStream });
-        }
-      }
-    } catch (err) {
-      log('setCallUseStubs error:', err);
     }
   }
 }
@@ -3246,9 +3142,6 @@ export const CallService = {
   },
   detachVideoCanvas(canvas) {
     _activeSession?.detachVideoCanvas(canvas);
-  },
-  setCallUseStubs(enabled) {
-    _activeSession?.setCallUseStubs(enabled);
   },
   setBypassEncrypt(bypass) {
     _activeSession?.setBypassEncrypt(bypass);

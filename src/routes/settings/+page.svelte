@@ -24,6 +24,8 @@ import { goto } from "$app/navigation";
 
   import { set as sessionSet, openSettingsPage, openAvatarGallery } from "$lib/stores/session";
   import { currentUserDetails } from "$lib/stores/api";
+  import Icon from '$components/main/Icon.svelte';
+  import { appearance, setAppearance } from '$lib/stores/appearance.js';
   import Avatar from "$components/main/Avatar.svelte";
   import SafeAvatarPickerModal from "$components/main/SafeAvatarPickerModal.svelte";
   import API, { currentUser } from "$lib/stores/api";
@@ -314,7 +316,7 @@ import { goto } from "$app/navigation";
 </script>
 
 <div class="settings">
-  <img on:click={scanner} src={"icons/qr.svg"} class="scanner-icon icon" />
+  <div class="settings-header"><h1>Настройки</h1><button class="scanner-button" type="button" on:click={scanner} aria-label="Сканировать QR-код"><Icon name="qr" size={24} /></button></div>
 
   <div class="info">
     <div
@@ -336,17 +338,26 @@ import { goto } from "$app/navigation";
         </svg>
       </button>
     </div>
-    <a class="name">{name}</a>
-    <a class="phone">{phone}</a>
+    <span class="name">{name || "Ваш профиль"}</span>
+    <span class="phone">{phone}</span>
   </div>
 
   <div class="buttons">
-    {#each buttons as group}
+    <section class="appearance-section" aria-label="Оформление">
+      <h2 class="group-heading">ОФОРМЛЕНИЕ</h2>
+      <div class="appearance-control" role="group" aria-label="Тема приложения">
+        <button type="button" class:chosen={$appearance === 'system'} aria-pressed={$appearance === 'system'} on:click={() => setAppearance('system')}>Система</button>
+        <button type="button" class:chosen={$appearance === 'light'} aria-pressed={$appearance === 'light'} on:click={() => setAppearance('light')}>Светлая</button>
+        <button type="button" class:chosen={$appearance === 'dark'} aria-pressed={$appearance === 'dark'} on:click={() => setAppearance('dark')}>Тёмная</button>
+      </div>
+    </section>
+    {#each buttons as group, groupIndex}
+      <h2 class="group-heading">{['АККАУНТ', 'СЕРВИСЫ MAX', 'ИНФОРМАЦИЯ', 'ДОПОЛНИТЕЛЬНО', 'СЕССИИ'][groupIndex]}</h2>
       <div class="group">
         {#each group as btn}
-          <div on:click={btn.action} class="button">
-            <img src={"icons/" + btn.icon} class="icon" />
-            <a>{btn.text}</a>
+          <button type="button" on:click={btn.action} class="button">
+            <span class="setting-icon"><Icon name={btn.icon === "profile.svg" ? "user" : btn.icon} size={20} /></span>
+            <span class="setting-label">{btn.text}</span>
             {#if btn.isToggle}
               <div class="toggle-track" class:active={btn.toggleValue}>
                 <div class="toggle-thumb" class:active={btn.toggleValue}></div>
@@ -366,7 +377,7 @@ import { goto } from "$app/navigation";
                 />
               </svg>
             {/if}
-          </div>
+          </button>
         {/each}
       </div>
     {/each}
@@ -380,13 +391,18 @@ import { goto } from "$app/navigation";
 {/if}
 
 <style>
+
   .settings {
     position: relative;
     width: 100%;
-    color: #bbb;
+
     overflow-y: auto;
     flex-grow: 1;
     min-height: 0;
+
+    background: var(--bg-app);
+    color: var(--text-primary);
+    padding: 0 16px 24px;
   }
 
   .info {
@@ -396,6 +412,16 @@ import { goto } from "$app/navigation";
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    margin: 16px auto 0;
+    padding: 20px 16px;
+    background: var(--glass-light-bg);
+    border: 1px solid var(--glass-light-border);
+    box-shadow: var(--glass-specular);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    border-radius: var(--radius-card);
+    max-width: 680px;
   }
 
   .self-avatar-wrap {
@@ -416,24 +442,28 @@ import { goto } from "$app/navigation";
 
   .self-avatar-safe-badge {
     position: absolute;
-    right: -2px;
-    bottom: -2px;
-    width: 28px;
-    height: 28px;
+
+
     border-radius: 50%;
-    border: 2px solid #26262e;
-    background: #0ea5e9;
-    color: #ffffff;
+
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
     transition: background 0.15s, transform 0.12s;
+
+    width: 44px;
+    height: 44px;
+    right: -14px;
+    bottom: -8px;
+    border: 4px solid var(--bg-surface);
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
   }
 
   .self-avatar-safe-badge:hover {
-    background: #38bdf8;
+    background: var(--accent-primary);
     transform: scale(1.08);
   }
 
@@ -442,73 +472,75 @@ import { goto } from "$app/navigation";
   }
 
   .info .name {
-    margin-top: 15px;
-    font-size: 20px;
-    font-weight: 800;
-    color: #bbb;
+
+
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-top: 14px;
+    text-align: center;
   }
 
   .info .phone {
-    color: #3ff;
-    font-size: 13px;
+
+    color: var(--text-muted);
+    font-size: .8824rem;
+    margin-top: 4px;
   }
 
   .buttons {
-    margin: 20px 10px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    font-size: 14px;
+
+
+    margin: 24px auto;
+    gap: 0;
+    max-width: 680px;
+    font-size: 1rem;
   }
 
   .buttons .group {
-    background-color: #26262e;
-    border-radius: 15px;
+
+    background: var(--glass-light-bg);
+    border: 1px solid var(--glass-light-border);
+    box-shadow: var(--glass-specular);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    overflow: hidden;
+    border-radius: var(--radius-card);
   }
 
   .buttons .group .button {
-    padding: 12px 15px;
     display: flex;
     flex-direction: row;
     cursor: pointer;
     align-items: center;
+
+    padding: 10px 14px;
+    min-height: 48px;
+    width: 100%;
+    border: 0;
+    background: transparent;
+    color: var(--text-primary);
+    gap: 12px;
+    text-align: left;
+    font-size: 1rem;
   }
 
-  .buttons .group .icon {
-    width: 24px;
-    height: 24px;
-    margin-right: 15px;
-    object-fit: contain;
-    display: block;
-    flex-shrink: 0;
-  }
 
-  .buttons .group .button a {
-    line-height: 1;
-    letter-spacing: 0.5px;
-  }
 
   .buttons .group .button svg {
-    margin-left: auto;
+
+    margin-left: 0;
   }
 
-  .scanner-icon {
-    position: absolute;
-    width: 45px;
-    cursor: pointer;
-    opacity: 0.8;
-    transition: opacity 0.1s;
-  }
 
-  .scanner-icon:hover {
-    opacity: 1;
-  }
 
   .toggle-track {
     margin-left: auto;
     width: 44px;
     height: 24px;
-    background: #3a3a3c;
+    background: var(--bg-surface-2);
     border-radius: 12px;
     position: relative;
     transition: background-color 0.2s ease;
@@ -516,13 +548,13 @@ import { goto } from "$app/navigation";
   }
 
   .toggle-track.active {
-    background: #248bfe;
+    background: var(--accent-primary);
   }
 
   .toggle-thumb {
     width: 20px;
     height: 20px;
-    background: white;
+    background: var(--text-on-media);
     border-radius: 50%;
     position: absolute;
     top: 2px;
@@ -532,5 +564,82 @@ import { goto } from "$app/navigation";
 
   .toggle-thumb.active {
     transform: translateX(20px);
+  }
+  .settings-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0 8px;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .settings-header h1 {
+    margin: 0;
+    font-size: 1.375rem;
+    font-weight: 700;
+    letter-spacing: -.02em;
+  }
+  .scanner-button {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--accent-primary);
+  }
+  .group-heading {
+    font-size: .7647rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    letter-spacing: .03em;
+    margin: 24px 16px 8px;
+  }
+  .buttons .group .button + .button {
+    border-top: 1px solid var(--border-card);
+  }
+  .buttons .group .button:active {
+    background: var(--bg-hover);
+  }
+  .setting-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    color: var(--accent-primary);
+    background: var(--accent-subtle);
+  }
+  .setting-label {
+    flex: 1;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+  }
+  .appearance-control {
+    display: flex;
+    padding: 4px;
+    gap: 4px;
+    background: var(--bg-input);
+    border-radius: 12px;
+  }
+  .appearance-control button {
+    flex: 1;
+    min-width: 0;
+    padding: 6px;
+    background: transparent;
+    border: 0;
+    border-radius: 9px;
+    color: var(--text-secondary);
+    font-size: .8824rem;
+    font-weight: 500;
+  }
+  .appearance-control button.chosen {
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    box-shadow: 0 1px 4px rgba(0,0,0,.12);
   }
 </style>

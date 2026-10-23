@@ -235,7 +235,7 @@
             </div>
             <h3 class="standard-title">Фото из галереи устройства</h3>
             <p class="standard-desc">
-              Стандартная фотография профиля Max. Отображается у всех пользователей мессенджера.
+              Стандартная фотография профиля Orbit. Отображается у всех пользователей мессенджера.
             </p>
             <button
               type="button"
@@ -477,7 +477,7 @@
     max-width: 560px;
     max-height: 88dvh;
     background: rgba(22, 22, 28, 0.96);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-subtle);
     border-radius: 24px 24px 0 0;
     box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.6);
     display: flex;
@@ -499,7 +499,7 @@
     width: 36px;
     height: 4px;
     border-radius: 2px;
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--bg-fill);
     margin: 8px auto 4px;
   }
 
@@ -514,20 +514,20 @@
     align-items: center;
     justify-content: space-between;
     padding: 12px 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid var(--border-subtle);
   }
 
   .modal-title {
     margin: 0;
-    font-size: 17px;
+    font-size: 1rem;
     font-weight: 700;
-    color: #ffffff;
+    color: var(--text-primary);
     letter-spacing: -0.2px;
   }
 
   .modal-subtitle {
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.45);
+    font-size: 0.7059rem;
+    color: var(--text-primary);
   }
 
   .close-btn {
@@ -535,8 +535,8 @@
     height: 36px;
     border-radius: 50%;
     border: none;
-    background: rgba(255, 255, 255, 0.06);
-    color: rgba(255, 255, 255, 0.6);
+    background: var(--bg-hover);
+    color: var(--text-primary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -546,8 +546,8 @@
 
   @media (hover: hover) and (pointer: fine) {
     .close-btn:hover {
-      background: rgba(255, 255, 255, 0.12);
-      color: #ffffff;
+      background: var(--bg-fill);
+      color: var(--text-primary);
     }
   }
 
@@ -567,8 +567,8 @@
     border: none;
     background: transparent;
     border-radius: 8px;
-    color: rgba(255, 255, 255, 0.55);
-    font-size: 12px;
+    color: var(--text-primary);
+    font-size: 0.7059rem;
     font-weight: 600;
     display: flex;
     align-items: center;
@@ -586,18 +586,18 @@
   }
 
   .tab-btn.active {
-    background: rgba(255, 255, 255, 0.12);
-    color: #ffffff;
+    background: var(--bg-fill);
+    color: var(--text-primary);
   }
 
   .error-banner {
     margin: 6px 20px 0;
     padding: 10px 14px;
     border-radius: 10px;
-    background: rgba(239, 68, 68, 0.15);
-    border: 1px solid rgba(239, 68, 68, 0.3);
-    color: #fca5a5;
-    font-size: 12px;
+    background: rgba(var(--danger-rgb), 0.15);
+    border: 1px solid var(--status-danger);
+    color: var(--status-danger);
+    font-size: 0.7059rem;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -618,8 +618,8 @@
 
   .standard-card {
     width: 100%;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px dashed rgba(255, 255, 255, 0.12);
+    background: var(--bg-hover);
+    border: 1px dashed var(--border-subtle);
     border-radius: 16px;
     padding: 32px 24px;
     text-align: center;
@@ -632,8 +632,8 @@
     width: 64px;
     height: 64px;
     border-radius: 50%;
-    background: rgba(56, 189, 248, 0.1);
-    color: #38bdf8;
+    background: rgba(var(--accent-rgb), 0.1);
+    color: var(--accent-primary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -642,15 +642,15 @@
 
   .standard-title {
     margin: 0 0 6px;
-    font-size: 16px;
+    font-size: 0.9412rem;
     font-weight: 700;
-    color: #ffffff;
+    color: var(--text-primary);
   }
 
   .standard-desc {
     margin: 0 0 20px;
-    font-size: 13px;
-    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.7647rem;
+    color: var(--text-primary);
     max-width: 320px;
     line-height: 1.4;
   }
@@ -658,12 +658,12 @@
   .search-box {
     display: flex;
     align-items: center;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--bg-hover);
+    border: 1px solid var(--border-subtle);
     border-radius: 12px;
     padding: 0 12px;
     margin-bottom: 12px;
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--text-primary);
     min-height: 44px;
   }
 
@@ -671,22 +671,22 @@
     flex: 1;
     border: none;
     background: transparent;
-    color: #ffffff;
-    font-size: 16px;
+    color: var(--text-primary);
+    font-size: 0.9412rem;
     padding: 10px 8px;
     outline: none;
   }
 
   @media (min-width: 640px) {
     .search-input {
-      font-size: 13px;
+      font-size: 0.7647rem;
     }
   }
 
   .clear-search-btn {
     border: none;
     background: transparent;
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--text-primary);
     cursor: pointer;
     padding: 4px;
   }
@@ -707,8 +707,8 @@
   }
 
   .avatar-grid-item {
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-subtle);
+    background: var(--bg-hover);
     border-radius: 14px;
     padding: 6px;
     display: flex;
@@ -725,8 +725,8 @@
 
   @media (hover: hover) and (pointer: fine) {
     .avatar-grid-item:hover {
-      background: rgba(255, 255, 255, 0.07);
-      border-color: rgba(56, 189, 248, 0.4);
+      background: var(--bg-hover);
+      border-color: var(--accent-primary);
     }
   }
 
@@ -736,7 +736,7 @@
     border-radius: 10px;
     overflow: hidden;
     position: relative;
-    background: #000000;
+    background: var(--bg-app);
   }
 
   .grid-video,
@@ -754,15 +754,15 @@
     background: rgba(0, 0, 0, 0.65);
     border-radius: 6px;
     padding: 1px 5px;
-    font-size: 9px;
-    color: #fbbf24;
+    font-size: 0.5294rem;
+    color: var(--status-warning);
     font-weight: 700;
   }
 
   .item-title {
     margin-top: 6px;
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.6471rem;
+    color: var(--text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -774,7 +774,7 @@
     grid-column: 1 / -1;
     text-align: center;
     padding: 40px 0;
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--text-primary);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -788,16 +788,16 @@
   }
 
   .id-input-card {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--bg-hover);
+    border: 1px solid var(--border-subtle);
     border-radius: 16px;
     padding: 16px;
   }
 
   .input-label {
-    font-size: 12px;
+    font-size: 0.7059rem;
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--text-primary);
     display: block;
     margin-bottom: 8px;
   }
@@ -816,11 +816,11 @@
     width: 100%;
     box-sizing: border-box;
     background: rgba(0, 0, 0, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid var(--border-subtle);
     border-radius: 10px;
-    color: #38bdf8;
+    color: var(--accent-primary);
     font-family: monospace;
-    font-size: 16px;
+    font-size: 0.9412rem;
     padding: 10px 12px;
     outline: none;
     letter-spacing: 0.5px;
@@ -828,16 +828,16 @@
 
   @media (min-width: 640px) {
     .uid-field {
-      font-size: 13px;
+      font-size: 0.7647rem;
     }
   }
 
   .paste-btn {
     border: none;
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--bg-hover);
     border-radius: 10px;
-    color: #ffffff;
-    font-size: 12px;
+    color: var(--text-primary);
+    font-size: 0.7059rem;
     font-weight: 600;
     padding: 0 14px;
     cursor: pointer;
@@ -861,7 +861,7 @@
     height: 48px;
     border-radius: 50%;
     overflow: hidden;
-    background: #000000;
+    background: var(--bg-app);
     flex-shrink: 0;
   }
 
@@ -875,36 +875,36 @@
 
   .preview-name {
     display: block;
-    font-size: 13px;
+    font-size: 0.7647rem;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--text-primary);
   }
 
   .preview-author {
     display: block;
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.45);
+    font-size: 0.6471rem;
+    color: var(--text-primary);
   }
 
   .instructions-box {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: var(--bg-hover);
+    border: 1px solid var(--border-subtle);
     border-radius: 14px;
     padding: 16px;
   }
 
   .instructions-title {
     margin: 0 0 10px;
-    font-size: 13px;
+    font-size: 0.7647rem;
     font-weight: 700;
-    color: #ffffff;
+    color: var(--text-primary);
   }
 
   .instructions-list {
     margin: 0;
     padding-left: 20px;
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.7059rem;
+    color: var(--text-primary);
     line-height: 1.6;
   }
 
@@ -913,9 +913,9 @@
     min-height: 44px;
     border: none;
     border-radius: 12px;
-    background: #0284c7;
-    color: #ffffff;
-    font-size: 14px;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
+    font-size: 0.8235rem;
     font-weight: 600;
     display: flex;
     align-items: center;
@@ -932,7 +932,7 @@
 
   @media (hover: hover) and (pointer: fine) {
     .primary-action-btn:hover {
-      background: #0369a1;
+      background: var(--accent-primary);
     }
   }
 
@@ -944,11 +944,11 @@
   .secondary-action-btn {
     width: 100%;
     min-height: 44px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid var(--border-subtle);
     border-radius: 12px;
     background: transparent;
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 14px;
+    color: var(--text-primary);
+    font-size: 0.8235rem;
     font-weight: 600;
     cursor: pointer;
   }
@@ -967,7 +967,7 @@
   .preview-sheet {
     width: 100%;
     background: rgba(24, 24, 30, 0.98);
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid var(--border-subtle);
     border-radius: 20px 20px 0 0;
     padding: 20px;
     display: flex;
@@ -985,16 +985,16 @@
 
   .preview-sheet-title {
     margin: 0;
-    font-size: 16px;
+    font-size: 0.9412rem;
     font-weight: 700;
-    color: #ffffff;
+    color: var(--text-primary);
   }
 
   .close-sheet-btn {
     background: transparent;
     border: none;
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 18px;
+    color: var(--text-primary);
+    font-size: 1.059rem;
     cursor: pointer;
     padding: 4px;
   }
@@ -1004,8 +1004,8 @@
     height: 140px;
     border-radius: 50%;
     overflow: hidden;
-    background: #000000;
-    border: 3px solid rgba(56, 189, 248, 0.4);
+    background: var(--bg-app);
+    border: 3px solid var(--accent-primary);
     box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
     margin-bottom: 14px;
   }
@@ -1019,8 +1019,8 @@
 
   .sheet-desc {
     margin: 0 0 12px;
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7059rem;
+    color: var(--text-primary);
     text-align: center;
     max-width: 320px;
   }
@@ -1028,8 +1028,8 @@
   .sheet-meta {
     display: flex;
     gap: 16px;
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.4);
+    font-size: 0.6471rem;
+    color: var(--text-primary);
     margin-bottom: 20px;
   }
 
@@ -1054,9 +1054,9 @@
   }
 
   .apply-text {
-    font-size: 14px;
+    font-size: 0.8235rem;
     font-weight: 600;
-    color: #38bdf8;
+    color: var(--accent-primary);
     margin: 0;
   }
 
@@ -1064,8 +1064,8 @@
   .btn-spinner {
     width: 28px;
     height: 28px;
-    border: 3px solid rgba(56, 189, 248, 0.2);
-    border-top-color: #38bdf8;
+    border: 3px solid var(--accent-primary);
+    border-top-color: var(--accent-primary);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
   }
@@ -1074,8 +1074,8 @@
     width: 18px;
     height: 18px;
     border-width: 2px;
-    border-color: rgba(255, 255, 255, 0.3);
-    border-top-color: #ffffff;
+    border-color: var(--border-subtle);
+    border-top-color: var(--border-subtle);
   }
 
   @keyframes spin {

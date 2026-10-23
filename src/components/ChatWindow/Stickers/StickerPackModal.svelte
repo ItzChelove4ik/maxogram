@@ -193,8 +193,8 @@
   }
 
   .modal-card {
-    background: #1e2126;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
     border-radius: 20px;
     width: 100%;
     max-width: 480px;
@@ -210,7 +210,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 12px 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid var(--border-subtle);
   }
 
   .info-group {
@@ -225,7 +225,7 @@
     height: 44px;
     border-radius: 10px;
     object-fit: contain;
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--bg-hover);
     flex-shrink: 0;
   }
 
@@ -236,9 +236,9 @@
   }
 
   .pack-title {
-    font-size: 17px;
+    font-size: 1rem;
     font-weight: 700;
-    color: #fff;
+    color: var(--text-primary);
     margin: 0;
     white-space: nowrap;
     overflow: hidden;
@@ -246,15 +246,15 @@
   }
 
   .pack-count {
-    font-size: 13px;
-    color: #8b929e;
+    font-size: 0.7647rem;
+    color: var(--text-muted);
     margin-top: 2px;
   }
 
   .close-btn {
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--bg-hover);
     border: none;
-    color: #8b929e;
+    color: var(--text-muted);
     width: 34px;
     height: 34px;
     border-radius: 50%;
@@ -267,8 +267,8 @@
   }
 
   .close-btn:hover {
-    background: rgba(255, 255, 255, 0.12);
-    color: #fff;
+    background: var(--bg-fill);
+    color: var(--text-primary);
   }
 
   .modal-body {
@@ -305,7 +305,7 @@
   }
 
   .sticker-grid-item:hover {
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--bg-hover);
     transform: scale(1.08);
   }
 
@@ -321,15 +321,15 @@
     justify-content: center;
     gap: 12px;
     padding: 40px 0;
-    color: #8b929e;
-    font-size: 14px;
+    color: var(--text-muted);
+    font-size: 0.8235rem;
   }
 
   .spinner {
     width: 28px;
     height: 28px;
-    border: 3px solid rgba(255, 255, 255, 0.1);
-    border-top-color: #248bfe;
+    border: 3px solid var(--border-subtle);
+    border-top-color: var(--accent-primary);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
   }
@@ -345,17 +345,17 @@
     align-items: center;
     gap: 10px;
     padding: 14px 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    border-top: 1px solid var(--border-subtle);
   }
 
   .btn-fav {
     flex: 1;
     height: 44px;
-    background: #248bfe;
-    color: #fff;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
     border: none;
     border-radius: 12px;
-    font-size: 15px;
+    font-size: 0.8824rem;
     font-weight: 600;
     cursor: pointer;
     display: flex;
@@ -365,12 +365,12 @@
   }
 
   .btn-fav:hover {
-    background: #1b74d9;
+    background: var(--accent-primary);
   }
 
   .btn-fav.is-remove {
     background: rgba(255, 75, 75, 0.15);
-    color: #ff5e5e;
+    color: var(--status-danger);
   }
 
   .btn-fav.is-remove:hover {
@@ -380,10 +380,10 @@
   .btn-copy {
     width: 44px;
     height: 44px;
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--bg-hover);
     border: none;
     border-radius: 12px;
-    color: #fff;
+    color: var(--text-primary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -392,7 +392,7 @@
   }
 
   .btn-copy:hover {
-    background: rgba(255, 255, 255, 0.12);
+    background: var(--bg-fill);
   }
 
   @media (max-width: 480px) {

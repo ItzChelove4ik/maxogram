@@ -1,31 +1,8 @@
 <script>
-  import Session from "$lib/stores/session";
-
-  const addContact = () => {
-    $Session.contactModal = true;
-  };
+  import Session from '$lib/stores/session';
+  import Icon from './Icon.svelte';
 </script>
-
-<div
-  class="add-contact top-btn animated-panel"
-  role="switch"
-  class:visible={$Session.contactModal}
-  on:click={addContact}
->
-  <svg width="20" height="20" viewBox="0 0 20 20">
-    <rect x="9" y="4" width="2" height="12" fill="white" />
-    <rect x="4" y="9" width="12" height="2" fill="white" />
-  </svg>
-</div>
-
+<button class="add-contact" type="button" aria-label="Добавить контакт" aria-expanded={!!$Session.contactModal} on:click={() => ($Session.contactModal = true)}><Icon name="plus" size={24} /></button>
 <style>
-  .top-btn {
-    width: 30px;
-    height: 30px;
-    border-radius: 11px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-  }
+  .add-contact { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; border: 0; border-radius: 50%; background: var(--accent-subtle); color: var(--accent-primary); }
 </style>
