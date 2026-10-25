@@ -344,8 +344,8 @@
   .panel-container {
     position: fixed;
     bottom: calc(var(--safe-area-bottom) + var(--tabbar-gap));
-    left: 0;
-    right: 0;
+    left: max(16px, env(safe-area-inset-left, 0px));
+    right: max(16px, env(safe-area-inset-right, 0px));
     z-index: 2;
     display: flex;
     flex-direction: column;
@@ -355,26 +355,20 @@
   }
   .panel-container > * { pointer-events: auto; }
 
-  /* Liquid Glass floating island — auto-sized capsule, centered, detached from edges. */
   .dock {
     display: flex;
     align-items: center;
-    gap: 10px;
-    max-width: calc(100vw - 32px);
+    gap: 8px;
+    width: 100%;
+    max-width: 620px;
     min-width: 0;
   }
   .panel, .panel-edit-control {
-    background:
-      linear-gradient(155deg, var(--glass-light-highlight), transparent 42%),
-      var(--dock-material);
+    background: var(--dock-material);
     border: 1px solid var(--dock-edge);
-    box-shadow: var(--dock-shadow), var(--glass-specular);
-    backdrop-filter: blur(var(--glass-blur-strong)) saturate(var(--glass-saturate));
-    -webkit-backdrop-filter: blur(var(--glass-blur-strong)) saturate(var(--glass-saturate));
-  }
-  .panel {
-    flex: 0 1 auto;
-    width: max-content;
+    box-shadow: var(--dock-shadow);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
   }
   .panel-container.editing {
     z-index: 999;
@@ -438,6 +432,8 @@
   }
 
   .panel {
+    flex: 1;
+    min-width: 0;
     display: flex;
 
     align-items: center;
@@ -537,8 +533,7 @@
   }
 
   .option.active {
-    background: linear-gradient(180deg, rgba(255, 255, 255, .22), transparent 55%), var(--dock-selected);
-    box-shadow: var(--dock-selected-shadow), var(--glass-specular);
+    background: var(--dock-selected);
     color: var(--dock-accent);
   }
 
@@ -846,10 +841,9 @@
     border-radius: 26px;
     color: var(--text-secondary);
     padding: 0;
-    transition: opacity var(--duration-press), color var(--duration-press), box-shadow var(--duration-ui);
+    transition: opacity var(--duration-press), color var(--duration-press);
   }
-  .panel-edit-control:hover { box-shadow: var(--dock-shadow), var(--glass-specular), inset 0 0 0 1px var(--dock-edge); }
-  .panel-edit-control[aria-pressed='true'] { color: var(--dock-accent); box-shadow: var(--dock-shadow), var(--glass-specular), inset 0 0 0 2px var(--dock-selected); }
+  .panel-edit-control[aria-pressed='true'] { color: var(--dock-accent); }
   .panel::-webkit-scrollbar { display: none; }
   .reorder-controls { display: flex; gap: 8px; width: calc(100% - 24px); max-width: 500px; padding-bottom: 8px; }
   .reorder-controls select { flex: 1; min-width: 0; border: 0; border-radius: 12px; background: var(--bg-surface); color: var(--text-primary); padding: 0 12px; }

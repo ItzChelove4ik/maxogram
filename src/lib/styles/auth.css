@@ -163,7 +163,7 @@ html:not(.ios-safe-area) .auth-layout { padding-top: calc(16px + var(--safe-area
 .auth-error { margin: 0; color: var(--auth-error); font-size: .8235rem; line-height: 1.45; overflow-wrap: anywhere; }
 .auth-error-summary { padding: 12px 16px; background: rgba(var(--danger-rgb), .08); border-radius: 14px; }
 
-/* Primary CTA — gradient with glow, scales on press. */
+/* Primary CTA — single flat accent color, no gradients. */
 .auth-submit {
   display: flex;
   align-items: center;
@@ -178,12 +178,10 @@ html:not(.ios-safe-area) .auth-layout { padding-top: calc(16px + var(--safe-area
   color: var(--auth-button-text);
   font-size: 1rem;
   font-weight: 600;
-  box-shadow: 0 8px 24px var(--auth-button-glow);
-  transition: opacity var(--duration-press), box-shadow var(--duration-ui), transform var(--duration-press);
+  transition: opacity var(--duration-press), transform var(--duration-press);
 }
-.auth-submit:hover:not(:disabled) { box-shadow: 0 12px 32px var(--auth-button-glow); }
 .auth-submit:active:not(:disabled) { transform: scale(.98); }
-.auth-submit:disabled { opacity: .65; box-shadow: none; }
+.auth-submit:disabled { opacity: .65; }
 .auth-spinner { width: 18px; height: 18px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: auth-spin .8s linear infinite; }
 @keyframes auth-spin { to { transform: rotate(360deg); } }
 

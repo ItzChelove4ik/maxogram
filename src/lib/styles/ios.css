@@ -28,8 +28,8 @@
   --auth-segment-bg: rgba(120, 130, 160, .16);
   --auth-segment-selected: rgba(255, 255, 255, .92);
   --auth-accent: #2167b7;
-  --auth-button: linear-gradient(180deg, #3b8be0, #2167b7);
-  --auth-button-glow: rgba(47, 126, 214, .38);
+  --auth-button: #2167b7;
+  --auth-button-glow: rgba(47, 126, 214, 0);
   --auth-button-text: #ffffff;
   --auth-error: #bc302b;
   --auth-muted: #5d6472;
@@ -125,8 +125,8 @@
   --auth-segment-bg: rgba(255, 255, 255, .09);
   --auth-segment-selected: rgba(255, 255, 255, .16);
   --auth-accent: #8bc3ff;
-  --auth-button: linear-gradient(180deg, #6fb3f5, #3d7fc4);
-  --auth-button-glow: rgba(90, 169, 247, .34);
+  --auth-button: #8bc3ff;
+  --auth-button-glow: rgba(90, 169, 247, 0);
   --auth-button-text: #ffffff;
   --auth-error: #ff9295;
   --auth-muted: #a2aabd;
