@@ -1,5 +1,5 @@
 <script>
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, onMount } from "svelte";
   import { flip } from "svelte/animate";
   import { quintOut, cubicOut } from "svelte/easing";
   import { fade, fly } from "svelte/transition";
@@ -14,13 +14,26 @@
   let isEditing = false;
   let draggingIndex = null;
   let showAddModal = false;
+  /** @type {ReturnType<typeof setTimeout> | null} */
   let longPressTimer = null;
   let startX = 0;
   let startY = 0;
   let isLongPressTriggered = false;
   let lastReorderTime = 0;
   let moveItemId = '';
+  let reducedMotion = false;
   const REORDER_COOLDOWN = 180;
+
+  onMount(() => {
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const updateMotion = () => { reducedMotion = media.matches; };
+    updateMotion();
+    media.addEventListener('change', updateMotion);
+    return () => {
+      media.removeEventListener('change', updateMotion);
+      if (longPressTimer) clearTimeout(longPressTimer);
+    };
+  });
 
   $: currentDefault = $panelConfig.defaultItem;
   $: if (isEditing && !$panelConfig.items.includes(moveItemId)) moveItemId = $panelConfig.items[0] || '';
@@ -169,12 +182,12 @@
 />
 
 {#if isEditing}
-  <div class="edit-backdrop" on:click={exitEditing} transition:fade={{ duration: 180 }}></div>
+  <div class="edit-backdrop" on:click={exitEditing} transition:fade={{ duration: reducedMotion ? 0 : 180 }}></div>
 {/if}
 
 <div class="panel-container" class:editing={isEditing}>
   {#if isEditing}
-    <div class="edit-toolbar" transition:fly={{ y: 20, duration: 200, easing: cubicOut }}>
+    <div class="edit-toolbar" transition:fly={{ y: 20, duration: reducedMotion ? 0 : 200, easing: cubicOut }}>
       <button
         class="toolbar-btn add-btn"
         disabled={availableCatalogItems.length === 0}
@@ -204,10 +217,11 @@
     </div>
   {/if}
 
+  <div class="dock">
   <div class="panel" role="tablist" aria-label="Разделы приложения">
     {#each pages as page, index (page.id || page.name)}
       <div
-        animate:flip={{ duration: 220, easing: quintOut }}
+        animate:flip={{ duration: reducedMotion ? 0 : 220, easing: quintOut }}
         class="option-wrapper"
         class:shaking={isEditing}
         class:dragging={draggingIndex === index}
@@ -223,6 +237,7 @@
           tabindex="0"
           aria-selected={index === active}
           aria-label={page.name}
+          title={page.name}
           on:keydown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleClick(index, page); } }}
           on:click={() => handleClick(index, page)}
         >
@@ -271,17 +286,18 @@
           <div class="icon-box">
             <Icon name={page.icon} size={25} />
           </div>
-          <span class="label">{page.name}</span>
+          <span class="label">{page.id === 'digital_id' ? 'ID' : page.name}</span>
         </div>
       </div>
     {/each}
-    <button class="panel-edit-control" type="button" aria-label="Настроить меню" aria-pressed={isEditing} on:click={() => isEditing ? exitEditing() : (isEditing = true)}><Icon name="params" size={21} /></button>
+  </div>
+  <button class="panel-edit-control" type="button" aria-label="Настроить меню" aria-pressed={isEditing} on:click={() => isEditing ? exitEditing() : (isEditing = true)}><Icon name="params" size={21} /></button>
   </div>
 </div>
 
 {#if showAddModal}
-  <div class="modal-backdrop" on:click={() => (showAddModal = false)} transition:fade={{ duration: 180 }}>
-    <div class="modal-sheet" on:click|stopPropagation transition:fly={{ y: 260, duration: 240, easing: cubicOut }}>
+  <div class="modal-backdrop" on:click={() => (showAddModal = false)} transition:fade={{ duration: reducedMotion ? 0 : 180 }}>
+    <div class="modal-sheet" on:click|stopPropagation transition:fly={{ y: 260, duration: reducedMotion ? 0 : 240, easing: cubicOut }}>
       <div class="sheet-top">
         <span class="sheet-title">Добавить в меню</span>
         <button class="sheet-close" aria-label="Закрыть" on:click={() => (showAddModal = false)}>
@@ -327,19 +343,38 @@
 
   .panel-container {
     position: fixed;
-    bottom: 0;
+    bottom: calc(var(--safe-area-bottom) + var(--tabbar-gap));
     left: 0;
-    width: 100%;
+    right: 0;
     z-index: 2;
     display: flex;
     flex-direction: column;
     align-items: center;
 
-    padding-bottom: var(--tabbar-inset);
-    background: var(--bg-panel);
+    pointer-events: none;
+  }
+  .panel-container > * { pointer-events: auto; }
+
+  /* Liquid Glass floating island — auto-sized capsule, centered, detached from edges. */
+  .dock {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    max-width: calc(100vw - 32px);
+    min-width: 0;
+  }
+  .panel, .panel-edit-control {
+    background:
+      linear-gradient(155deg, var(--glass-light-highlight), transparent 42%),
+      var(--dock-material);
+    border: 1px solid var(--dock-edge);
+    box-shadow: var(--dock-shadow), var(--glass-specular);
     backdrop-filter: blur(var(--glass-blur-strong)) saturate(var(--glass-saturate));
     -webkit-backdrop-filter: blur(var(--glass-blur-strong)) saturate(var(--glass-saturate));
-    box-shadow: var(--glass-specular);
+  }
+  .panel {
+    flex: 0 1 auto;
+    width: max-content;
   }
   .panel-container.editing {
     z-index: 999;
@@ -403,30 +438,25 @@
   }
 
   .panel {
-    background-color: var(--bg-panel);
-
-    width: 100%;
     display: flex;
 
     align-items: center;
 
-    border-top: 0.5px solid var(--border-subtle);
+    border-radius: 34px;
     box-sizing: border-box;
     user-select: none;
     -webkit-user-select: none;
 
     height: var(--tabbar-height);
-    padding: 8px 4px;
+    padding: 5px;
     overflow-x: auto;
     scrollbar-width: none;
     justify-content: flex-start;
-    color: var(--text-muted);
+    color: var(--text-secondary);
   }
 
   .panel-container.editing .panel {
-    background-color: var(--bg-panel);
-    border-top: 1px solid var(--border-subtle);
-
+    border-radius: 28px;
     height: 100px;
   }
 
@@ -445,7 +475,7 @@
     flex: 1 0 64px;
     max-width: none;
     min-width: 64px;
-    padding: 2px;
+    padding: 0;
   }
 
   .option-wrapper.dragging {
@@ -496,8 +526,8 @@
 
     transform-origin: 50% 50%;
 
-    color: var(--text-muted);
-    border-radius: 22px;
+    color: var(--text-secondary);
+    border-radius: 28px;
     gap: 3px;
     transition: background var(--duration-ui), box-shadow var(--duration-ui), color var(--duration-press), transform var(--duration-press);
   }
@@ -507,12 +537,9 @@
   }
 
   .option.active {
-    background: var(--island-bg);
-    border: 1px solid var(--glass-light-highlight);
-    box-shadow: var(--island-shadow), var(--glass-specular);
-    backdrop-filter: blur(var(--glass-blur-strong)) saturate(var(--glass-saturate));
-    -webkit-backdrop-filter: blur(var(--glass-blur-strong)) saturate(var(--glass-saturate));
-    color: var(--accent-primary);
+    background: linear-gradient(180deg, rgba(255, 255, 255, .22), transparent 55%), var(--dock-selected);
+    box-shadow: var(--dock-selected-shadow), var(--glass-specular);
+    color: var(--dock-accent);
   }
 
   .option.editing-item {
@@ -662,8 +689,7 @@
   }
 
   .option.active .icon-box {
-    color: var(--accent-primary);
-    filter: drop-shadow(0 1px 6px rgba(var(--accent-rgb), .45));
+    color: var(--dock-accent);
   }
 
 
@@ -675,14 +701,14 @@
     padding: 0 2px;
     box-sizing: border-box;
     text-align: center;
-    font-size: 0.6rem;
+    font-size: 0.7059rem;
     line-height: 1.1;
-    color: var(--text-muted);
+    color: var(--text-secondary);
     transition: color var(--duration-press);
   }
 
   .option.active .label {
-    color: var(--accent-primary);
+    color: var(--dock-accent);
     font-weight: 600;
   }
 
@@ -814,15 +840,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    min-width: 44px;
-    height: 44px;
-    border: 0;
-    border-radius: 50%;
-    background: var(--bg-fill);
+    width: 48px;
+    min-width: 48px;
+    height: var(--tabbar-height);
+    border-radius: 26px;
     color: var(--text-secondary);
-    margin-left: 6px;
+    padding: 0;
+    transition: opacity var(--duration-press), color var(--duration-press), box-shadow var(--duration-ui);
   }
+  .panel-edit-control:hover { box-shadow: var(--dock-shadow), var(--glass-specular), inset 0 0 0 1px var(--dock-edge); }
+  .panel-edit-control[aria-pressed='true'] { color: var(--dock-accent); box-shadow: var(--dock-shadow), var(--glass-specular), inset 0 0 0 2px var(--dock-selected); }
+  .panel::-webkit-scrollbar { display: none; }
   .reorder-controls { display: flex; gap: 8px; width: calc(100% - 24px); max-width: 500px; padding-bottom: 8px; }
   .reorder-controls select { flex: 1; min-width: 0; border: 0; border-radius: 12px; background: var(--bg-surface); color: var(--text-primary); padding: 0 12px; }
   .reorder-controls button { width: 44px; border: 0; border-radius: 12px; background: var(--bg-surface); color: var(--accent-primary); display: flex; align-items: center; justify-content: center; }

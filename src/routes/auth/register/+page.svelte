@@ -8,11 +8,14 @@
   import API from "$lib/stores/api";
   import { getDevice } from "$lib/stores/accounts";
 
-  import OpenDevSettingsButton from "$components/main/dev/OpenButton.svelte";
-  import OpenDevicesButton from "$components/main/devices/OpenButton.svelte";
-  import ActionButton from "$components/main/auth/ActionButton.svelte";
+  import AuthShell from "$components/main/auth/AuthShell.svelte";
+  import SubmitButton from "$components/main/auth/SubmitButton.svelte";
+  import Icon from "$components/main/Icon.svelte";
+  import { parseApiError } from "$lib/api/MobileApi.js";
 
   let error = "";
+  let errorField = "";
+  let busy = false;
   let phone = sessionGet("phone") || "";
   let name = sessionGet("name") || "";
   const existingRegisterToken = sessionGet("registerToken");
@@ -35,7 +38,8 @@
       if (dev) {
         sessionSet("device", dev);
       } else {
-        return alert("Нажмите на иконку телефона, чтобы настроить данные входа!");
+        error = "Выберите устройство в параметрах подключения внизу экрана.";
+        return;
       }
     }
 
@@ -54,8 +58,11 @@
   }
 
   async function register() {
-    if (phone.length < 7) {
-      error = "Это не номер!";
+    const normalizedPhone = phone.trim().replace(/[\s()-]/g, "");
+    if (!/^\+?\d{7,15}$/.test(normalizedPhone)) {
+      errorField = "phone";
+      error = "Введите номер с кодом страны, например +7 999 123-45-67.";
+      document.getElementById("register-phone")?.focus();
       return;
     }
 
@@ -64,15 +71,16 @@
       if (dev) {
         sessionSet("device", dev);
       } else {
-        return alert("Нажмите на иконку телефона, чтобы настроить данные входа!");
+        error = "Выберите устройство в параметрах подключения внизу экрана.";
+        return;
       }
     }
 
     error = "";
-    if (!phone.startsWith("+")) phone = "+" + phone;
+    phone = normalizedPhone.startsWith("+") ? normalizedPhone : "+" + normalizedPhone;
 
     sessionSet("phone", phone);
-    sessionSet("name", name);
+    sessionSet("name", name.trim());
 
     const response = await $API.startAuth(phone);
 
@@ -85,108 +93,55 @@
       goto("/auth/verify");
     }
   }
+  async function submit() {
+    if (busy) return;
+    error = "";
+    errorField = "";
+    if (!name.trim()) {
+      errorField = "name";
+      error = "Введите имя, которое увидят ваши собеседники.";
+      document.getElementById("register-name")?.focus();
+      return;
+    }
+    busy = true;
+    try {
+      if (existingRegisterToken) await completeExistingRegistration();
+      else await register();
+    } catch (e) { error = parseApiError(e); }
+    finally { busy = false; }
+  }
 </script>
 
-<div class="auth-page">
-  <h1>Регистрация</h1>
-  <div class="form">
-    <div class="error" role="alert">{error}</div>
-    <input
-      type="text"
-      bind:value={name}
-      placeholder="Псевдоним"
-      aria-label="Псевдоним"
-      autocomplete="nickname"
-      required
-    />
+<AuthShell title={existingRegisterToken ? 'Как вас зовут?' : 'Начнём общение'} description={existingRegisterToken ? 'Номер подтверждён. Осталось выбрать имя для вашего профиля.' : 'Создайте аккаунт и оставайтесь рядом с теми, кто важен.'} mode={existingRegisterToken ? '' : 'register'} backHref={existingRegisterToken ? '/auth/login' : ''}>
+  <form class="auth-form" on:submit|preventDefault={submit} novalidate>
+    <div class="auth-field">
+      <label for="register-name">Ваше имя</label>
+      <div class="auth-input-wrap">
+        <span class="auth-input-icon"><Icon name="user" size={20} /></span>
+        <input class="auth-input has-icon" id="register-name" type="text" bind:value={name} placeholder="Как к вам обращаться" autocomplete="nickname" required aria-invalid={errorField === 'name'} aria-describedby={errorField === 'name' ? 'register-name-error' : 'register-name-hint'} />
+      </div>
+      {#if error && errorField === 'name'}
+        <p class="auth-error" id="register-name-error" role="alert">{error}</p>
+      {:else}
+        <p class="auth-field-hint" id="register-name-hint">Это имя будет видно в вашем профиле</p>
+      {/if}
+    </div>
     {#if !existingRegisterToken}
-      <input
-        type="tel"
-        bind:value={phone}
-        placeholder="Номер телефона"
-        aria-label="Номер телефона"
-        autocomplete="tel"
-        required
-      />
-      <ActionButton text="Получить код" action={register}/>
-    {:else}
-      <ActionButton text="Завершить регистрацию" action={completeExistingRegistration}/>
+      <div class="auth-field">
+        <label for="register-phone">Номер телефона</label>
+        <div class="auth-input-wrap">
+          <span class="auth-input-icon"><Icon name="calls" size={20} /></span>
+          <input class="auth-input has-icon" id="register-phone" type="tel" inputmode="tel" bind:value={phone} placeholder="+7 999 123-45-67" autocomplete="tel" required aria-invalid={errorField === 'phone'} aria-describedby={errorField === 'phone' ? 'register-phone-error' : 'register-phone-hint'} />
+        </div>
+        {#if error && errorField === 'phone'}
+          <p class="auth-error" id="register-phone-error" role="alert">{error}</p>
+        {:else}
+          <p class="auth-field-hint" id="register-phone-hint">Укажите номер вместе с кодом страны</p>
+        {/if}
+      </div>
     {/if}
-  </div>
-  <a href="/auth/login" class="link">Уже есть аккаунт? <u>Войти</u></a>
-</div>
-
-<OpenDevSettingsButton />
-<OpenDevicesButton />
-
-<style>
-
-  .auth-page {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    text-align: center;
-    color: var(--text-primary);
-
-    min-height: 100%;
-    height: 100%;
-    overflow-y: auto;
-    padding: 32px 24px calc(32px + var(--safe-area-bottom));
-    background: var(--bg-app);
-  }
-
-  .auth-page h1 {
-
-    font-size: 1.75rem;
-    font-weight: 700;
-    letter-spacing: -.03em;
-    margin: 16px 0 8px;
-  }
-
-  .form {
-    display: flex;
-    flex-direction: column;
-
-
-
-
-    max-width: 360px;
-    width: 100%;
-    gap: 12px;
-    margin-top: 24px;
-  }
-
-  input {
-    outline: none;
-
-    border: 1px solid var(--border-card);
-    background: var(--bg-surface);
-    background-color: var(--bg-surface);
-    border-radius: 14px;
-    min-height: 52px;
-    padding: 14px 16px;
-    font-size: 1rem;
-    color: var(--text-primary);
-  }
-
-  .link {
-    margin-top: 20px;
-    font-size: 0.8824rem;
-    color: var(--accent-primary);
-    text-decoration: none;
-    transition: transform 0.2s;
-  }
-
-  .link:hover {
-    transform: scale(1.02);
-  }
-
-  .error {
-    color: red;
-    font-size: 0.8824rem;
-    height: 22px;
-    word-break: break-all;
-  }
-</style>
+    {#if error && !errorField}<p class="auth-error auth-error-summary" role="alert">{error}</p>{/if}
+    <SubmitButton text={existingRegisterToken ? 'Начать общение' : 'Получить код'} {busy} busyText={existingRegisterToken ? 'Создаём аккаунт…' : 'Отправляем код…'} />
+    <p class="auth-form-note">{existingRegisterToken ? 'Вы сможете изменить имя в настройках' : 'Подтвердите номер на следующем шаге'}</p>
+  </form>
+</AuthShell>

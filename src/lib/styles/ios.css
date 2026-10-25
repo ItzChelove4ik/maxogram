@@ -7,8 +7,34 @@
   --safe-bottom: 0px;
   --safe-area-top: env(safe-area-inset-top, 0px);
   --safe-area-bottom: env(safe-area-inset-bottom, 0px);
-  --tabbar-height: max(60px, 3.5rem);
-  --tabbar-inset: var(--safe-area-bottom);
+  --tabbar-height: max(72px, 4.25rem);
+  --tabbar-gap: 12px;
+  --tabbar-inset: calc(var(--safe-area-bottom) + var(--tabbar-gap) * 2);
+  --dock-material: rgba(255, 255, 255, .68);
+  --dock-edge: rgba(255, 255, 255, .82);
+  --dock-shadow: 0 12px 36px rgba(25, 45, 75, .18), 0 2px 8px rgba(25, 45, 75, .1);
+  --dock-selected: rgba(47, 126, 214, .15);
+  --dock-selected-shadow: inset 0 1px 0 rgba(255, 255, 255, .6), 0 2px 8px rgba(25, 45, 75, .12);
+  --dock-accent: #2167b7;
+  --auth-background: #eef1f8;
+  --auth-aurora-a: rgba(47, 126, 214, .35);
+  --auth-aurora-b: rgba(134, 146, 224, .3);
+  --auth-aurora-c: rgba(66, 165, 245, .22);
+  --auth-glass: rgba(255, 255, 255, .66);
+  --auth-glass-border: rgba(255, 255, 255, .85);
+  --auth-glass-blur: 24px;
+  --auth-glass-shadow: 0 24px 64px rgba(25, 45, 75, .14);
+  --auth-input-bg: rgba(255, 255, 255, .72);
+  --auth-segment-bg: rgba(120, 130, 160, .16);
+  --auth-segment-selected: rgba(255, 255, 255, .92);
+  --auth-accent: #2167b7;
+  --auth-button: linear-gradient(180deg, #3b8be0, #2167b7);
+  --auth-button-glow: rgba(47, 126, 214, .38);
+  --auth-button-text: #ffffff;
+  --auth-error: #bc302b;
+  --auth-muted: #5d6472;
+  --auth-halo: rgba(47, 126, 214, .12);
+  --auth-shadow: 0 12px 40px rgba(25, 45, 75, .06);
   --bg-app: #ffffff;
   --bg-chat: #e9eef3;
   --bg-surface: #ffffff;
@@ -81,6 +107,31 @@
 
 :root[data-theme='dark'] {
   color-scheme: dark;
+  --dock-material: rgba(24, 25, 30, .62);
+  --dock-edge: rgba(255, 255, 255, .16);
+  --dock-shadow: 0 12px 36px rgba(0, 0, 0, .5), 0 2px 8px rgba(0, 0, 0, .32);
+  --dock-selected: rgba(90, 169, 247, .2);
+  --dock-selected-shadow: inset 0 1px 0 rgba(255, 255, 255, .24), 0 2px 10px rgba(0, 0, 0, .4);
+  --dock-accent: #8bc3ff;
+  --auth-background: #0a0e16;
+  --auth-aurora-a: rgba(47, 126, 214, .26);
+  --auth-aurora-b: rgba(96, 82, 200, .2);
+  --auth-aurora-c: rgba(38, 128, 198, .16);
+  --auth-glass: rgba(22, 26, 36, .6);
+  --auth-glass-border: rgba(255, 255, 255, .13);
+  --auth-glass-blur: 24px;
+  --auth-glass-shadow: 0 24px 64px rgba(0, 0, 0, .45);
+  --auth-input-bg: rgba(255, 255, 255, .07);
+  --auth-segment-bg: rgba(255, 255, 255, .09);
+  --auth-segment-selected: rgba(255, 255, 255, .16);
+  --auth-accent: #8bc3ff;
+  --auth-button: linear-gradient(180deg, #6fb3f5, #3d7fc4);
+  --auth-button-glow: rgba(90, 169, 247, .34);
+  --auth-button-text: #ffffff;
+  --auth-error: #ff9295;
+  --auth-muted: #a2aabd;
+  --auth-halo: rgba(90, 169, 247, .14);
+  --auth-shadow: 0 12px 40px rgba(0, 0, 0, .2);
   --bg-app: #000000;
   --bg-chat: #101722;
   --bg-surface: #1c1c1e;
@@ -219,11 +270,11 @@ h2 { font-size: 1.188rem; line-height: 1.25; letter-spacing: -.015em; }
   -webkit-backdrop-filter: blur(var(--glass-blur-strong)) saturate(var(--glass-saturate));
 }
 @media (prefers-reduced-transparency: reduce) {
-  :root { --glass-blur: 0px; --glass-blur-strong: 0px; --glass-light-bg: var(--bg-surface); --island-bg: var(--bg-surface); }
+  :root, :root[data-theme='dark'] { --glass-blur: 0px; --glass-blur-strong: 0px; --glass-light-bg: var(--bg-surface); --island-bg: var(--bg-surface); --dock-material: var(--bg-surface); --auth-glass: var(--bg-surface); --auth-glass-blur: 0px; --auth-input-bg: var(--bg-surface-2); }
 }
 
 @media (min-width: 768px) {
-  :root { --tabbar-height: max(64px, 3.75rem); }
+  :root { --tabbar-gap: 16px; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {

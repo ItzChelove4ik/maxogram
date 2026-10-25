@@ -17,15 +17,20 @@
     currentUser
   } from "$lib/stores/api";
 
-  import OpenDevSettingsButton from "$components/main/dev/OpenButton.svelte";
-  import OpenDevicesButton from "$components/main/devices/OpenButton.svelte";
-  import ActionButton from "$components/main/auth/ActionButton.svelte";
-  import BackButton from "$components/main/auth/BackButton.svelte";
+  import AuthShell from "$components/main/auth/AuthShell.svelte";
+  import SubmitButton from "$components/main/auth/SubmitButton.svelte";
+  import Icon from "$components/main/Icon.svelte";
+  import { parseApiError } from "$lib/api/MobileApi.js";
 
-  let phone = "";
+  let phone = sessionGet("phone") || "";
+  let busy = false;
+  let importing = false;
+  let hasAccounts = false;
+  let errorField = "";
   let error = "";
 
   onMount(async () => {
+    hasAccounts = !!(await getAccounts()).length;
     if (!sessionGet("device")) {
       const dev = await getDevice();
       if (dev) sessionSet("device", dev);
@@ -33,8 +38,11 @@
   });
 
   async function login() {
-    if (phone.length < 7) {
-      error = "Это не номер!";
+    const normalizedPhone = phone.trim().replace(/[\s()-]/g, "");
+    if (!/^\+?\d{7,15}$/.test(normalizedPhone)) {
+      errorField = "phone";
+      error = "Введите номер с кодом страны, например +7 999 123-45-67.";
+      document.getElementById("login-phone")?.focus();
       return;
     }
 
@@ -43,14 +51,17 @@
       if (dev) {
         sessionSet("device", dev);
       } else {
-        return alert("Нажмите на иконку телефона, чтобы настроить данные входа!");
+        error = "Выберите устройство в параметрах подключения внизу экрана.";
+        return;
       }
     }
 
     error = "";
-    if (!phone.startsWith("+")) phone = "+" + phone;
+    errorField = "";
+    phone = normalizedPhone.startsWith("+") ? normalizedPhone : "+" + normalizedPhone;
 
     sessionSet("phone", phone);
+    sessionSet("name", null);
 
     const response = await $API.startAuth(phone);
 
@@ -64,8 +75,24 @@
     }
   }
 
-  async function showBackButton() {
-    return !!(await getAccounts()).length;
+  async function submit() {
+    if (busy || importing) return;
+    busy = true;
+    error = "";
+    errorField = "";
+    try { await login(); }
+    catch (e) { error = parseApiError(e); }
+    finally { busy = false; }
+  }
+
+  async function handleImport() {
+    if (busy || importing) return;
+    importing = true;
+    error = "";
+    errorField = "";
+    try { await importAccount(); }
+    catch (e) { error = parseApiError(e); }
+    finally { importing = false; }
   }
 
   const readFile = path => invoke("read_file", { path });
@@ -100,121 +127,25 @@
   }
 </script>
 
-<div class="auth-page">
-  <img class="auth-logo" src="/favicon.png" width="88" height="88" alt="" />
-  <h1>Вход в Orbit</h1>
-  <p class="auth-description">Введите номер телефона, чтобы продолжить</p>
-  <div class="form">
-    <div class="error" role="alert">{error}</div>
-    <input
-      type="tel"
-      bind:value={phone}
-      placeholder="Номер телефона"
-      aria-label="Номер телефона"
-      autocomplete="tel"
-      required
-    />
-    <ActionButton text="Получить код" action={login}/>
-  </div>
-  <a href="/auth/register" class="link">Создать аккаунт</a>
-  <a on:click={importAccount} class="link">Импорт аккаунта</a>
-  <BackButton condition={showBackButton} path="/auth/select"/>
-</div>
-
-<OpenDevSettingsButton />
-<OpenDevicesButton />
-
-<style>
-
-  .auth-page {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    text-align: center;
-    color: var(--text-primary);
-
-    min-height: 100%;
-    height: 100%;
-    overflow-y: auto;
-    padding: 32px 24px calc(32px + var(--safe-area-bottom));
-    background: var(--bg-app);
-  }
-
-  .auth-page h1 {
-    margin-bottom: 0px;
-
-    font-size: 1.75rem;
-    font-weight: 700;
-    letter-spacing: -.03em;
-    margin: 16px 0 8px;
-  }
-
-  .form {
-    display: flex;
-    flex-direction: column;
-
-
-
-
-    max-width: 360px;
-    width: 100%;
-    gap: 12px;
-    margin-top: 24px;
-  }
-
-  input {
-    outline: none;
-
-    border: 1px solid var(--border-card);
-    background: var(--bg-surface);
-    background-color: var(--bg-surface);
-    border-radius: 14px;
-    min-height: 52px;
-    padding: 14px 16px;
-    font-size: 1rem;
-    color: var(--text-primary);
-  }
-
-  .link {
-    font-size: 0.8824rem;
-    color: var(--accent-primary);
-    text-decoration: none;
-    transition: transform 0.2s;
-
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 8px;
-  }
-
-  .link:hover {
-    transform: scale(1.02);
-  }
-
-  .error {
-    font-size: 0.8824rem;
-    min-height: 18px;
-    text-align: center;
-    width: 100%;
-    box-sizing: border-box;
-    white-space: normal;
-    overflow-wrap: break-word;
-    word-break: normal;
-
-    color: var(--status-danger);
-  }
-  .auth-logo {
-    border-radius: 22px;
-    margin-bottom: 8px;
-  }
-  .auth-description {
-    font-size: .8824rem;
-    color: var(--text-muted);
-    max-width: 300px;
-    margin: 0;
-    line-height: 1.4;
-  }
-</style>
+<AuthShell title="С возвращением" description="Войдите по номеру телефона, чтобы снова быть на связи." mode="login" backHref={hasAccounts ? '/auth/select' : ''} backLabel="Аккаунты">
+  <form class="auth-form" on:submit|preventDefault={submit} novalidate>
+    <div class="auth-field">
+      <label for="login-phone">Номер телефона</label>
+      <div class="auth-input-wrap">
+        <span class="auth-input-icon"><Icon name="calls" size={20} /></span>
+        <input class="auth-input has-icon" id="login-phone" type="tel" inputmode="tel" bind:value={phone} placeholder="+7 999 123-45-67" autocomplete="tel" required aria-invalid={errorField === 'phone'} aria-describedby={errorField === 'phone' ? 'login-phone-error' : 'login-phone-hint'} />
+      </div>
+      {#if error && errorField === 'phone'}
+        <p class="auth-error" id="login-phone-error" role="alert">{error}</p>
+      {:else}
+        <p class="auth-field-hint" id="login-phone-hint">Укажите номер вместе с кодом страны</p>
+      {/if}
+    </div>
+    {#if error && !errorField}<p class="auth-error auth-error-summary" role="alert">{error}</p>{/if}
+    <SubmitButton text="Получить код" {busy} disabled={importing} busyText="Отправляем код…" />
+    <p class="auth-form-note">Отправим код подтверждения по SMS<br />или в MAX на другом устройстве</p>
+  </form>
+  <svelte:fragment slot="secondary">
+    <button class="auth-text-action" type="button" on:click={handleImport} disabled={importing || busy} aria-busy={importing}><Icon name="logout" size={18} />{importing ? 'Импортируем…' : 'Импортировать аккаунт'}</button>
+  </svelte:fragment>
+</AuthShell>

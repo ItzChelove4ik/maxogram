@@ -7,8 +7,8 @@
   } from "$lib/stores/session.js";
   import { registerBackHandler } from "$lib/utils/backButton.js";
 
-  import BackButton from "$components/main/auth/BackButton.svelte";
-  import ActionButton from "$components/main/auth/ActionButton.svelte";
+  import AuthShell from "$components/main/auth/AuthShell.svelte";
+  import SubmitButton from "$components/main/auth/SubmitButton.svelte";
 
   import API from "$lib/stores/api";
   import { parseApiError } from "$lib/api/MobileApi.js";
@@ -36,7 +36,8 @@
   async function verify() {
     if (loading) return;
     if (!password) {
-      error = "Введите пароль";
+      error = "Введите пароль для завершения входа.";
+      document.getElementById("auth-password")?.focus();
       return;
     }
     if (!challenge?.trackId) {
@@ -63,148 +64,25 @@
     }
   }
 
-  function handleKeydown(e) {
-    if (e.key === "Enter") {
-      verify();
-    }
-  }
 </script>
 
-<div class="auth-page">
-  <h1>Двухфакторная аутентификация</h1>
-  <p>Введите пароль для завершения входа</p>
-  {#if challenge?.hint}
-    <div class="hint">Подсказка: {challenge.hint}</div>
-  {/if}
-  <div class="form">
-    <div class="error" role="alert">{error}</div>
-    <div class="input-wrapper">
-      <input
-        type={showPassword ? "text" : "password"}
-        bind:value={password}
-        placeholder="Пароль"
-        aria-label="Пароль двухфакторной аутентификации"
-        autocomplete="current-password"
-        on:keydown={handleKeydown}
-        required
-      />
-      <button
-        type="button"
-        class="toggle-visibility"
-        on:click={() => (showPassword = !showPassword)}
-        aria-label={showPassword ? 'Скрыть пароль' : 'Показать пароль'}
-        aria-pressed={showPassword}
-      >
-        {#if showPassword}
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-            <path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>
+<AuthShell title="Ещё один шаг" description="Для этого аккаунта включена двухфакторная защита. Введите ваш пароль." icon="crypto" backHref="/auth/login">
+  <form class="auth-form" on:submit|preventDefault={verify} novalidate>
+    <div class="auth-field">
+      <label for="auth-password">Пароль</label>
+      <div class="auth-input-wrap has-toggle">
+        <input class="auth-input" id="auth-password" type={showPassword ? 'text' : 'password'} bind:value={password} placeholder="Ваш пароль" autocomplete="current-password" required aria-invalid={!!error} aria-describedby={error ? 'password-error' : challenge?.hint ? 'password-hint' : undefined} />
+        <button type="button" class="auth-toggle" on:click={() => (showPassword = !showPassword)} aria-label={showPassword ? 'Скрыть пароль' : 'Показать пароль'} aria-pressed={showPassword}>
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"></path>
+            <circle cx="12" cy="12" r="3"></circle>
+            {#if showPassword}<path d="m3 3 18 18"></path>{/if}
           </svg>
-        {:else}
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-            <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
-          </svg>
-        {/if}
-      </button>
+        </button>
+      </div>
+      {#if error}<p class="auth-error" id="password-error" role="alert">{error}</p>
+      {:else if challenge?.hint}<p class="auth-field-hint" id="password-hint">Подсказка: {challenge.hint}</p>{/if}
     </div>
-    <ActionButton text="Проверить" action={verify}/>
-  </div>
-  <BackButton path="/auth/login"/>
-</div>
-
-<style>
-
-  .auth-page {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    text-align: center;
-    color: var(--text-primary);
-    max-width: min(340px, 90%);
-    margin: 0 auto;
-
-    min-height: 100%;
-    height: 100%;
-    overflow-y: auto;
-    padding: 32px 24px calc(32px + var(--safe-area-bottom));
-    background: var(--bg-app);
-  }
-
-  .auth-page h1 {
-
-
-    font-size: 1.75rem;
-    font-weight: 700;
-    letter-spacing: -.03em;
-    margin: 16px 0 8px;
-  }
-
-  .auth-page p {
-    margin: 10px 0 6px 0;
-    font-size: 0.8235rem;
-    color: var(--text-muted);
-  }
-
-  .hint {
-    font-size: 0.7647rem;
-    color: var(--accent-primary);
-    margin-bottom: 8px;
-    word-break: break-word;
-  }
-
-  .form {
-    display: flex;
-    flex-direction: column;
-
-
-
-    max-width: 360px;
-    width: 100%;
-    gap: 12px;
-    margin-top: 24px;
-  }
-
-  .input-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 100%;
-  }
-
-  .input-wrapper input {
-    width: 100%;
-    padding: 0.75rem 2.5rem 0.75rem 0.75rem;
-    border-radius: 8px;
-    border: 1px solid var(--border-subtle);
-    font-size: 1rem;
-    background-color: var(--bg-surface);
-    color: var(--text-secondary);
-    outline: none;
-    box-sizing: border-box;
-  }
-
-  .toggle-visibility {
-    position: absolute;
-    right: 10px;
-    background: transparent;
-    border: none;
-    color: var(--text-muted);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 4px;
-  }
-
-  .toggle-visibility:active {
-    opacity: 0.7;
-  }
-
-  .error {
-    color: var(--status-danger);
-    font-size: 0.8235rem;
-    min-height: 20px;
-    word-break: break-word;
-  }
-</style>
+    <SubmitButton text="Войти" busy={loading} busyText="Проверяем пароль…" />
+  </form>
+</AuthShell>
