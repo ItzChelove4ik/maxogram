@@ -1904,7 +1904,7 @@
     align-items: center;
     gap: 8px;
     position: relative;
-    padding: 8px 12px 10px;
+    padding: 8px 12px 8px;
     width: 100%;
     max-width: 100%;
     min-width: 0;

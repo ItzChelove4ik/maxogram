@@ -8,46 +8,14 @@
   scroll-padding-block: 24px;
 }
 
-/* Aurora background — three drifting blurred blobs behind the glass. */
-.auth-aurora {
+/* Scanner background — вертикальная развёртка на canvas за стеклом. */
+.auth-scanner {
   position: absolute;
   inset: 0;
   pointer-events: none;
   overflow: hidden;
+  background: #000000;
 }
-.aurora-blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(64px);
-  will-change: transform;
-}
-.aurora-a {
-  width: 340px;
-  height: 340px;
-  top: -120px;
-  left: -80px;
-  background: var(--auth-aurora-a);
-  animation: aurora-drift-a 18s ease-in-out infinite alternate;
-}
-.aurora-b {
-  width: 300px;
-  height: 300px;
-  top: 22%;
-  right: -110px;
-  background: var(--auth-aurora-b);
-  animation: aurora-drift-b 22s ease-in-out infinite alternate;
-}
-.aurora-c {
-  width: 380px;
-  height: 380px;
-  bottom: -140px;
-  left: 24%;
-  background: var(--auth-aurora-c);
-  animation: aurora-drift-c 26s ease-in-out infinite alternate;
-}
-@keyframes aurora-drift-a { from { transform: translate(0, 0) scale(1); } to { transform: translate(48px, 36px) scale(1.12); } }
-@keyframes aurora-drift-b { from { transform: translate(0, 0) scale(1); } to { transform: translate(-52px, 42px) scale(.92); } }
-@keyframes aurora-drift-c { from { transform: translate(0, 0) scale(1); } to { transform: translate(36px, -44px) scale(1.08); } }
 
 .auth-layout {
   position: relative;
@@ -207,5 +175,6 @@ html:not(.ios-safe-area) .auth-layout { padding-top: calc(16px + var(--safe-area
 @media (orientation: landscape) and (max-height: 500px) { .auth-emblem { width: 64px; height: 64px; margin-bottom: 12px; } .auth-brand-glass { width: 64px; height: 64px; border-radius: 20px; } .auth-brand-icon { width: 44px; height: 44px; } .auth-heading h1 { font-size: 1.5294rem; } }
 @media (prefers-reduced-motion: reduce) {
   .auth-spinner { animation: none; }
-  .aurora-blob { animation: none; }
+  .auth-scanner { display: none; }
+  .auth-screen { background: var(--bg-surface); }
 }

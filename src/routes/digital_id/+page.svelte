@@ -482,7 +482,7 @@
     flex: 1;
     overflow-y: auto;
 
-    padding-bottom: 90px;
+    padding-bottom: calc(var(--tabbar-inset) + 16px);
     display: flex;
     flex-direction: column;
     gap: 16px;

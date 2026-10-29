@@ -302,7 +302,7 @@
     overflow-y: auto;
     overflow-x: hidden;
 
-    padding: 0 16px 24px;
+    padding: 0 16px calc(var(--tabbar-inset) + 24px);
     gap: 0;
     background: var(--bg-surface);
   }

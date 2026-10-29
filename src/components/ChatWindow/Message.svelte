@@ -4,6 +4,7 @@
   import { openPath } from "@tauri-apps/plugin-opener";
   import API, { currentUser, currentUserDetails } from "$lib/stores/api";
   import { getChat } from "$lib/stores/messages";
+  import { getContactDisplayName } from "$lib/stores/contacts";
   import { getContact } from "$lib/utils/caching";
   import Session, { openChat } from "$lib/stores/session";
   import {
@@ -36,6 +37,17 @@
   $: isSending = msg.status === "sending" || msg.status === "pending" || msg.status === 0 || msg.sending === true;
   $: isRead = !isSending && (isBot || msg.read === true || msg.status === 3 || msg.status === "read" || (otherReadTime > 0 && otherReadTime >= (msg.time || 0)));
   $: isSystem = Boolean(msg.attaches?.some((x) => x._type === "CONTROL"));
+
+  $: showSenderName = (() => {
+    if (isMe || isSystem || isStickerOnly || chat.type === "CHANNEL" || chat.type === "DIALOG") return false;
+    if (msg.link) return false;
+    if (isVideoNoteOnly) return true;
+    return true;
+  })();
+  $: cachedSenderContact = msg.sender ? getContact(msg.sender) : null;
+  $: senderName = $cachedSenderContact
+    ? (getContactDisplayName($cachedSenderContact) || String(msg.sender))
+    : (msg.senderName || msg.sender_name || String(msg.sender || ""));
 
   $: rawText = decoded ? (decoded.text ?? "") : (msg.text || "");
   $: isE2eDisable = Boolean(rawText && (rawText === "__E2E_DISABLE__" || rawText.includes('"e2e_control":"disable"')));
@@ -319,6 +331,9 @@
   </div>
 
   <div class="message-bubble-container">
+    {#if showSenderName}
+      <span class="sender-name" on:click|stopPropagation={() => { if (msg.sender) $Session.profile = { userId: Number(msg.sender) }; }}>{senderName}</span>
+    {/if}
     {#if isStickerOnly}
       <div class="message-bubble sticker-bubble">
         <div class="sticker-wrapper" on:click|stopPropagation={() => dispatch("openStickerPack", { sticker: stickerAttach })}>
@@ -623,6 +638,20 @@
     margin-right: 10px;
     position: relative;
     width: fit-content;
+  }
+
+  .sender-name {
+    color: var(--accent-primary);
+    font-size: 0.7059rem;
+    font-weight: 600;
+    line-height: 1.2;
+    padding: 0 12px 3px;
+    margin-left: 4px;
+    cursor: pointer;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .message-bubble {

@@ -1,5 +1,6 @@
 <script>
   import Icon from '$components/main/Icon.svelte';
+  import Scanner from '$components/main/Scanner.svelte';
   import { set as sessionSet } from '$lib/stores/session.js';
   import '$lib/styles/auth.css';
 
@@ -12,10 +13,39 @@
 </script>
 
 <div class="auth-screen">
-  <div class="auth-aurora" aria-hidden="true">
-    <span class="aurora-blob aurora-a"></span>
-    <span class="aurora-blob aurora-b"></span>
-    <span class="aurora-blob aurora-c"></span>
+  <div class="auth-scanner" aria-hidden="true">
+    <Scanner
+      color1="#94a3b8"
+      color2="#000000"
+      color3="#FFFFFF"
+      speed={0.5}
+      sweepSpeed={0.25}
+      sweepWidth={1.6}
+      trail={0.5}
+      ripple={0.22}
+      bandDensity={11}
+      glow={0.6}
+      scanDirection="vertical"
+      colorSpread={0.7}
+      scanline
+      scanlineIntensity={0.5}
+      mouseInteraction
+      clickEffect="ping"
+      reverse={false}
+      scale={1.5}
+      frequency={2}
+      lineWidth={1.2}
+      brightness={1}
+      vignette={0.3}
+      grain
+      grainIntensity={0.04}
+      opacity={1}
+      mouseMode="repel"
+      mouseRadius={0.5}
+      mouseStrength={0.7}
+      intro
+      lightMode={false}
+    />
   </div>
 
   <div class="auth-layout">

@@ -102,6 +102,7 @@
     flex-direction: column;
     contain: layout;
     -webkit-overflow-scrolling: touch;
+    padding-bottom: var(--tabbar-inset);
   }
 
   .state {

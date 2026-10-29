@@ -402,7 +402,7 @@ import { goto } from "$app/navigation";
 
     background: var(--bg-app);
     color: var(--text-primary);
-    padding: 0 16px 24px;
+    padding: 0 16px calc(var(--tabbar-inset) + 24px);
   }
 
   .info {

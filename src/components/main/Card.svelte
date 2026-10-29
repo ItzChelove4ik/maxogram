@@ -22,7 +22,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: calc(100% - var(--tabbar-height) - var(--tabbar-inset));
+    height: 100%;
     transition: transform 0.22s ease-out;
     display: flex;
     flex-direction: column;

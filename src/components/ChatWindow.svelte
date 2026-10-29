@@ -260,9 +260,9 @@
       scrollElement,
       messagesList: $messages,
     });
-    if (userHasScrolled) {
-      await scheduleRead();
-    }
+    // Читаем и без ручного скролла: открытие чата с непрочитанными
+    // сразу помечает видимые сообщения прочитанными.
+    await scheduleRead();
   }
 
   function saveCurrentPosition() {
@@ -359,8 +359,6 @@
 
       if (myMark > 0 && Number(msg.time || 0) <= myMark) return;
 
-      if (!chat?.newMessages || chat.newMessages <= 0) return;
-
       lastReadMessageId = msgId;
 
       try {
@@ -368,6 +366,28 @@
       } catch (e) {
         console.error("readMessage failed", e);
       }
+
+      // Локально помечаем свои сообщения прочитанными и обнуляем счётчик,
+      // чтобы чат в списке сразу терял бейдж и галочки становились синими.
+      const readTime = Number(msg.time || 0);
+      messages.update((items) => {
+        let changed = false;
+        const next = items.map((m) => {
+          if (!m.read && Number(m.sender) === myId && Number(m.time || 0) <= readTime) {
+            changed = true;
+            return { ...m, read: true };
+          }
+          return m;
+        });
+        return changed ? next : items;
+      });
+      const chatCache2 = getChat(chat?.id ?? chatId);
+      chatCache2.chatInfo.update((c) => {
+        if (!c) return c;
+        if ((c.newMessages || 0) <= 0 && c.participants?.[myId] >= readTime) return c;
+        const participants = { ...(c.participants || {}), [myId]: Math.max(Number(c.participants?.[myId] || 0), readTime) };
+        return { ...c, newMessages: 0, participants };
+      });
     }, 500);
   }
 
@@ -1733,7 +1753,7 @@
     max-height: 100%;
     background-color: var(--bg-chat);
     padding-top: env(safe-area-inset-top, 10px);
-    padding-bottom: env(safe-area-inset-bottom, 20px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
     box-shadow: -4px 0 24px rgba(0, 0, 0, 0.45);
     will-change: transform;
   }

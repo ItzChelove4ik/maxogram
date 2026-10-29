@@ -1275,7 +1275,7 @@
     -webkit-overflow-scrolling: touch;
     box-sizing: border-box;
     cursor: default;
-    padding-bottom: calc(76px + env(safe-area-inset-bottom, 14px));
+    padding-bottom: calc(var(--tabbar-inset) + 12px);
   }
 
   .loading-box {

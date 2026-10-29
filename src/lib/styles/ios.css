@@ -8,8 +8,8 @@
   --safe-area-top: env(safe-area-inset-top, 0px);
   --safe-area-bottom: env(safe-area-inset-bottom, 0px);
   --tabbar-height: max(72px, 4.25rem);
-  --tabbar-gap: 12px;
-  --tabbar-inset: calc(var(--safe-area-bottom) + var(--tabbar-gap) * 2);
+  --tabbar-gap: 24px;
+  --tabbar-inset: calc(var(--safe-area-bottom) + var(--tabbar-gap) + 72px);
   --dock-material: rgba(255, 255, 255, .68);
   --dock-edge: rgba(255, 255, 255, .82);
   --dock-shadow: 0 12px 36px rgba(25, 45, 75, .18), 0 2px 8px rgba(25, 45, 75, .1);
@@ -147,8 +147,8 @@
   --accent-rgb: 90, 169, 247;
   --accent-subtle: rgba(90, 169, 247, .14);
   --accent-subtle-hover: rgba(90, 169, 247, .22);
-  --bubble-outgoing: #8ed84f33;
-  --bubble-incoming: #252a32;
+  --bubble-outgoing: #3a5c2e;
+  --bubble-incoming: #1f2530;
   --bubble-text: #ffffff;
   --bubble-meta: #bac8d7;
   --text-primary: #f5f5f7;
@@ -274,7 +274,7 @@ h2 { font-size: 1.188rem; line-height: 1.25; letter-spacing: -.015em; }
 }
 
 @media (min-width: 768px) {
-  :root { --tabbar-gap: 16px; }
+  :root { --tabbar-gap: 32px; }
 }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
