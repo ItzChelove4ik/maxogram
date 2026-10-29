@@ -226,9 +226,9 @@
     border-radius: 50%;
     overflow: hidden;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-    border: 3px solid #248bfe;
+    border: 3px solid var(--accent-primary);
     cursor: pointer;
-    background: #000;
+    background: var(--bg-app);
   }
 
   .video-review-circle {
@@ -248,7 +248,7 @@
     border-radius: 50%;
     background: rgba(0, 0, 0, 0.75);
     border: none;
-    color: #fff;
+    color: var(--text-on-media);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -260,7 +260,7 @@
     align-items: center;
     gap: 12px;
     padding: 8px 12px 10px;
-    background-color: #17191d;
+    background-color: var(--bg-app);
     box-sizing: border-box;
   }
 
@@ -282,31 +282,31 @@
   }
 
   .review-action-btn.trash {
-    background: rgba(239, 68, 68, 0.15);
-    color: #ef4444;
+    background: rgba(var(--danger-rgb), 0.15);
+    color: var(--status-danger);
   }
 
   .review-action-btn.trash:hover {
-    background: rgba(239, 68, 68, 0.3);
+    background: rgba(var(--danger-rgb), 0.3);
   }
 
   .review-action-btn.mute {
-    background: #262930;
-    color: #94a3b8;
+    background: var(--bg-surface);
+    color: var(--text-muted);
   }
 
   .review-action-btn.mute:hover {
-    background: #323640;
-    color: #edf0f5;
+    background: var(--bg-surface-2);
+    color: var(--text-primary);
   }
 
   .review-action-btn.send {
-    background: #248bfe;
-    color: #fff;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
   }
 
   .review-action-btn.send:hover {
-    background: #1b7cf0;
+    background: var(--accent-primary);
   }
 
   .review-trim-container {
@@ -320,14 +320,14 @@
   .review-trim-times {
     display: flex;
     justify-content: space-between;
-    font-size: 11px;
-    color: #94a3b8;
+    font-size: 0.6471rem;
+    color: var(--text-muted);
     font-variant-numeric: tabular-nums;
   }
 
   .review-trim-duration {
     font-weight: 600;
-    color: #248bfe;
+    color: var(--accent-primary);
   }
 
   .trim-sliders {
@@ -350,7 +350,7 @@
 
   .trim-slider::-webkit-slider-runnable-track {
     height: 6px;
-    background: rgba(255, 255, 255, 0.15);
+    background: var(--bg-fill);
     border-radius: 3px;
   }
 
@@ -361,7 +361,7 @@
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background: #248bfe;
+    background: var(--accent-primary);
     cursor: ew-resize;
     box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
     margin-top: -5px;

@@ -8,6 +8,8 @@
 <div
   class="page-card"
   class:inactive={!isCurrent}
+  inert={!isCurrent}
+  aria-hidden={!isCurrent}
   style="transform: translateX({(index - active) * 100}vw)"
 >
   <slot />
@@ -20,11 +22,11 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: calc(100% - 60px);
+    height: 100%;
     transition: transform 0.22s ease-out;
     display: flex;
     flex-direction: column;
-    background: var(--bg-app, #17181c);
+    background: var(--bg-app);
   }
 
   .page-card.inactive {

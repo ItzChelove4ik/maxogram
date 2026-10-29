@@ -44,7 +44,7 @@
     align-items: center;
     padding: 8px 12px;
     cursor: pointer;
-    border-bottom: 1px solid #282830;
+    border-bottom: 1px solid var(--border-subtle);
     gap: 10px;
     transition: background 0.15s;
   }
@@ -54,27 +54,27 @@
   }
 
   .chat-row:hover {
-    background: #282832;
+    background: var(--bg-surface);
   }
 
   .checkbox {
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    border: 2px solid #555;
+    border: 2px solid var(--border-subtle);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 11px;
+    font-size: 0.6471rem;
     font-weight: bold;
-    color: #fff;
+    color: var(--text-primary);
     flex-shrink: 0;
     transition: background 0.2s, border-color 0.2s;
   }
 
   .checkbox.checked {
-    background: #007afd;
-    border-color: #007afd;
+    background: var(--accent-primary);
+    border-color: var(--accent-primary);
   }
 
   .avatar-wrap {
@@ -90,16 +90,16 @@
   }
 
   .chat-name {
-    font-size: 14px;
+    font-size: 0.8235rem;
     font-weight: 500;
-    color: #fff;
+    color: var(--text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
   .chat-type {
-    font-size: 11px;
-    color: #888;
+    font-size: 0.6471rem;
+    color: var(--text-muted);
   }
 </style>

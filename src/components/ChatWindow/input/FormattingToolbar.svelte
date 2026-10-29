@@ -168,8 +168,8 @@
     bottom: calc(100% + 4px);
     left: 12px;
     z-index: 1000;
-    background: #232530;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
     border-radius: 12px;
     padding: 5px 8px;
@@ -191,26 +191,26 @@
   .fmt-btn {
     background: transparent;
     border: none;
-    color: #e0e0e0;
+    color: var(--text-primary);
     width: 44px;
     height: 46px;
     border-radius: 9px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
+    font-size: 0.8235rem;
     cursor: pointer;
     transition: background 0.15s, color 0.15s;
   }
 
   .fmt-btn:hover {
-    background: rgba(255, 255, 255, 0.12);
-    color: #ffffff;
+    background: var(--bg-fill);
+    color: var(--text-primary);
   }
 
   .fmt-btn.is-active {
-    background: #7b4cd6;
-    color: #ffffff;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
   }
 
   .link-entry {
@@ -222,10 +222,10 @@
   }
 
   .link-entry input {
-    background: #181920;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    color: #fff;
-    font-size: 14px;
+    background: var(--bg-app);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-primary);
+    font-size: 0.8235rem;
     padding: 6px 10px;
     height: 38px;
     box-sizing: border-box;
@@ -238,7 +238,7 @@
   .btn-cancel {
     background: transparent;
     border: none;
-    color: #fff;
+    color: var(--text-primary);
     cursor: pointer;
     width: 38px;
     height: 38px;

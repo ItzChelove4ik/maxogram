@@ -111,8 +111,8 @@
   }
 
   .modal-content {
-    background-color: #1e2025;
-    color: #edf0f5;
+    background-color: var(--bg-surface);
+    color: var(--text-primary);
     border-radius: 16px;
     padding: 24px;
     width: 100%;
@@ -121,7 +121,7 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-subtle);
     box-shadow: 0 20px 48px rgba(0, 0, 0, 0.65);
   }
 
@@ -130,7 +130,7 @@
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    color: #edf0f5;
+    color: var(--text-primary);
   }
 
   .icon-wrap {
@@ -140,27 +140,27 @@
     width: 52px;
     height: 52px;
     border-radius: 50%;
-    background: rgba(34, 197, 94, 0.12);
-    color: #4ade80;
+    background: rgba(var(--success-rgb), 0.12);
+    color: var(--status-success);
   }
 
   .modal-header h2 {
     margin: 0;
-    font-size: 20px;
+    font-size: 1.176rem;
     font-weight: 600;
-    color: #f8fafc;
+    color: var(--text-primary);
   }
 
   .modal-body p {
     margin: 0;
-    font-size: 15px;
+    font-size: 0.8824rem;
     line-height: 1.5;
-    color: #94a3b8;
+    color: var(--text-muted);
   }
 
   .warning-box {
     background-color: rgba(234, 179, 8, 0.1);
-    border: 1px solid rgba(234, 179, 8, 0.25);
+    border: 1px solid var(--status-warning);
     border-radius: 10px;
     padding: 12px;
     margin-top: 14px;
@@ -171,18 +171,18 @@
   }
 
   .warning-box svg {
-    stroke: #fbbf24;
+    stroke: var(--status-warning);
     flex-shrink: 0;
   }
 
   .warning-box p {
-    font-size: 13px;
-    color: #fef08a;
+    font-size: 0.7647rem;
+    color: var(--status-warning);
     line-height: 1.45;
   }
 
   .warning-box p strong {
-    color: #fde047;
+    color: var(--status-warning);
   }
 
   .modal-actions {
@@ -200,7 +200,7 @@
   .btn {
     width: 100%;
     padding: 12px 16px;
-    font-size: 15px;
+    font-size: 0.8824rem;
     font-weight: 600;
     border-radius: 10px;
     border: none;
@@ -218,34 +218,34 @@
   }
 
   .btn.btn-primary {
-    background-color: #22c55e;
-    color: #ffffff;
+    background-color: var(--status-success);
+    color: var(--text-on-success);
   }
 
   .btn.btn-primary:hover {
-    background-color: #16a34a;
+    background-color: var(--status-success);
   }
 
   .btn.btn-secondary {
-    background-color: rgba(255, 255, 255, 0.08);
-    color: #e2e8f0;
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background-color: var(--bg-hover);
+    color: var(--text-primary);
+    border: 1px solid var(--border-subtle);
   }
 
   .btn.btn-secondary:hover {
-    background-color: rgba(255, 255, 255, 0.12);
+    background-color: var(--bg-fill);
   }
 
   .btn.btn-link {
     background: none;
-    color: #64748b;
+    color: var(--text-muted);
     font-weight: 500;
-    font-size: 13px;
+    font-size: 0.7647rem;
     padding: 6px;
   }
 
   .btn.btn-link:hover {
-    color: #94a3b8;
+    color: var(--text-muted);
     text-decoration: underline;
     transform: none;
   }

@@ -1,0 +1,180 @@
+.auth-screen {
+  position: relative;
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  background: var(--auth-background);
+  color: var(--text-primary);
+  scroll-padding-block: 24px;
+}
+
+/* Scanner background — вертикальная развёртка на canvas за стеклом. */
+.auth-scanner {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  background: #000000;
+}
+
+.auth-layout {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  min-height: 100%;
+  margin: 0 auto;
+  padding: 16px 24px calc(20px + var(--safe-area-bottom));
+  display: flex;
+  flex-direction: column;
+}
+/* The native app already reserves the status bar above its main viewport. */
+html:not(.ios-safe-area) .auth-layout { padding-top: calc(16px + var(--safe-area-top)); }
+.auth-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 44px;
+}
+.auth-wordmark { display: flex; align-items: center; gap: 5px; font-size: 1.1765rem; font-weight: 750; letter-spacing: -.04em; }
+.auth-wordmark-dot { width: 6px; height: 6px; background: var(--auth-accent); border-radius: 50%; align-self: flex-end; margin-bottom: 8px; }
+.auth-back { display: inline-flex; align-items: center; gap: 4px; min-height: 44px; color: var(--auth-accent); text-decoration: none; font-size: .8824rem; font-weight: 550; }
+.auth-content { margin: auto 0; padding: 24px 0 16px; min-width: 0; }
+
+.auth-emblem { position: relative; width: 96px; height: 96px; display: grid; place-items: center; margin: 0 auto 16px; }
+.auth-brand-glass {
+  display: grid;
+  place-items: center;
+  width: 96px;
+  height: 96px;
+  border-radius: 30px;
+  background: var(--auth-glass);
+  border: 1px solid var(--auth-glass-border);
+  box-shadow: var(--auth-glass-shadow), var(--glass-specular);
+  backdrop-filter: blur(var(--auth-glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--auth-glass-blur)) saturate(var(--glass-saturate));
+}
+.auth-brand-icon { display: block; width: 64px; height: 64px; border-radius: 16px; filter: drop-shadow(0 6px 16px var(--auth-halo)); }
+.auth-step-icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 24px;
+  background: var(--auth-glass);
+  color: var(--auth-accent);
+  border: 1px solid var(--auth-glass-border);
+  box-shadow: var(--auth-glass-shadow), var(--glass-specular);
+  backdrop-filter: blur(var(--auth-glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--auth-glass-blur)) saturate(var(--glass-saturate));
+}
+
+.auth-heading { text-align: center; margin-bottom: 20px; }
+.auth-heading h1 { margin: 0 0 8px; font-size: 1.7647rem; line-height: 1.15; font-weight: 750; letter-spacing: -.045em; text-wrap: balance; }
+.auth-heading p { margin: 0 auto; max-width: 340px; color: var(--auth-muted); font-size: .8824rem; line-height: 1.5; text-wrap: pretty; }
+
+/* Segmented control — iOS style, glass with white selected pill. */
+.auth-switch {
+  display: flex;
+  gap: 4px;
+  background: var(--auth-segment-bg);
+  padding: 4px;
+  border-radius: 18px;
+  margin-bottom: 20px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.auth-switch a { flex: 1; display: grid; place-items: center; min-height: 44px; padding: 8px; text-decoration: none; border-radius: 14px; color: var(--text-secondary); font-size: .8824rem; font-weight: 550; transition: background var(--duration-ui), color var(--duration-ui), box-shadow var(--duration-ui); }
+.auth-switch a[aria-current='page'] { background: var(--auth-segment-selected); color: var(--text-primary); box-shadow: 0 2px 8px rgba(25, 45, 75, .12), var(--glass-specular); }
+
+/* Main form card — frosted Liquid Glass over the aurora. */
+.auth-card {
+  padding: 20px;
+  background: var(--auth-glass);
+  border: 1px solid var(--auth-glass-border);
+  border-radius: 28px;
+  box-shadow: var(--auth-glass-shadow), var(--glass-specular);
+  backdrop-filter: blur(var(--auth-glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--auth-glass-blur)) saturate(var(--glass-saturate));
+}
+.auth-form { display: flex; flex-direction: column; gap: 16px; }
+.auth-field { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.auth-field label { font-size: .8235rem; font-weight: 600; color: var(--text-secondary); }
+.auth-input-wrap { position: relative; display: flex; align-items: center; min-width: 0; }
+.auth-input-icon { position: absolute; left: 16px; color: var(--auth-muted); display: flex; pointer-events: none; }
+.auth-input {
+  width: 100%;
+  min-width: 0;
+  min-height: 56px;
+  border-radius: 16px;
+  padding: 16px;
+  background: var(--auth-input-bg);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-size: 1rem;
+  transition: border-color var(--duration-press), background var(--duration-press), box-shadow var(--duration-press);
+  scroll-margin-block: 24px;
+}
+.auth-input.has-icon { padding-left: 48px; }
+.auth-input::placeholder { color: var(--auth-muted); }
+.auth-input:focus {
+  border-color: var(--auth-accent);
+  box-shadow: 0 0 0 3px var(--auth-halo);
+  outline: none;
+}
+.auth-input[aria-invalid='true'] { border-color: var(--auth-error); }
+.auth-input-wrap.has-toggle .auth-input { padding-right: 56px; }
+.auth-toggle { position: absolute; right: 6px; width: 44px; height: 44px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 12px; color: var(--text-secondary); background: transparent; }
+.auth-field-hint, .auth-form-note { margin: 0; color: var(--auth-muted); font-size: .7647rem; line-height: 1.5; }
+.auth-form-note { text-align: center; }
+.auth-error { margin: 0; color: var(--auth-error); font-size: .8235rem; line-height: 1.45; overflow-wrap: anywhere; }
+.auth-error-summary { padding: 12px 16px; background: rgba(var(--danger-rgb), .08); border-radius: 14px; }
+
+/* Primary CTA — single flat accent color, no gradients. */
+.auth-submit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 56px;
+  padding: 14px 20px;
+  border: 0;
+  border-radius: 18px;
+  background: var(--auth-button);
+  color: var(--auth-button-text);
+  font-size: 1rem;
+  font-weight: 600;
+  transition: opacity var(--duration-press), transform var(--duration-press);
+}
+.auth-submit:active:not(:disabled) { transform: scale(.98); }
+.auth-submit:disabled { opacity: .65; }
+.auth-spinner { width: 18px; height: 18px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: auth-spin .8s linear infinite; }
+@keyframes auth-spin { to { transform: rotate(360deg); } }
+
+.auth-secondary { display: flex; flex-direction: column; align-items: center; gap: 8px; margin-top: 16px; }
+.auth-text-action { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 8px 12px; color: var(--auth-accent); background: transparent; border: 0; border-radius: 12px; text-decoration: none; font-size: .8824rem; font-weight: 550; text-align: center; transition: opacity var(--duration-press), background var(--duration-press); }
+.auth-text-action:hover { background: var(--auth-halo); }
+.auth-secondary-text { color: var(--auth-muted); font-size: .8235rem; text-align: center; margin: 0; }
+
+.auth-footer { padding-top: 12px; text-align: center; }
+.auth-footer > p { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: .7059rem; color: var(--auth-muted); margin: 0 0 8px; line-height: 1.5; }
+.auth-footer svg { flex-shrink: 0; }
+.auth-connection summary { min-height: 44px; padding: 12px 8px; font-size: .7647rem; color: var(--auth-muted); cursor: pointer; list-style-position: inside; border-radius: 12px; }
+.auth-connection summary:focus-visible { outline: 2px solid var(--auth-accent); outline-offset: 2px; }
+.auth-connection-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; padding-top: 8px; }
+.auth-connection-actions button { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border: 1px solid var(--border-subtle); border-radius: 12px; background: var(--auth-glass); color: var(--text-secondary); font-size: .7647rem; }
+
+.auth-code { text-align: center; font-size: 1.4118rem; letter-spacing: .24em; font-variant-numeric: tabular-nums; padding-inline: 12px; }
+.auth-phone { text-align: center; color: var(--auth-accent); font-size: 1rem; font-weight: 600; margin: 0; overflow-wrap: anywhere; }
+.auth-timer { color: var(--auth-muted); font-size: .7647rem; min-height: 44px; display: grid; place-items: center; text-align: center; font-variant-numeric: tabular-nums; }
+.auth-info { color: var(--text-secondary); font-size: .8235rem; line-height: 1.5; margin: 0; text-align: center; }
+@media (max-width: 360px) { .auth-layout { padding-inline: 16px; } .auth-card { padding: 20px; } }
+@media (max-height: 850px) { .auth-content { padding-top: 16px; } .auth-emblem { width: 80px; height: 80px; margin-bottom: 12px; } .auth-brand-glass { width: 80px; height: 80px; border-radius: 24px; } .auth-brand-icon { width: 54px; height: 54px; } }
+@media (orientation: landscape) and (max-height: 500px) { .auth-emblem { width: 64px; height: 64px; margin-bottom: 12px; } .auth-brand-glass { width: 64px; height: 64px; border-radius: 20px; } .auth-brand-icon { width: 44px; height: 44px; } .auth-heading h1 { font-size: 1.5294rem; } }
+@media (prefers-reduced-motion: reduce) {
+  .auth-spinner { animation: none; }
+  .auth-scanner { display: none; }
+  .auth-screen { background: var(--bg-surface); }
+}

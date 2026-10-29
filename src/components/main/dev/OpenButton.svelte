@@ -14,19 +14,19 @@
   .open-dev {
     position: absolute;
     z-index: 100;
-    color: white;
+    color: var(--text-primary);
     width: 200px;
     height: 40px;
     top: 20px;
     right: 0;
-    background: linear-gradient(270deg, #333, #444), #333;
+    background: linear-gradient(270deg, var(--bg-surface-2), var(--bg-surface-2)), var(--bg-surface-2);
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 100px 0 0 100px;
     cursor: pointer;
     transition: padding 0.1s;
-    font-size: 16px;
+    font-size: 0.9412rem;
   }
 
   .open-dev:hover {

@@ -299,7 +299,7 @@
                 </span>
               </div>
               <span class="item-status">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8e8e93" stroke-width="2">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
                   <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                   <line x1="2" y1="2" x2="22" y2="22"></line>
@@ -331,8 +331,8 @@
     display: flex;
     align-items: center;
     padding: 12px 16px;
-    background: #212126;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-subtle);
     flex-shrink: 0;
   }
 
@@ -340,28 +340,35 @@
     margin: 0;
     font-size: 1.15rem;
     font-weight: 600;
-    color: #fff;
+    color: var(--text-primary);
   }
 
   .content-container {
     flex: 1;
     overflow-y: auto;
-    padding: 16px 20px;
+
     display: flex;
     flex-direction: column;
     gap: 16px;
+
+    padding: 20px 16px 32px;
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto;
   }
 
   .settings-card {
-    background: #26262e;
-    border-radius: 12px;
-    border: 1px solid #333;
+
+    background: var(--bg-surface);
+    border: 0;
+    border-radius: var(--radius-card);
     padding: 16px;
+    box-shadow: none;
   }
 
   .card-divider {
     height: 1px;
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--bg-hover);
     margin: 14px 0;
   }
 
@@ -387,40 +394,49 @@
   }
 
   .toggle-title {
-    font-size: 1rem;
     font-weight: 500;
-    color: #fff;
+
+
+    font-size: 1rem;
+    color: var(--text-primary);
   }
 
   .toggle-desc {
-    font-size: 0.82rem;
-    color: #888;
+
+    font-size: .8824rem;
+    line-height: 1.4;
+    color: var(--text-muted);
   }
 
   .toggle-track {
-    width: 44px;
-    height: 24px;
-    background: #333;
-    border-radius: 12px;
+
     position: relative;
     transition: background 0.2s;
     cursor: pointer;
     flex-shrink: 0;
+
+    width: 51px;
+    height: 31px;
+    border-radius: 16px;
+    background: var(--switch-off);
   }
 
   .toggle-track.active {
-    background: #6366f1;
+
+    background: var(--switch-on);
   }
 
   .toggle-thumb {
-    width: 18px;
-    height: 18px;
-    background: #fff;
     border-radius: 50%;
     position: absolute;
-    top: 3px;
-    left: 3px;
+
     transition: transform 0.2s;
+
+    width: 27px;
+    height: 27px;
+    top: 2px;
+    left: 2px;
+    background: var(--text-on-media);
   }
 
   .toggle-thumb.active {
@@ -438,23 +454,23 @@
     margin: 0;
     font-size: 0.95rem;
     font-weight: 600;
-    color: #aaa;
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
 
   .badge-count {
     font-size: 0.75rem;
-    background: #333;
+    background: var(--bg-surface-2);
     padding: 2px 8px;
     border-radius: 10px;
-    color: #bbb;
+    color: var(--text-secondary);
   }
 
   .filter-tabs {
     display: flex;
     gap: 8px;
-    background: #202026;
+    background: var(--bg-surface);
     padding: 4px;
     border-radius: 10px;
   }
@@ -463,7 +479,7 @@
     flex: 1;
     background: none;
     border: none;
-    color: #888;
+    color: var(--text-muted);
     padding: 8px 12px;
     border-radius: 8px;
     font-size: 0.85rem;
@@ -473,8 +489,8 @@
   }
 
   .filter-tab.active {
-    background: #2f2f3a;
-    color: #fff;
+    background: var(--bg-surface-2);
+    color: var(--text-primary);
     font-weight: 600;
   }
 
@@ -499,20 +515,20 @@
     margin: 0;
     font-size: 1rem;
     font-weight: 600;
-    color: #aaa;
+    color: var(--text-muted);
   }
 
   .empty-desc {
     margin: 0;
     font-size: 0.85rem;
-    color: #666;
+    color: var(--text-muted);
     max-width: 320px;
   }
 
   .muted-item {
-    background: #26262e;
+    background: var(--bg-surface);
     border-radius: 12px;
-    border: 1px solid #333;
+    border: 1px solid var(--border-subtle);
     padding: 10px 14px;
     display: flex;
     align-items: center;
@@ -521,7 +537,7 @@
   }
 
   .muted-item:hover {
-    border-color: #444;
+    border-color: var(--border-subtle);
   }
 
   .item-avatar {
@@ -545,7 +561,7 @@
   .item-title {
     font-size: 0.95rem;
     font-weight: 500;
-    color: #fff;
+    color: var(--text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -553,8 +569,8 @@
 
   .item-type-badge {
     font-size: 0.7rem;
-    background: #33333d;
-    color: #999;
+    background: var(--bg-surface-2);
+    color: var(--text-muted);
     padding: 1px 6px;
     border-radius: 6px;
     flex-shrink: 0;
@@ -562,15 +578,15 @@
 
   .item-status {
     font-size: 0.8rem;
-    color: #8e8e93;
+    color: var(--text-muted);
     display: flex;
     align-items: center;
     gap: 4px;
   }
 
   .unmute-btn {
-    background: #3a3a46;
-    color: #fff;
+    background: var(--bg-surface-2);
+    color: var(--text-primary);
     border: none;
     padding: 7px 14px;
     border-radius: 8px;
@@ -582,7 +598,7 @@
   }
 
   .unmute-btn:hover {
-    background: #4f46e5;
+    background: var(--accent-primary);
   }
 
   .unmute-btn:disabled {

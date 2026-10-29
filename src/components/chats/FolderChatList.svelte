@@ -102,11 +102,12 @@
     flex-direction: column;
     contain: layout;
     -webkit-overflow-scrolling: touch;
+    padding-bottom: var(--tabbar-inset);
   }
 
   .state {
     text-align: center;
-    color: #777;
+    color: var(--text-muted);
     margin-top: 50px;
   }
 

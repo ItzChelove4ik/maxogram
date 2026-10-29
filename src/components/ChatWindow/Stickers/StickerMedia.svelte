@@ -283,11 +283,11 @@
     border-radius: 12px;
     background: linear-gradient(
       90deg,
-      rgba(255, 255, 255, 0.04) 0%,
-      rgba(255, 255, 255, 0.12) 35%,
-      rgba(79, 195, 247, 0.16) 50%,
-      rgba(255, 255, 255, 0.12) 65%,
-      rgba(255, 255, 255, 0.04) 100%
+      var(--bg-hover) 0%,
+      var(--bg-fill) 35%,
+      rgba(var(--accent-rgb), 0.16) 50%,
+      var(--bg-fill) 65%,
+      var(--bg-hover) 100%
     );
     background-size: 200% 100%;
     animation: shimmer 1.6s infinite linear;

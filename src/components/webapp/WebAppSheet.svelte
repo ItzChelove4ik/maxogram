@@ -470,7 +470,7 @@
 
   function handleDownloadDesktopShortcut() {
     if (!app.url) return;
-    const desktopEntry = `[Desktop Entry]\nVersion=1.0\nType=Application\nName=${app.title}\nComment=Mini App in Max\nExec=xdg-open "${app.url}"\nIcon=applications-internet\nTerminal=false\n`;
+    const desktopEntry = `[Desktop Entry]\nVersion=1.0\nType=Application\nName=${app.title}\nComment=Mini App in Orbit\nExec=xdg-open "${app.url}"\nIcon=applications-internet\nTerminal=false\n`;
     const blob = new Blob([desktopEntry], { type: "application/x-desktop" });
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
@@ -880,7 +880,7 @@
     bottom: 0;
     width: 100%;
     max-height: 100vh;
-    background: #18191b;
+    background: var(--bg-app);
     border-top-left-radius: 14px;
     border-top-right-radius: 14px;
     display: flex;
@@ -904,8 +904,8 @@
     flex-shrink: 0;
     height: 48px;
     width: 100%;
-    background: #202225;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-subtle);
     touch-action: none;
     user-select: none;
   }
@@ -917,7 +917,7 @@
     transform: translateX(-50%);
     width: 36px;
     height: 4px;
-    background: rgba(255, 255, 255, 0.28);
+    background: var(--bg-fill);
     border-radius: 2px;
     pointer-events: none;
   }
@@ -940,9 +940,9 @@
   }
 
   .sheet-title {
-    font-size: 15px;
+    font-size: 0.8824rem;
     font-weight: 600;
-    color: #f1f2f4;
+    color: var(--text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -956,7 +956,7 @@
     border-radius: 50%;
     border: none;
     background: transparent;
-    color: #a0a4aa;
+    color: var(--text-muted);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -966,8 +966,8 @@
   }
 
   .header-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
+    background: var(--bg-fill);
+    color: var(--text-primary);
   }
 
   .menu-container {
@@ -979,11 +979,11 @@
     top: 40px;
     right: 0;
     width: 220px;
-    background: #232629;
+    background: var(--bg-surface);
     border-radius: 12px;
     padding: 6px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border-subtle);
     display: flex;
     flex-direction: column;
     gap: 2px;
@@ -997,8 +997,8 @@
     padding: 10px 12px;
     border: none;
     background: transparent;
-    color: #e0e3e8;
-    font-size: 13px;
+    color: var(--text-primary);
+    font-size: 0.7647rem;
     border-radius: 8px;
     cursor: pointer;
     text-align: left;
@@ -1006,11 +1006,11 @@
   }
 
   .menu-item:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--bg-hover);
   }
 
   .menu-item.danger {
-    color: #ff5c5c;
+    color: var(--status-danger);
   }
 
   .menu-item.danger:hover {
@@ -1022,7 +1022,7 @@
     position: relative;
     width: 100%;
     height: calc(100% - 48px);
-    background: #0f1011;
+    background: var(--bg-app);
   }
 
   .app-frame {
@@ -1042,15 +1042,15 @@
     align-items: center;
     justify-content: center;
     gap: 16px;
-    color: #888d96;
-    font-size: 14px;
+    color: var(--text-muted);
+    font-size: 0.8235rem;
   }
 
   .spinner {
     width: 32px;
     height: 32px;
-    border: 3px solid rgba(255, 255, 255, 0.15);
-    border-top-color: #3b82f6;
+    border: 3px solid var(--border-subtle);
+    border-top-color: var(--accent-primary);
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
   }
@@ -1063,11 +1063,11 @@
 
   .retry-btn {
     padding: 8px 20px;
-    background: #2563eb;
-    color: #fff;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
     border: none;
     border-radius: 8px;
-    font-size: 13px;
+    font-size: 0.7647rem;
     cursor: pointer;
   }
 
@@ -1085,22 +1085,22 @@
   .modal-card {
     width: 100%;
     max-width: 380px;
-    background: #202225;
+    background: var(--bg-surface);
     border-radius: 14px;
     padding: 20px;
-    color: #fff;
+    color: var(--text-primary);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border-subtle);
   }
 
   .modal-card h4 {
     margin: 0 0 6px 0;
-    font-size: 16px;
+    font-size: 0.9412rem;
   }
 
   .modal-subtext {
-    color: #9ca3af;
-    font-size: 13px;
+    color: var(--text-muted);
+    font-size: 0.7647rem;
     margin: 0 0 16px 0;
   }
 
@@ -1119,45 +1119,45 @@
 
   .modal-btn {
     padding: 10px 16px;
-    background: rgba(255, 255, 255, 0.08);
-    color: #e5e7eb;
+    background: var(--bg-hover);
+    color: var(--text-primary);
     border: none;
     border-radius: 8px;
-    font-size: 13px;
+    font-size: 0.7647rem;
     font-weight: 500;
     cursor: pointer;
     transition: background 0.15s ease;
   }
 
   .modal-btn:hover {
-    background: rgba(255, 255, 255, 0.14);
+    background: var(--bg-fill);
   }
 
   .modal-btn.primary {
-    background: #2563eb;
-    color: #fff;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
   }
 
   .modal-btn.primary:hover {
-    background: #1d4ed8;
+    background: var(--accent-primary);
   }
 
   .modal-btn.danger {
-    background: rgba(239, 68, 68, 0.15);
-    color: #f87171;
+    background: rgba(var(--danger-rgb), 0.15);
+    color: var(--status-danger);
   }
 
   .modal-btn.danger:hover {
-    background: rgba(239, 68, 68, 0.25);
+    background: rgba(var(--danger-rgb), 0.25);
   }
 
   .modal-btn.danger-filled {
-    background: #dc2626;
-    color: #fff;
+    background: var(--status-danger);
+    color: var(--text-on-danger);
   }
 
   .modal-btn.danger-filled:hover {
-    background: #b91c1c;
+    background: var(--status-danger);
   }
 
   .report-reasons {
@@ -1171,27 +1171,27 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    font-size: 13px;
-    color: #d1d5db;
+    font-size: 0.7647rem;
+    color: var(--text-secondary);
     cursor: pointer;
     padding: 4px 0;
   }
 
   .report-textarea {
     width: 100%;
-    background: #16181a;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--bg-app);
+    border: 1px solid var(--border-subtle);
     border-radius: 8px;
     padding: 8px 10px;
-    color: #fff;
-    font-size: 13px;
+    color: var(--text-primary);
+    font-size: 0.7647rem;
     resize: none;
     box-sizing: border-box;
     outline: none;
   }
 
   .report-textarea:focus {
-    border-color: #3b82f6;
+    border-color: var(--accent-primary);
   }
 
   .drag-shield {

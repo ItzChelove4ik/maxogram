@@ -64,7 +64,7 @@
         }}
         class="button"
       >
-        <a>{$safeAvatarDebugStore ? "Отключить" : "Включить"} отладку аватарок Max+</a>
+        <a>{$safeAvatarDebugStore ? "Отключить" : "Включить"} отладку аватарок Orbit</a>
       </div>
     </div>
     <div class="group">
@@ -103,8 +103,8 @@
     z-index: 200;
     display: flex;
     align-items: center;
-    color: white;
-    font-size: 24px;
+    color: var(--text-primary);
+    font-size: 1.412rem;
     font-weight: 600;
     padding-top: 24px;
     flex-direction: column;
@@ -117,8 +117,8 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    background: #6366f1;
-    color: white;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
     border: none;
     padding: 8px 20px;
     border-radius: 8px;
@@ -129,7 +129,7 @@
   }
 
   .close:hover {
-    background: #4f46e5;
+    background: var(--accent-primary);
   }
 
   .buttons {
@@ -137,12 +137,12 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-    font-size: 14px;
+    font-size: 0.8235rem;
     width: 80%;
   }
 
   .buttons .group {
-    background-color: #26262e;
+    background-color: var(--bg-surface);
     border-radius: 15px;
   }
 

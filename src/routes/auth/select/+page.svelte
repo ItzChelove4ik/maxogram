@@ -276,17 +276,17 @@
     align-items: center;
     min-height: 98vh;
     text-align: center;
-    color: #ddd;
+    color: var(--text-primary);
   }
 
   h1 {
     margin: 0;
-    font-size: 23px;
+    font-size: 1.353rem;
   }
 
   .hint {
-    font-size: 14px;
-    color: #777;
+    font-size: 0.8235rem;
+    color: var(--text-muted);
     margin: 5px 0 20px 0;
   }
 
@@ -302,15 +302,15 @@
   button {
     padding: 0.75rem;
     border-radius: 8px;
-    border: 1px solid #333;
+    border: 1px solid var(--border-subtle);
     font-size: 1rem;
-    background-color: #26262e;
-    color: #ccc;
+    background-color: var(--bg-surface);
+    color: var(--text-secondary);
     outline: none;
   }
 
   button {
-    color: white;
+    color: var(--text-primary);
     border: none;
     cursor: pointer;
   }
@@ -327,7 +327,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    color: white;
+    color: var(--text-primary);
     font-weight: 300;
     opacity: 0.8;
     transition: opacity 0.1s;
@@ -339,7 +339,7 @@
   }
 
   .account .avatar {
-    background-color: #777;
+    background-color: var(--bg-surface-2);
     border-radius: 100px;
     width: 72px;
     height: 72px;
@@ -350,7 +350,7 @@
   }
 
   .account .avatar * {
-    font-size: 64px;
+    font-size: 3.765rem;
     font-weight: 500;
     line-height: 0;
     margin: auto auto;
@@ -361,7 +361,7 @@
   .link {
     margin-top: 2rem;
     font-size: 0.9rem;
-    color: #4a90e2;
+    color: var(--accent-primary);
     text-decoration: none;
   }
 
@@ -389,13 +389,12 @@
 
     background: rgba(34, 34, 40, .98);
 
-    border: 1px solid rgba(255,255,255,.08);
+    border: 1px solid var(--border-subtle);
     border-radius: 14px;
 
     overflow: hidden;
 
-    box-shadow:
-      0 10px 35px rgba(0,0,0,.45);
+    box-shadow: 0 10px 35px rgba(0,0,0,.45);
 
     animation: menuAppear .15s ease;
   }
@@ -404,11 +403,11 @@
     border: none;
     background: transparent;
 
-    color: #eee;
+    color: var(--text-primary);
 
     padding: 13px 16px;
 
-    font-size: 15px;
+    font-size: 0.8824rem;
     text-align: left;
 
     cursor: pointer;
@@ -417,15 +416,15 @@
   }
 
   .context-menu button:hover {
-    background: rgba(255,255,255,.06);
+    background: var(--bg-hover);
   }
 
   .context-menu button:active {
-    background: rgba(255,255,255,.1);
+    background: var(--bg-fill);
   }
 
   .context-menu .danger {
-    color: #ff5b5b;
+    color: var(--status-danger);
   }
 
   @keyframes menuAppear {

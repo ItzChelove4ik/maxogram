@@ -1,8 +1,9 @@
 <script>
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, onMount } from "svelte";
   import { flip } from "svelte/animate";
   import { quintOut, cubicOut } from "svelte/easing";
   import { fade, fly } from "svelte/transition";
+  import Icon from '$components/main/Icon.svelte';
   import { panelConfig, CATALOG } from "$lib/stores/panel.js";
 
   const dispatch = createEventDispatcher();
@@ -13,14 +14,29 @@
   let isEditing = false;
   let draggingIndex = null;
   let showAddModal = false;
+  /** @type {ReturnType<typeof setTimeout> | null} */
   let longPressTimer = null;
   let startX = 0;
   let startY = 0;
   let isLongPressTriggered = false;
   let lastReorderTime = 0;
+  let moveItemId = '';
+  let reducedMotion = false;
   const REORDER_COOLDOWN = 180;
 
+  onMount(() => {
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const updateMotion = () => { reducedMotion = media.matches; };
+    updateMotion();
+    media.addEventListener('change', updateMotion);
+    return () => {
+      media.removeEventListener('change', updateMotion);
+      if (longPressTimer) clearTimeout(longPressTimer);
+    };
+  });
+
   $: currentDefault = $panelConfig.defaultItem;
+  $: if (isEditing && !$panelConfig.items.includes(moveItemId)) moveItemId = $panelConfig.items[0] || '';
   $: availableCatalogItems = Object.values(CATALOG).filter(
     (item) => !pages.some((p) => p.id === item.id)
   );
@@ -142,6 +158,20 @@
     panelConfig.addItem(catalogId);
     showAddModal = false;
   }
+  /** @param {number} offset */
+  function moveMenuItem(offset) {
+    const ids = [...$panelConfig.items];
+    const index = ids.indexOf(moveItemId);
+    const next = index + offset;
+    if (index < 0 || next < 0 || next >= ids.length) return;
+    ids.splice(index, 1);
+    ids.splice(next, 0, moveItemId);
+    panelConfig.reorder(ids);
+  }
+  /** @param {string} id */
+  function getMenuName(id) {
+    return Object.values(CATALOG).find(item => item.id === id)?.name || id;
+  }
 </script>
 
 <svelte:window
@@ -152,12 +182,12 @@
 />
 
 {#if isEditing}
-  <div class="edit-backdrop" on:click={exitEditing} transition:fade={{ duration: 180 }}></div>
+  <div class="edit-backdrop" on:click={exitEditing} transition:fade={{ duration: reducedMotion ? 0 : 180 }}></div>
 {/if}
 
 <div class="panel-container" class:editing={isEditing}>
   {#if isEditing}
-    <div class="edit-toolbar" transition:fly={{ y: 20, duration: 200, easing: cubicOut }}>
+    <div class="edit-toolbar" transition:fly={{ y: 20, duration: reducedMotion ? 0 : 200, easing: cubicOut }}>
       <button
         class="toolbar-btn add-btn"
         disabled={availableCatalogItems.length === 0}
@@ -176,12 +206,22 @@
         <span>Готово</span>
       </button>
     </div>
+    <div class="reorder-controls">
+      <select aria-label="Пункт меню для перемещения" bind:value={moveItemId}>
+        {#each $panelConfig.items as id}
+          <option value={id}>{getMenuName(id)}</option>
+        {/each}
+      </select>
+      <button type="button" aria-label="Переместить пункт влево" disabled={$panelConfig.items.indexOf(moveItemId) <= 0} on:click={() => moveMenuItem(-1)}><Icon name="back" size={20} /></button>
+      <button type="button" aria-label="Переместить пункт вправо" disabled={$panelConfig.items.indexOf(moveItemId) >= $panelConfig.items.length - 1} on:click={() => moveMenuItem(1)}><Icon name="chevron" size={20} /></button>
+    </div>
   {/if}
 
-  <div class="panel">
+  <div class="dock">
+  <div class="panel" role="tablist" aria-label="Разделы приложения">
     {#each pages as page, index (page.id || page.name)}
       <div
-        animate:flip={{ duration: 220, easing: quintOut }}
+        animate:flip={{ duration: reducedMotion ? 0 : 220, easing: quintOut }}
         class="option-wrapper"
         class:shaking={isEditing}
         class:dragging={draggingIndex === index}
@@ -193,6 +233,12 @@
           class="option"
           class:active={index === active && !isEditing}
           class:editing-item={isEditing}
+          role="tab"
+          tabindex="0"
+          aria-selected={index === active}
+          aria-label={page.name}
+          title={page.name}
+          on:keydown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleClick(index, page); } }}
           on:click={() => handleClick(index, page)}
         >
           {#if isEditing}
@@ -238,21 +284,23 @@
           {/if}
 
           <div class="icon-box">
-            <img src={"icons/" + page.icon + ".svg"} alt={page.name} />
+            <Icon name={page.icon} size={25} />
           </div>
-          <span class="label">{page.name}</span>
+          <span class="label">{page.id === 'digital_id' ? 'ID' : page.name}</span>
         </div>
       </div>
     {/each}
   </div>
+  <button class="panel-edit-control" type="button" aria-label="Настроить меню" aria-pressed={isEditing} on:click={() => isEditing ? exitEditing() : (isEditing = true)}><Icon name="params" size={21} /></button>
+  </div>
 </div>
 
 {#if showAddModal}
-  <div class="modal-backdrop" on:click={() => (showAddModal = false)} transition:fade={{ duration: 180 }}>
-    <div class="modal-sheet" on:click|stopPropagation transition:fly={{ y: 260, duration: 240, easing: cubicOut }}>
+  <div class="modal-backdrop" on:click={() => (showAddModal = false)} transition:fade={{ duration: reducedMotion ? 0 : 180 }}>
+    <div class="modal-sheet" on:click|stopPropagation transition:fly={{ y: 260, duration: reducedMotion ? 0 : 240, easing: cubicOut }}>
       <div class="sheet-top">
         <span class="sheet-title">Добавить в меню</span>
-        <button class="sheet-close" on:click={() => (showAddModal = false)}>
+        <button class="sheet-close" aria-label="Закрыть" on:click={() => (showAddModal = false)}>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
             <line x1="18" y1="6" x2="6" y2="18"></line>
             <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -264,7 +312,7 @@
         {#each availableCatalogItems as item}
           <div class="catalog-item" on:click={() => handleAddItem(item.id)}>
             <div class="catalog-icon">
-              <img src={"icons/" + item.icon + ".svg"} alt={item.name} />
+              <Icon name={item.icon} size={23} />
             </div>
             <div class="catalog-info">
               <span class="catalog-name">{item.name}</span>
@@ -295,15 +343,33 @@
 
   .panel-container {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
+    bottom: calc(var(--safe-area-bottom) + var(--tabbar-gap));
+    left: max(16px, env(safe-area-inset-left, 0px));
+    right: max(16px, env(safe-area-inset-right, 0px));
     z-index: 2;
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
 
+    pointer-events: none;
+  }
+  .panel-container > * { pointer-events: auto; }
+
+  .dock {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    max-width: 620px;
+    min-width: 0;
+  }
+  .panel, .panel-edit-control {
+    background: var(--dock-material);
+    border: 1px solid var(--dock-edge);
+    box-shadow: var(--dock-shadow);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  }
   .panel-container.editing {
     z-index: 999;
   }
@@ -316,16 +382,16 @@
     max-width: 500px;
     margin-bottom: 8px;
     padding: 6px 12px;
-    background: #25262c;
-    border: 1px solid #383a45;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
     border-radius: 14px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
     box-sizing: border-box;
   }
 
   .toolbar-hint {
-    font-size: 12px;
-    color: #9ca3af;
+    font-size: 0.7059rem;
+    color: var(--text-muted);
   }
 
   .toolbar-btn {
@@ -335,19 +401,19 @@
     padding: 6px 12px;
     border-radius: 8px;
     border: none;
-    font-size: 13px;
+    font-size: 0.7647rem;
     font-weight: 500;
     cursor: pointer;
     transition: background 0.15s;
   }
 
   .add-btn {
-    background: #374151;
-    color: #f3f4f6;
+    background: var(--bg-surface-2);
+    color: var(--text-primary);
   }
 
   .add-btn:hover:not(:disabled) {
-    background: #4b5563;
+    background: var(--bg-surface-2);
   }
 
   .add-btn:disabled {
@@ -357,7 +423,7 @@
 
   .done-btn {
     background: var(--accent-primary);
-    color: #fff;
+    color: var(--text-on-accent);
     font-weight: 600;
   }
 
@@ -366,39 +432,46 @@
   }
 
   .panel {
-    background-color: var(--bg-panel);
-    height: 60px;
-    width: 100%;
+    flex: 1;
+    min-width: 0;
     display: flex;
-    justify-content: center;
+
     align-items: center;
-    color: #999;
-    padding-top: env(safe-area-inset-top, 4px);
-    padding-bottom: env(safe-area-inset-bottom, 14px);
-    border-top: 1px solid var(--border-subtle);
+
+    border-radius: 34px;
     box-sizing: border-box;
     user-select: none;
     -webkit-user-select: none;
+
+    height: var(--tabbar-height);
+    padding: 5px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    justify-content: flex-start;
+    color: var(--text-secondary);
   }
 
   .panel-container.editing .panel {
-    background-color: var(--bg-panel);
-    border-top: 1px solid var(--border-subtle);
+    border-radius: 28px;
+    height: 100px;
   }
 
   .option-wrapper {
-    flex: 1 1 0;
-    min-width: 0;
-    max-width: 110px;
+
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     box-sizing: border-box;
-    padding: 2px 4px;
-    touch-action: pan-y;
+
+    touch-action: pan-x;
     transform-origin: 50% 50%;
+
+    flex: 1 0 64px;
+    max-width: none;
+    min-width: 64px;
+    padding: 0;
   }
 
   .option-wrapper.dragging {
@@ -420,6 +493,7 @@
   }
 
   .option-wrapper.shaking {
+    min-width: 100px;
     transform-origin: 50% 50%;
     animation: shake 0.5s infinite ease-in-out;
     cursor: grab;
@@ -438,43 +512,57 @@
     justify-content: center;
     width: 100%;
     height: 100%;
-    font-size: 11px;
-    gap: 3px;
+    font-size: 0.6rem;
+
     cursor: pointer;
     position: relative;
     box-sizing: border-box;
-    border-radius: 12px;
-    border: 1px solid transparent;
-    transition: background 0.15s, border-color 0.15s, transform 0.1s;
+
+    border: 0;
+
     transform-origin: 50% 50%;
+
+    color: var(--text-secondary);
+    border-radius: 28px;
+    gap: 3px;
+    transition: background var(--duration-ui), box-shadow var(--duration-ui), color var(--duration-press), transform var(--duration-press);
+  }
+
+  .option:active:not(.editing-item) {
+    opacity: .7;
+  }
+
+  .option.active {
+    background: var(--dock-selected);
+    color: var(--dock-accent);
   }
 
   .option.editing-item {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: var(--bg-hover);
+    border: 1px solid var(--border-subtle);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+    padding-top: 24px;
   }
 
   .option.editing-item:hover {
-    background: rgba(255, 255, 255, 0.12);
-    border-color: rgba(255, 255, 255, 0.26);
+    background: var(--bg-fill);
+    border-color: var(--border-subtle);
   }
 
   .option-wrapper.dragging .option {
-    background: rgba(0, 119, 255, 0.18);
-    border-color: rgba(0, 119, 255, 0.55);
+    background: rgba(var(--accent-rgb), 0.18);
+    border-color: var(--accent-primary);
     box-shadow: 0 4px 14px rgba(0, 119, 255, 0.25);
   }
 
   .star-badge {
     position: absolute;
-    top: -5px;
-    left: -2px;
-    width: 20px;
-    height: 20px;
+
+
     border-radius: 50%;
-    background: #25262c;
-    border: 1px solid #4a4d5e;
+
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -485,12 +573,20 @@
     z-index: 10;
     line-height: 0;
     transition: transform 0.15s, background-color 0.15s, border-color 0.15s;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
+
+
+    width: 44px;
+    height: 44px;
+    top: -5px;
+    left: -2px;
+    box-shadow: none;
+    border: none;
+    background: transparent;
   }
 
   .star-badge.is-default {
-    background: #2b2612;
-    border-color: #ffd700;
+    background: var(--bg-surface);
+    border-color: var(--status-warning);
     box-shadow: 0 2px 8px rgba(255, 215, 0, 0.3);
   }
 
@@ -507,14 +603,11 @@
 
   .remove-badge {
     position: absolute;
-    top: -5px;
-    right: -2px;
-    width: 20px;
-    height: 20px;
+
+
     border-radius: 50%;
-    background: #ef4444;
-    color: #fff;
-    border: 1px solid #b91c1c;
+
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -525,12 +618,22 @@
     z-index: 10;
     line-height: 0;
     transition: transform 0.15s;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
+
+
+    width: 44px;
+    height: 44px;
+    top: -5px;
+    right: -2px;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+    color: var(--status-danger);
   }
 
   .remove-badge:hover {
     transform: scale(1.15);
-    background: #dc2626;
+    background: var(--status-danger);
+    color: var(--text-on-danger);
   }
 
   .remove-badge svg {
@@ -541,14 +644,12 @@
 
   .lock-badge {
     position: absolute;
-    top: -5px;
-    right: -2px;
-    width: 20px;
-    height: 20px;
+
+
     border-radius: 50%;
-    background: #374151;
-    color: #9ca3af;
-    border: 1px solid #4b5563;
+
+    color: var(--text-muted);
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -557,7 +658,15 @@
     box-sizing: border-box;
     z-index: 10;
     line-height: 0;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.35);
+
+
+    width: 44px;
+    height: 44px;
+    top: -5px;
+    right: -2px;
+    box-shadow: none;
+    border: none;
+    background: transparent;
   }
 
   .lock-badge svg {
@@ -571,35 +680,33 @@
     align-items: center;
     justify-content: center;
     height: 24px;
+    transition: color var(--duration-press);
   }
 
-  .icon-box img {
-    height: 22px;
-    max-width: 24px;
-    filter: invert(50%);
-    pointer-events: none;
+  .option.active .icon-box {
+    color: var(--dock-accent);
   }
+
 
   .label {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
-    padding: 0 4px;
+    padding: 0 2px;
     box-sizing: border-box;
     text-align: center;
-    font-size: 11px;
-    line-height: 1.2;
-    color: #999;
+    font-size: 0.7059rem;
+    line-height: 1.1;
+    color: var(--text-secondary);
+    transition: color var(--duration-press);
   }
 
   .option.active .label {
-    color: #09f;
+    color: var(--dock-accent);
+    font-weight: 600;
   }
 
-  .option.active .icon-box img {
-    filter: invert(50%) sepia(100%) saturate(5000%) hue-rotate(200deg);
-  }
 
   .modal-backdrop {
     position: fixed;
@@ -615,15 +722,18 @@
     background: var(--bg-sheet);
     width: 100%;
     max-width: 480px;
-    border-top-left-radius: 18px;
-    border-top-right-radius: 18px;
-    border: 1px solid #32343e;
+
+    border: 1px solid var(--border-subtle);
     border-bottom: none;
     display: flex;
     flex-direction: column;
     max-height: 70vh;
-    padding-bottom: env(safe-area-inset-bottom, 20px);
+
     box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.5);
+
+    border-top-left-radius: var(--radius-sheet);
+    border-top-right-radius: var(--radius-sheet);
+    padding-bottom: var(--safe-area-bottom);
   }
 
   .sheet-top {
@@ -635,15 +745,15 @@
   }
 
   .sheet-title {
-    font-size: 16px;
+    font-size: 0.9412rem;
     font-weight: 600;
-    color: #fff;
+    color: var(--text-primary);
   }
 
   .sheet-close {
     background: transparent;
     border: none;
-    color: #9ca3af;
+    color: var(--text-muted);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -665,15 +775,15 @@
     align-items: center;
     gap: 14px;
     padding: 10px 14px;
-    background: #272830;
-    border: 1px solid #363844;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
     border-radius: 12px;
     cursor: pointer;
     transition: background 0.15s, border-color 0.15s;
   }
 
   .catalog-item:hover {
-    background: #2e303a;
+    background: var(--bg-surface-2);
     border-color: var(--accent-primary);
   }
 
@@ -681,17 +791,14 @@
     width: 36px;
     height: 36px;
     border-radius: 10px;
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--bg-hover);
     display: flex;
     align-items: center;
     justify-content: center;
+
+    color: var(--accent-primary);
   }
 
-  .catalog-icon img {
-    width: 20px;
-    height: 20px;
-    filter: invert(70%);
-  }
 
   .catalog-info {
     flex: 1;
@@ -700,17 +807,17 @@
   }
 
   .catalog-name {
-    font-size: 14px;
+    font-size: 0.8235rem;
     font-weight: 500;
-    color: #fff;
+    color: var(--text-primary);
   }
 
   .add-action-btn {
-    width: 32px;
-    height: 32px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     background: var(--accent-primary);
-    color: #fff;
+    color: var(--text-on-accent);
     border: none;
     display: flex;
     align-items: center;
@@ -721,7 +828,24 @@
   .empty-hint {
     padding: 24px;
     text-align: center;
-    color: #9ca3af;
-    font-size: 14px;
+    color: var(--text-muted);
+    font-size: 0.8235rem;
   }
+  .panel-edit-control {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    min-width: 48px;
+    height: var(--tabbar-height);
+    border-radius: 26px;
+    color: var(--text-secondary);
+    padding: 0;
+    transition: opacity var(--duration-press), color var(--duration-press);
+  }
+  .panel-edit-control[aria-pressed='true'] { color: var(--dock-accent); }
+  .panel::-webkit-scrollbar { display: none; }
+  .reorder-controls { display: flex; gap: 8px; width: calc(100% - 24px); max-width: 500px; padding-bottom: 8px; }
+  .reorder-controls select { flex: 1; min-width: 0; border: 0; border-radius: 12px; background: var(--bg-surface); color: var(--text-primary); padding: 0 12px; }
+  .reorder-controls button { width: 44px; border: 0; border-radius: 12px; background: var(--bg-surface); color: var(--accent-primary); display: flex; align-items: center; justify-content: center; }
 </style>

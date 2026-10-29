@@ -992,13 +992,13 @@
     justify-content: space-between;
     align-items: center;
     padding: calc(12px + env(safe-area-inset-top, 0px)) 18px 12px;
-    color: #ffffff;
+    color: var(--text-primary);
     z-index: 20;
     transition: opacity 180ms ease-out;
   }
 
   .ag-counter {
-    font-size: 15px;
+    font-size: 0.8824rem;
     font-weight: 600;
     opacity: 0.9;
   }
@@ -1014,8 +1014,8 @@
     height: 38px;
     border: none;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.08);
-    color: #ffffff;
+    background: var(--bg-hover);
+    color: var(--text-primary);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -1024,7 +1024,7 @@
   }
 
   .ag-icon-btn:hover {
-    background: rgba(255, 255, 255, 0.18);
+    background: var(--bg-fill);
   }
 
   .ag-icon-btn:active {
@@ -1037,7 +1037,7 @@
   }
 
   .ag-icon-btn.danger {
-    color: #ff595a;
+    color: var(--status-danger);
     background: rgba(255, 89, 90, 0.14);
   }
 
@@ -1064,13 +1064,13 @@
     border: none;
     padding: 0;
     border-radius: 2px;
-    background: rgba(255, 255, 255, 0.28);
+    background: var(--bg-fill);
     cursor: pointer;
     transition: background 0.15s;
   }
 
   .ag-dot.active {
-    background: #ffffff;
+    background: var(--bg-surface);
   }
 
   .ag-body {
@@ -1126,9 +1126,9 @@
     border-radius: 16px;
     background: linear-gradient(
       90deg,
-      rgba(255, 255, 255, 0.04) 0%,
-      rgba(255, 255, 255, 0.12) 50%,
-      rgba(255, 255, 255, 0.04) 100%
+      var(--bg-hover) 0%,
+      var(--bg-fill) 50%,
+      var(--bg-hover) 100%
     );
     background-size: 200% 100%;
     animation: agShimmer 1.5s infinite linear;
@@ -1143,9 +1143,9 @@
     width: 48px;
     height: 48px;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.12);
+    background: var(--bg-fill);
     border: none;
-    color: #ffffff;
+    color: var(--text-primary);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -1156,7 +1156,7 @@
   }
 
   .ag-nav-btn:hover {
-    background: rgba(255, 255, 255, 0.22);
+    background: var(--bg-fill);
   }
 
   .ag-nav-btn.hidden {

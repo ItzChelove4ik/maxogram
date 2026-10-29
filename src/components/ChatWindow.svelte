@@ -260,9 +260,9 @@
       scrollElement,
       messagesList: $messages,
     });
-    if (userHasScrolled) {
-      await scheduleRead();
-    }
+    // Читаем и без ручного скролла: открытие чата с непрочитанными
+    // сразу помечает видимые сообщения прочитанными.
+    await scheduleRead();
   }
 
   function saveCurrentPosition() {
@@ -359,8 +359,6 @@
 
       if (myMark > 0 && Number(msg.time || 0) <= myMark) return;
 
-      if (!chat?.newMessages || chat.newMessages <= 0) return;
-
       lastReadMessageId = msgId;
 
       try {
@@ -368,6 +366,28 @@
       } catch (e) {
         console.error("readMessage failed", e);
       }
+
+      // Локально помечаем свои сообщения прочитанными и обнуляем счётчик,
+      // чтобы чат в списке сразу терял бейдж и галочки становились синими.
+      const readTime = Number(msg.time || 0);
+      messages.update((items) => {
+        let changed = false;
+        const next = items.map((m) => {
+          if (!m.read && Number(m.sender) === myId && Number(m.time || 0) <= readTime) {
+            changed = true;
+            return { ...m, read: true };
+          }
+          return m;
+        });
+        return changed ? next : items;
+      });
+      const chatCache2 = getChat(chat?.id ?? chatId);
+      chatCache2.chatInfo.update((c) => {
+        if (!c) return c;
+        if ((c.newMessages || 0) <= 0 && c.participants?.[myId] >= readTime) return c;
+        const participants = { ...(c.participants || {}), [myId]: Math.max(Number(c.participants?.[myId] || 0), readTime) };
+        return { ...c, newMessages: 0, participants };
+      });
     }, 500);
   }
 
@@ -1722,7 +1742,7 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    color: #ccc;
+    color: var(--text-secondary);
     z-index: 20;
     top: 0;
     left: 0;
@@ -1733,7 +1753,7 @@
     max-height: 100%;
     background-color: var(--bg-chat);
     padding-top: env(safe-area-inset-top, 10px);
-    padding-bottom: env(safe-area-inset-bottom, 20px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
     box-shadow: -4px 0 24px rgba(0, 0, 0, 0.45);
     will-change: transform;
   }
@@ -1787,12 +1807,12 @@
   }
 
   .message-list-container::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--text-on-media);
     border-radius: 4px;
   }
 
   .message-list-container::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--text-on-media);
   }
 
   .grab-scroll {
@@ -1808,7 +1828,7 @@
   }
 
   .message-wrapper.is-selected {
-    background: rgba(123, 76, 214, 0.22);
+    background: rgba(var(--accent-rgb), 0.22);
     border-radius: 0;
   }
 
@@ -1830,13 +1850,13 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #252525;
+    background-color: var(--bg-surface);
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 12px;
     box-sizing: border-box;
-    border-bottom: 1px solid #333;
+    border-bottom: 1px solid var(--border-subtle);
     z-index: 30;
   }
 
@@ -1847,9 +1867,9 @@
   }
 
   .selection-count {
-    font-size: 17px;
+    font-size: 1rem;
     font-weight: 600;
-    color: #fff;
+    color: var(--text-primary);
   }
 
   .action-right {
@@ -1861,7 +1881,7 @@
   .icon-btn {
     background: none;
     border: none;
-    color: #eee;
+    color: var(--text-primary);
     padding: 8px;
     border-radius: 50%;
     cursor: pointer;
@@ -1872,7 +1892,7 @@
   }
 
   .icon-btn:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: var(--bg-fill);
   }
 
   .icon-btn:active {
@@ -1884,8 +1904,8 @@
     align-items: center;
     gap: 8px;
     margin-top: 12px;
-    font-size: 14px;
-    color: #e0e0e0;
+    font-size: 0.8235rem;
+    color: var(--text-primary);
     cursor: pointer;
     user-select: none;
   }

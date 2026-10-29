@@ -125,11 +125,7 @@ export function buildOggOpusStream(packets, samplesPerFrame = 960, sampleRate = 
 export function encodePcmToOggOpus(channelData, sampleRate = 48000) {
   return new Promise((resolve, reject) => {
     if (typeof Worker === 'undefined') {
-      const syntheticOpusPacket = new Uint8Array([0x78, 0x00, 0x00, 0x00]);
-      const frameCount = Math.max(1, Math.ceil(channelData.length / 960));
-      const packets = new Array(frameCount).fill(syntheticOpusPacket);
-      const ogg = buildOggOpusStream(packets, 960, 48000);
-      resolve(ogg);
+      reject(new Error('Кодировщик голосовых сообщений недоступен: Web Worker не поддерживается'));
       return;
     }
 
@@ -208,8 +204,7 @@ export async function convertAudioBlobToOggOpus(blob) {
   const arrayBuffer = await blob.arrayBuffer();
   const AudioCtx = typeof window !== 'undefined' ? (window.AudioContext || window.webkitAudioContext) : null;
   if (!AudioCtx) {
-    const synthetic = buildOggOpusStream([new Uint8Array([0x78, 0x00, 0x00, 0x00])]);
-    return new Blob([synthetic], { type: 'audio/ogg' });
+    throw new Error('Не удалось обработать голосовое сообщение: AudioContext не поддерживается');
   }
   const audioCtx = new AudioCtx();
   try {

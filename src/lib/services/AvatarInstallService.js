@@ -99,7 +99,7 @@ export async function installSafeAvatar(avatarUid, targetId, onProgress) {
     throw new Error("Не удалось получить ссылку для загрузки фото профиля");
   }
 
-  onProgress?.("Загрузка на сервер Max...");
+  onProgress?.("Загрузка на сервер Orbit...");
   const formData = new FormData();
   formData.append("file", blob, "image.jpg");
   const uploadRes = await fetch(uploadUrl, { method: "POST", body: formData });

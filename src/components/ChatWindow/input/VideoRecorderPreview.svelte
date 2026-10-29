@@ -56,12 +56,12 @@
     position: absolute;
     bottom: 8px;
     right: 8px;
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     background: rgba(0, 0, 0, 0.75);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: #fff;
+    border: 1px solid var(--border-subtle);
+    color: var(--text-on-media);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -81,8 +81,8 @@
     height: 200px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid #248bfe;
+    border: 3px solid var(--accent-primary);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-    background: #000;
+    background: var(--bg-app);
   }
 </style>

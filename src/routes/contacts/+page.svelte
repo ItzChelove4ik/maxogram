@@ -195,17 +195,28 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+
     width: 100%;
-    padding: 5px 0;
+
     margin-top: 10px;
     margin-bottom: 5px;
+
+    margin: 0;
+    padding: 18px 0 8px;
+    gap: 8px;
+    background: var(--bg-topbar);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
   }
 
   header h3 {
     margin: 0;
-    font-size: 18px;
-    color: #ccc;
+
+
+    font-size: 1.375rem;
+    font-weight: 700;
+    letter-spacing: -.02em;
+    color: var(--text-primary);
   }
 
   .row {
@@ -223,24 +234,32 @@
   }
 
   .showAll {
-    color: #999;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: flex-end;
     gap: 8px;
-    font-size: 14px;
+
     cursor: pointer;
+
+    font-size: .7647rem;
+    min-height: 44px;
+    color: var(--text-muted);
   }
 
   .showAll input {
-    display: none;
+
+    display: block;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
   }
 
   .checkmark {
     width: 18px;
     height: 18px;
-    border: 2px solid #ccc;
+    border: 2px solid var(--border-subtle);
     border-radius: 6px;
     position: relative;
     transition: all 0.2s ease;
@@ -253,15 +272,15 @@
     top: 2px;
     width: 4px;
     height: 10px;
-    border: solid white;
+    border: solid var(--border-subtle);
     border-width: 0 2px 2px 0;
     transform: rotate(45deg) scale(0);
     transition: transform 0.1s ease;
   }
 
   .showAll input:checked + .checkmark {
-    background-color: #4f46e5;
-    border-color: #4f46e5;
+    background-color: var(--accent-primary);
+    border-color: var(--accent-primary);
   }
 
   .showAll input:checked + .checkmark::after {
@@ -269,30 +288,39 @@
   }
 
   .showAll:hover .checkmark {
-    border-color: #4f46e5;
+    border-color: var(--accent-primary);
   }
 
   .content {
     flex: 1 1 auto;
     min-height: 0;
-    color: #ccc;
-    padding: 10px;
+    color: var(--text-secondary);
+
     display: flex;
     flex-direction: column;
-    gap: 14px;
+
     overflow-y: auto;
     overflow-x: hidden;
+
+    padding: 0 16px calc(var(--tabbar-inset) + 24px);
+    gap: 0;
+    background: var(--bg-surface);
   }
 
   .contact {
     position: relative;
-    height: 40px;
+
     width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
     cursor: pointer;
     gap: 16px;
+
+    height: auto;
+    min-height: 64px;
+    padding: 8px 0;
+    border-bottom: 0.5px solid var(--border-card);
   }
 
   .contact .column {
@@ -301,23 +329,31 @@
   }
 
   .contact .name {
-    font-size: 14px;
     display: flex;
+
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-primary);
   }
 
   .contact a {
-    font-size: 12px;
-    color: #999;
+    color: var(--text-muted);
     position: relative;
+
+    font-size: .7647rem;
   }
 
   .contact .delete {
-    color: #f88;
+    color: var(--status-danger);
   }
 
   .contact .action {
     position: absolute;
     right: 10px;
     margin-bottom: 10px;
+  }
+  .showAll input:focus-visible + .checkmark {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 3px;
   }
 </style>

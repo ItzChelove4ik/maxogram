@@ -31,13 +31,13 @@
     align-items: center;
     gap: 10px;
     padding: 8px 14px;
-    background: #17191d;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
-    border-left: 3px solid #248bfe;
+    background: var(--bg-app);
+    border-top: 1px solid var(--border-subtle);
+    border-left: 3px solid var(--accent-primary);
   }
 
   .editing-icon {
-    color: #248bfe;
+    color: var(--accent-primary);
     display: flex;
     align-items: center;
     flex-shrink: 0;
@@ -49,14 +49,14 @@
   }
 
   .editing-title {
-    font-size: 13px;
+    font-size: 0.7647rem;
     font-weight: 600;
-    color: #248bfe;
+    color: var(--accent-primary);
   }
 
   .editing-snippet {
-    font-size: 12px;
-    color: #94a3b8;
+    font-size: 0.7059rem;
+    color: var(--text-muted);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -65,9 +65,9 @@
   .editing-cancel-btn {
     background: transparent;
     border: none;
-    color: #8b929e;
+    color: var(--text-muted);
     cursor: pointer;
-    font-size: 14px;
+    font-size: 0.8235rem;
     padding: 4px;
     border-radius: 50%;
     display: flex;
@@ -78,6 +78,6 @@
   }
 
   .editing-cancel-btn:hover {
-    color: #fff;
+    color: var(--text-primary);
   }
 </style>

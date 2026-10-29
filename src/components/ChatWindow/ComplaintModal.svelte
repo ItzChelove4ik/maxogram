@@ -94,12 +94,12 @@
   }
 
   .modal-sheet {
-    background: #1c1d29;
+    background: var(--bg-surface);
     border-radius: 18px;
     width: 100%;
     max-width: 400px;
     box-shadow: 0 16px 48px rgba(0, 0, 0, 0.65);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border-subtle);
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -110,15 +110,15 @@
     align-items: center;
     gap: 12px;
     padding: 16px 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid var(--border-subtle);
   }
 
   .header-icon {
     width: 38px;
     height: 38px;
     border-radius: 50%;
-    background: rgba(239, 68, 68, 0.14);
-    color: #f87171;
+    background: rgba(var(--danger-rgb), 0.14);
+    color: var(--status-danger);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -132,21 +132,21 @@
 
   .sheet-title {
     margin: 0;
-    font-size: 16px;
+    font-size: 0.9412rem;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--text-primary);
   }
 
   .sheet-subtitle {
     margin: 2px 0 0 0;
-    font-size: 12px;
-    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.7059rem;
+    color: var(--text-primary);
   }
 
   .btn-close {
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--bg-hover);
     border: none;
-    color: rgba(255, 255, 255, 0.7);
+    color: var(--text-primary);
     width: 28px;
     height: 28px;
     border-radius: 50%;
@@ -154,12 +154,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 13px;
+    font-size: 0.7647rem;
   }
 
   .btn-close:hover {
-    background: rgba(255, 255, 255, 0.16);
-    color: #ffffff;
+    background: var(--bg-fill);
+    color: var(--text-primary);
   }
 
   .reasons-list {
@@ -179,15 +179,15 @@
     background: transparent;
     border: none;
     border-radius: 10px;
-    color: #ffffff;
-    font-size: 14px;
+    color: var(--text-primary);
+    font-size: 0.8235rem;
     cursor: pointer;
     transition: background 0.15s ease;
     text-align: left;
   }
 
   .reason-row:hover:not(:disabled) {
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--bg-hover);
   }
 
   .reason-row:disabled {
@@ -198,13 +198,13 @@
   .arrow-icon {
     width: 18px;
     height: 18px;
-    color: rgba(255, 255, 255, 0.4);
+    color: var(--text-primary);
   }
 
   .loading-state {
     padding: 24px;
     text-align: center;
-    color: rgba(255, 255, 255, 0.5);
-    font-size: 14px;
+    color: var(--text-primary);
+    font-size: 0.8235rem;
   }
 </style>

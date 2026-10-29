@@ -154,8 +154,8 @@
   }
 
   .modal-card {
-    background: #1e2126;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
     border-radius: 20px;
     width: 100%;
     max-width: 480px;
@@ -179,22 +179,22 @@
   }
 
   .modal-title {
-    font-size: 17px;
+    font-size: 1rem;
     font-weight: 700;
-    color: #fff;
+    color: var(--text-primary);
     margin: 0;
   }
 
   .modal-subtitle {
-    font-size: 13px;
-    color: #8b929e;
+    font-size: 0.7647rem;
+    color: var(--text-muted);
     margin-top: 2px;
   }
 
   .close-btn {
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--bg-hover);
     border: none;
-    color: #8b929e;
+    color: var(--text-muted);
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -207,8 +207,8 @@
   }
 
   .close-btn:hover {
-    background: rgba(255, 255, 255, 0.12);
-    color: #fff;
+    background: var(--bg-fill);
+    color: var(--text-primary);
   }
 
   .search-wrap {
@@ -217,13 +217,13 @@
     gap: 8px;
     margin: 0 16px 12px;
     padding: 8px 12px;
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--bg-hover);
     border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--border-subtle);
   }
 
   .search-icon {
-    color: #8b929e;
+    color: var(--text-muted);
     flex-shrink: 0;
   }
 
@@ -232,19 +232,19 @@
     background: none;
     border: none;
     outline: none;
-    color: #fff;
-    font-size: 14px;
+    color: var(--text-primary);
+    font-size: 0.8235rem;
     font-family: inherit;
   }
 
   .search-input::placeholder {
-    color: #8b929e;
+    color: var(--text-muted);
   }
 
   .clear-btn {
     background: none;
     border: none;
-    color: #8b929e;
+    color: var(--text-muted);
     cursor: pointer;
     padding: 2px;
     display: flex;
@@ -265,8 +265,8 @@
     align-items: center;
     justify-content: center;
     padding: 40px 0;
-    color: #8b929e;
-    font-size: 14px;
+    color: var(--text-muted);
+    font-size: 0.8235rem;
   }
 
   .packs-list {
@@ -281,12 +281,12 @@
     justify-content: space-between;
     padding: 8px 10px;
     border-radius: 12px;
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--bg-hover);
     transition: background-color 0.15s;
   }
 
   .pack-row:hover {
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--bg-hover);
   }
 
   .pack-info-btn {
@@ -307,7 +307,7 @@
     height: 40px;
     border-radius: 8px;
     object-fit: contain;
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--bg-hover);
     flex-shrink: 0;
   }
 
@@ -315,13 +315,13 @@
     width: 40px;
     height: 40px;
     border-radius: 8px;
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--bg-hover);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
+    font-size: 0.9412rem;
     font-weight: 700;
-    color: #fff;
+    color: var(--text-primary);
     flex-shrink: 0;
   }
 
@@ -332,17 +332,17 @@
   }
 
   .pack-title {
-    font-size: 14px;
+    font-size: 0.8235rem;
     font-weight: 600;
-    color: #fff;
+    color: var(--text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
   .pack-stickers-count {
-    font-size: 12px;
-    color: #8b929e;
+    font-size: 0.7059rem;
+    color: var(--text-muted);
     margin-top: 2px;
   }
 
@@ -353,34 +353,34 @@
     height: 32px;
     padding: 0 12px;
     border-radius: 8px;
-    font-size: 13px;
+    font-size: 0.7647rem;
     font-weight: 600;
     cursor: pointer;
     border: none;
-    background: #248bfe;
-    color: #fff;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
     flex-shrink: 0;
     transition: background-color 0.15s, opacity 0.15s;
   }
 
   .action-btn:hover {
-    background: #1b74d9;
+    background: var(--accent-primary);
   }
 
   .action-btn.is-fav {
-    background: rgba(255, 255, 255, 0.08);
-    color: #8b929e;
+    background: var(--bg-hover);
+    color: var(--text-muted);
   }
 
   .action-btn.is-fav:hover {
     background: rgba(255, 75, 75, 0.15);
-    color: #ff5e5e;
+    color: var(--status-danger);
   }
 
   .spinner-small {
     width: 14px;
     height: 14px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    border: 2px solid var(--border-subtle);
     border-top-color: currentColor;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;

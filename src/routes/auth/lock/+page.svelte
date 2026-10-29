@@ -336,16 +336,22 @@
 </div>
 
 <style>
+
   .auth-page {
-    min-height: 98vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 25px;
-    color: #ddd;
+    color: var(--text-primary);
     user-select: none;
     text-align: center;
+
+    min-height: 100%;
+    height: 100%;
+    overflow-y: auto;
+    padding: 32px 24px calc(32px + var(--safe-area-bottom));
+    background: var(--bg-app);
   }
 
   .pattern {
@@ -376,14 +382,14 @@
 
   .draw-line {
     fill: none;
-    stroke: white;
+    stroke: var(--text-primary);
     stroke-width: 10;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
 
   .cursor-line {
-    stroke: white;
+    stroke: var(--text-primary);
     stroke-width: 10;
     opacity: .5;
   }
@@ -395,25 +401,25 @@
     margin-left: -13px;
     margin-top: -13px;
     border-radius: 50%;
-    background: #555;
+    background: var(--bg-surface-2);
     z-index: 1;
     pointer-events: none;
   }
 
   .point.selected {
-    background: white;
+    background: var(--bg-surface);
   }
 
   .text {
     height: 24px;
-    font-size: 16px;
+    font-size: 0.9412rem;
   }
 
   .migration-card {
     width: 320px;
     max-width: 90vw;
-    background: #24242d;
-    border: 1px solid #32323d;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
     border-radius: 18px;
     padding: 28px 24px;
     display: flex;
@@ -424,7 +430,7 @@
   }
 
   .migration-icon {
-    font-size: 40px;
+    font-size: 2.353rem;
     line-height: 1;
   }
 
@@ -432,27 +438,33 @@
     margin: 0;
     font-size: 1.15rem;
     font-weight: 600;
-    color: #fff;
+    color: var(--text-primary);
   }
 
   .migration-subtitle {
     margin: 0;
-    color: #9ca3af;
+    color: var(--text-muted);
     font-size: 0.92rem;
   }
 
   .progress-track {
     width: 100%;
     height: 8px;
-    background: #1a1a22;
+    background: var(--bg-app);
     border-radius: 999px;
     overflow: hidden;
   }
 
   .progress-bar {
     height: 100%;
-    background: #6366f1;
+    background: var(--accent-primary);
     border-radius: 999px;
     transition: width 0.15s ease-out;
+  }
+  .auth-page h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    letter-spacing: -.03em;
+    margin: 16px 0 8px;
   }
 </style>

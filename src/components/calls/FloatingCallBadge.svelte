@@ -164,8 +164,8 @@
     gap: 12px;
     padding: 10px 14px;
     min-height: 56px;
-    background: #1c1d24;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
     border-radius: 28px;
     box-shadow: 0 6px 28px rgba(0, 0, 0, 0.45);
     cursor: pointer;
@@ -179,7 +179,7 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: #2a2a3e;
+    background: var(--bg-surface-2);
     background-size: cover;
     background-position: center;
     position: relative;
@@ -191,9 +191,9 @@
   }
 
   .badge-avatar span {
-    font-size: 14px;
+    font-size: 0.8235rem;
     font-weight: 700;
-    color: #fff;
+    color: var(--text-primary);
   }
 
   .pulsing-ring {
@@ -205,7 +205,7 @@
   }
 
   .pulsing-ring.active {
-    border-color: #22c55e;
+    border-color: var(--status-success);
     animation: badgePulse 2s ease-in-out infinite;
   }
 
@@ -223,17 +223,17 @@
   }
 
   .badge-name {
-    font-size: 13px;
+    font-size: 0.7647rem;
     font-weight: 600;
-    color: #fff;
+    color: var(--text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
   .badge-time {
-    font-size: 11px;
-    color: rgba(255,255,255,0.5);
+    font-size: 0.6471rem;
+    color: var(--text-primary);
     font-variant-numeric: tabular-nums;
   }
 
@@ -248,8 +248,8 @@
     height: 30px;
     border-radius: 50%;
     border: none;
-    background: rgba(255,255,255,0.10);
-    color: #fff;
+    background: var(--bg-fill);
+    color: var(--text-primary);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -258,7 +258,7 @@
   }
 
   .badge-btn:active { transform: scale(0.88); }
-  .badge-btn--muted { background: rgba(239, 68, 68, 0.20); color: #ef4444; }
+  .badge-btn--muted { background: rgba(var(--danger-rgb), 0.20); color: var(--status-danger); }
   .badge-btn--hangup { background: rgba(239,68,68,0.85); }
-  .badge-btn--hangup:hover { background: #ef4444; }
+  .badge-btn--hangup:hover { background: var(--status-danger); }
 </style>

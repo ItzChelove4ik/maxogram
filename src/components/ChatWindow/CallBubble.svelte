@@ -187,19 +187,19 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(255, 255, 255, 0.12);
-    color: rgba(255, 255, 255, 0.95);
+    background: var(--bg-fill);
+    color: var(--text-primary);
     flex-shrink: 0;
   }
 
   .call-bubble-row.is-me .call-icon-circle {
-    background: rgba(255, 255, 255, 0.16);
-    color: #ffffff;
+    background: var(--bg-fill);
+    color: var(--text-primary);
   }
 
   .call-icon-circle.missed {
-    background: rgba(255, 255, 255, 0.1);
-    color: #f87171;
+    background: var(--bg-fill);
+    color: var(--status-danger);
   }
 
   .call-text-col {
@@ -211,10 +211,10 @@
   }
 
   .call-title-line {
-    font-size: 13px;
+    font-size: 0.7647rem;
     font-weight: 500;
     line-height: 1.15;
-    color: #ffffff;
+    color: var(--text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -230,17 +230,17 @@
 
   .call-direction-svg {
     flex-shrink: 0;
-    color: rgba(255, 255, 255, 0.65);
+    color: var(--text-primary);
   }
 
   .call-direction-svg.missed {
-    color: #f87171;
+    color: var(--status-danger);
   }
 
   .call-duration-text {
-    font-size: 11.5px;
+    font-size: 0.6765rem;
     line-height: 1.1;
-    color: rgba(255, 255, 255, 0.65);
+    color: var(--text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -251,8 +251,8 @@
     height: 28px;
     border-radius: 50%;
     border: none;
-    background: var(--accent-primary, #248bfe);
-    color: #ffffff;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -263,7 +263,7 @@
   }
 
   .call-handset-btn:hover {
-    background: var(--accent-primary-hover, #1b74dc);
+    background: var(--accent-primary-hover);
     transform: scale(1.05);
   }
 

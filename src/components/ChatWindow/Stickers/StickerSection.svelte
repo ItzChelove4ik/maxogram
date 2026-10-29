@@ -249,10 +249,10 @@
   }
 
   .sticker-section.is-favorite-card {
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--bg-hover);
     border-radius: 14px;
     padding: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-subtle);
   }
 
   .section-header {
@@ -283,9 +283,9 @@
   }
 
   .sec-name {
-    font-size: 13px;
+    font-size: 0.7647rem;
     font-weight: 600;
-    color: #8b929e;
+    color: var(--text-muted);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -293,7 +293,7 @@
   }
 
   .header-info-btn:hover .sec-name {
-    color: #fff;
+    color: var(--text-primary);
   }
 
   .header-actions {
@@ -309,28 +309,28 @@
     border: none;
     padding: 4px 8px;
     border-radius: 8px;
-    font-size: 12px;
+    font-size: 0.7059rem;
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.15s, color 0.15s;
   }
 
   .add-btn {
-    color: #248bfe;
-    background: rgba(36, 139, 254, 0.1);
+    color: var(--accent-primary);
+    background: rgba(var(--accent-rgb), 0.1);
   }
 
   .add-btn:hover {
-    background: rgba(36, 139, 254, 0.2);
+    background: rgba(var(--accent-rgb), 0.2);
   }
 
   .remove-btn {
-    color: #8b929e;
-    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-muted);
+    background: var(--bg-hover);
   }
 
   .remove-btn:hover {
-    color: #ff5e5e;
+    color: var(--status-danger);
     background: rgba(255, 75, 75, 0.12);
   }
 
@@ -376,7 +376,7 @@
   }
 
   .sticker-cell:hover {
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--bg-hover);
     transform: scale(1.05);
   }
 

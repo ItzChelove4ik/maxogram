@@ -112,34 +112,45 @@
 </SettingsPageWrapper>
 
 <style>
+
   .content {
     flex: 1;
     overflow-y: auto;
-    padding: 16px;
+
     display: flex;
     flex-direction: column;
     gap: 16px;
     box-sizing: border-box;
+
+    padding: 20px 16px 32px;
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto;
   }
 
   .description-card {
-    background: #24252a;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 14px;
-    padding: 16px;
-    color: #aaa;
+    color: var(--text-muted);
     font-size: 0.92rem;
     line-height: 1.5;
+
+    background: var(--bg-surface);
+    border: 0;
+    border-radius: var(--radius-card);
+    padding: 16px;
+    box-shadow: none;
   }
 
   .info-card {
     display: flex;
     align-items: center;
     gap: 14px;
-    background: #24252a;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 14px;
+
+
+    background: var(--bg-surface);
+    border: 0;
+    border-radius: var(--radius-card);
     padding: 16px;
+    box-shadow: none;
   }
 
   .icon {
@@ -153,32 +164,38 @@
 
   .info-text {
     font-size: 0.95rem;
-    color: #ddd;
+    color: var(--text-primary);
   }
 
   .info-text b {
-    color: #fff;
+    color: var(--text-primary);
   }
 
   .input-card {
     display: flex;
     flex-direction: column;
     gap: 8px;
+
+    background: var(--bg-surface);
+    border: 0;
+    border-radius: var(--radius-card);
+    padding: 16px;
+    box-shadow: none;
   }
 
   label {
     font-size: 0.78rem;
-    color: #7b7b88;
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
   }
 
   input {
     width: 100%;
-    background: #1f1f26;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
     border-radius: 12px;
-    color: white;
+    color: var(--text-primary);
     padding: 14px;
     box-sizing: border-box;
     font-size: 0.95rem;
@@ -187,15 +204,15 @@
   }
 
   input:focus {
-    border-color: #3390ec;
-    background: #20202a;
+    border-color: var(--accent-primary);
+    background: var(--bg-surface);
   }
 
   .actions-panel {
     flex-shrink: 0;
     padding: 14px 16px;
-    background: #212126;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-subtle);
   }
 
   .download-btn {
@@ -206,7 +223,7 @@
     font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
-    color: white;
+    color: var(--text-primary);
     transition: transform 0.12s, opacity 0.15s;
   }
 

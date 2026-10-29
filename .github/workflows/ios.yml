@@ -35,6 +35,8 @@ jobs:
           xcodebuild -version
       - name: Initialize iOS project
         run: bun run tauri ios init --ci --skip-targets-install
+      - name: Apply Orbit app icon to Xcode asset catalog
+        run: bun run tauri icon assets/branding/icon-manifest.json
       - name: Build unsigned ARM64 IPA
         run: |
           set -o pipefail
@@ -42,13 +44,13 @@ jobs:
       - name: Validate and collect IPA
         run: |
           mkdir -p artifacts
-          python3 scripts/validate_ipa.py src-tauri/gen/apple --output artifacts/Maxogram-unsigned.ipa
+          python3 scripts/validate_ipa.py src-tauri/gen/apple --output artifacts/Orbit-unsigned.ipa
           cd artifacts
-          shasum -a 256 Maxogram-unsigned.ipa > Maxogram-unsigned.ipa.sha256
+          shasum -a 256 Orbit-unsigned.ipa > Orbit-unsigned.ipa.sha256
       - name: Upload IPA
         uses: actions/upload-artifact@v4
         with:
-          name: Maxogram-iOS-unsigned
+          name: Orbit-iOS-unsigned
           path: artifacts/
           if-no-files-found: error
           retention-days: 30
@@ -63,12 +65,12 @@ jobs:
 
           Sign the IPA with AltStore, SideStore, or your own Apple certificate before installation. This is not an App Store or TestFlight build. Device functionality has not been tested by this workflow.
 
-          Download `Maxogram-unsigned.ipa`. A SHA-256 checksum is provided alongside it.
+          Download `Orbit-unsigned.ipa`. A SHA-256 checksum is provided alongside it.
           NOTES
           if gh release view "$tag" >/dev/null 2>&1; then
             gh release upload "$tag" artifacts/* --clobber
           else
-            gh release create "$tag" artifacts/* --target "$GITHUB_SHA" --title "Maxogram ${version} — iOS IPA" --notes-file release-notes.md
+            gh release create "$tag" artifacts/* --target "$GITHUB_SHA" --title "Orbit ${version} — iOS IPA" --notes-file release-notes.md
           fi
       - name: Upload build diagnostics
         if: always()

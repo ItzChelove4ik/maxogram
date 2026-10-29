@@ -133,7 +133,7 @@
       await saveDevice(cut);
       update(cut, true);
     } else {
-      return alert("Это конфиг для более новой версии Max+!")
+      return alert("Это конфиг для более новой версии Orbit!")
     }
   }
 
@@ -210,12 +210,12 @@
     max-height: 80vh;
     overflow-y: auto;
 
-    background: #1f1f23;
+    background: var(--bg-surface);
     border-radius: 14px 14px 0 0;
 
     margin-top: auto;
     padding: 0 20px 20px 20px;
-    color: white;
+    color: var(--text-primary);
   }
 
   @media(max-height: 600px) {
@@ -233,11 +233,11 @@
     position: sticky;
     top: 0;
     padding: 14px 0;
-    background: #1f1f23;
+    background: var(--bg-surface);
   }
 
   .title {
-    font-size: 16px;
+    font-size: 0.9412rem;
     font-weight: 600;
   }
 
@@ -254,8 +254,8 @@
     padding: 8px;
 
     background: transparent;
-    color: #aaa;
-    font-size: 20px;
+    color: var(--text-muted);
+    font-size: 1.176rem;
 
     display: flex;
     align-items: center;
@@ -276,7 +276,7 @@
   }
 
   .buttons *:active {
-    color: white;
+    color: var(--text-primary);
     opacity: 1;
   }
 
@@ -292,12 +292,12 @@
     justify-content: space-between;
 
     padding: 6px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid var(--border-subtle);
   }
 
   .label {
-    font-size: 13px;
-    color: #9ca3af;
+    font-size: 0.7647rem;
+    color: var(--text-muted);
     flex: 1;
   }
 
@@ -312,13 +312,13 @@
     border: none;
     outline: none;
 
-    color: white;
-    font-size: 13px;
+    color: var(--text-primary);
+    font-size: 0.7647rem;
     padding: 0;
     transition: color 0.5s;
   }
 
   .value.glow {
-    color: #a5b4fc;
+    color: var(--accent-primary);
   }
 </style>

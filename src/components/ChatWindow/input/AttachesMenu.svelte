@@ -83,7 +83,7 @@
     position: absolute;
     bottom: 54px;
     left: 0;
-    background: #1e2025;
+    background: var(--bg-surface);
     border: none;
     border-radius: 14px;
     padding: 6px;
@@ -112,22 +112,22 @@
     gap: 12px;
     background: transparent;
     border: none;
-    color: #e1e4ea;
+    color: var(--text-primary);
     padding: 9px 12px;
     border-radius: 10px;
     text-align: left;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 0.8235rem;
     font-weight: 500;
     transition: background-color 0.12s ease;
   }
 
   .dropout-item:hover {
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--bg-hover);
   }
 
   .dropout-svg {
-    color: #e1e4ea;
+    color: var(--text-primary);
     flex-shrink: 0;
   }
 </style>

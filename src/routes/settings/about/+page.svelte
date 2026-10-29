@@ -25,12 +25,13 @@
     }, 100);
     try {
       const response = await fetch(
-        "https://api.github.com/repos/me0wkie/maxplus/releases/latest",
+        "https://api.github.com/repos/ItzChelove4ik/maxogram/releases/latest",
       );
       const data = await response.json();
       if (!data.tag_name) alert("Не удалось соединиться с GitHub!");
       else {
-        if (data.tag_name !== version) openUrl(data.html_url);
+        const releaseVersion = data.tag_name.replace(/^ios-/, '').replace(/-build\.\d+$/, '');
+        if (releaseVersion !== version) openUrl(data.html_url);
         else alert("Обновлений нет!");
       }
     } catch (e) {
@@ -56,7 +57,7 @@
   });
 
   function openGit() {
-    openUrl("https://github.com/junioraww/maxplus");
+    openUrl("https://github.com/ItzChelove4ik/maxogram");
   }
 
   function openBerg() {
@@ -97,9 +98,9 @@
   <div class="content">
     <div class="hero-section">
       <div on:click={updatePhrase} class="app-icon-wrap">
-        <img class="app-logo" src="/favicon.png" alt="Max+" />
+        <img class="app-logo" src="/favicon.png" alt="Orbit" />
       </div>
-      <h1>Max+</h1>
+      <h1>Orbit</h1>
       <p class="description">Клиент «Макс» {phrase}</p>
     </div>
 
@@ -166,16 +167,22 @@
 {/if}
 
 <style>
+
   .content {
     flex: 1 1 auto;
     min-height: 0;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
-    padding: 20px 16px;
+
     display: flex;
     flex-direction: column;
     gap: 16px;
     box-sizing: border-box;
+
+    padding: 20px 16px 32px;
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto;
   }
 
   .hero-section {
@@ -204,30 +211,36 @@
   }
 
   h1 {
-    color: #ffffff;
-    font-size: 24px;
+    color: var(--text-primary);
+    font-size: 1.412rem;
     font-weight: 700;
     margin: 0;
   }
 
   .description {
-    color: #888;
     margin: 6px 0 0;
-    font-size: 0.95rem;
+
+
+    font-size: .8824rem;
+    line-height: 1.4;
+    color: var(--text-muted);
   }
 
   .card {
-    background: #24252a;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 14px;
     overflow: hidden;
     flex-shrink: 0;
+
+    background: var(--bg-surface);
+    border: 0;
+    border-radius: var(--radius-card);
+    padding: 16px;
+    box-shadow: none;
   }
 
   .card-title {
     padding: 12px 16px 8px;
     font-size: 0.78rem;
-    color: #7b7b88;
+    color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     font-weight: 600;
@@ -253,11 +266,11 @@
   }
 
   .source-item:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--bg-hover);
   }
 
   .source-item:active {
-    background: rgba(255, 255, 255, 0.08);
+    background: var(--bg-hover);
   }
 
   .source-icon {
@@ -267,25 +280,28 @@
   }
 
   .github-icon {
-    background: #fff;
+    background: var(--bg-surface);
     border-radius: 50%;
   }
 
   .source-name {
     flex: 1;
-    color: #fff;
-    font-size: 0.95rem;
+
+
     font-weight: 500;
+
+    font-size: 1rem;
+    color: var(--text-primary);
   }
 
   .chevron {
-    color: #555;
+    color: var(--text-muted);
     flex-shrink: 0;
   }
 
   .divider {
     height: 1px;
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--bg-hover);
     margin: 0 16px;
     flex-shrink: 0;
   }
@@ -293,6 +309,12 @@
   .info-card {
     display: flex;
     flex-direction: column;
+
+    background: var(--bg-surface);
+    border: 0;
+    border-radius: var(--radius-card);
+    padding: 16px;
+    box-shadow: none;
   }
 
   .info-row {
@@ -307,11 +329,11 @@
   }
 
   .info-row span {
-    color: #888;
+    color: var(--text-muted);
   }
 
   .info-row strong {
-    color: #fff;
+    color: var(--text-primary);
     font-weight: 500;
   }
 
@@ -319,8 +341,8 @@
     flex-shrink: 0;
     padding: 14px 16px;
     padding-bottom: max(14px, env(safe-area-inset-bottom, 14px));
-    background: #212126;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    background: var(--bg-surface);
+    border-top: 1px solid var(--border-subtle);
   }
 
   .check-btn {
@@ -329,8 +351,8 @@
     min-height: 44px;
     flex-shrink: 0;
     box-sizing: border-box;
-    background: #3390ec;
-    color: white;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
     border: none;
     border-radius: 12px;
     font-size: 0.95rem;
@@ -346,7 +368,7 @@
   }
 
   .check-btn:hover {
-    background: #2b7ecf;
+    background: var(--accent-primary);
   }
 
   .check-btn:active {

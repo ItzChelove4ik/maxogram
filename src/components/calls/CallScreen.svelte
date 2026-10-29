@@ -4,7 +4,7 @@
   import { cubicOut, cubicInOut } from 'svelte/easing';
   import { get } from 'svelte/store';
 
-  import { activeCall, patchCallState, resetCallState, CALL_PHASE, CALL_MODE, callUseStubs, setCallUseStubs } from '$lib/stores/calls.js';
+  import { activeCall, patchCallState, resetCallState, CALL_PHASE, CALL_MODE } from '$lib/stores/calls.js';
   import { currentUserDetails } from '$lib/stores/api.js';
   import { CallService } from '$lib/services/CallService.js';
   import ParticipantGrid from '$components/calls/ParticipantGrid.svelte';
@@ -487,21 +487,6 @@
             <div class="debug-item debug-item--error"><span class="debug-label">Ошибка:</span> <span class="debug-val">{errorText}</span></div>
           {/if}
           <div class="debug-item">
-            <span class="debug-label">Тест. заглушки:</span>
-            <button
-              type="button"
-              class="debug-val"
-              style="cursor: pointer; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 4px; padding: 2px 8px; color: inherit;"
-              on:click={() => {
-                const next = !$callUseStubs;
-                setCallUseStubs(next);
-                CallService.setCallUseStubs(next);
-              }}
-            >
-              {$callUseStubs ? 'Вкл (шум/снег)' : 'Выкл'}
-            </button>
-          </div>
-          <div class="debug-item">
             <span class="debug-label">Сырой поток:</span>
             <button
               type="button"
@@ -635,7 +620,7 @@
     <div class="secure-req-backdrop" transition:fade={{ duration: 150 }} role="presentation">
       <div class="secure-req-card" transition:scale={{ start: 0.95, duration: 150 }} on:click|stopPropagation role="dialog">
         <div class="secure-req-icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--status-success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
             <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
           </svg>
@@ -661,7 +646,7 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    background: #0a0a12;
+    background: var(--media-bg);
   }
 
   .group-grid-area {
@@ -679,9 +664,9 @@
   }
 
   .group-title-label {
-    font-size: 15px;
+    font-size: 0.8824rem;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--text-on-media);
     letter-spacing: 0.2px;
   }
 
@@ -694,9 +679,9 @@
   }
 
   .caller-title-label {
-    font-size: 15px;
+    font-size: 0.8824rem;
     font-weight: 600;
-    color: #ffffff;
+    color: var(--text-on-media);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -726,7 +711,7 @@
 
   .debug-btn:hover {
     background: rgba(255, 255, 255, 0.2);
-    color: #ffffff;
+    color: var(--text-on-media);
   }
 
   .call-error-banner {
@@ -736,8 +721,8 @@
     right: 16px;
     padding: 10px 14px;
     border-radius: 12px;
-    background: rgba(239, 68, 68, 0.92);
-    color: #ffffff;
+    background: rgba(var(--danger-rgb), 0.92);
+    color: var(--text-on-media);
     display: flex;
     align-items: center;
     gap: 8px;
@@ -750,14 +735,14 @@
   }
 
   .error-text {
-    font-size: 13px;
+    font-size: 0.7647rem;
     font-weight: 500;
     word-break: break-word;
   }
 
   .secure-badge--unsupported {
-    background: rgba(239, 68, 68, 0.18) !important;
-    border-color: rgba(239, 68, 68, 0.4) !important;
+    background: rgba(var(--danger-rgb), 0.18) !important;
+    border-color: rgba(var(--danger-rgb), 0.4) !important;
     color: #f87171 !important;
   }
 
@@ -783,7 +768,7 @@
   .debug-modal {
     width: 100%;
     max-width: 360px;
-    background: #1c1d25;
+    background: var(--media-panel);
     border: 1px solid rgba(255, 255, 255, 0.12);
     border-radius: 20px;
     padding: 18px;
@@ -804,7 +789,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 15px;
+    font-size: 0.8824rem;
     font-weight: 700;
     color: #38bdf8;
   }
@@ -825,7 +810,7 @@
 
   .debug-close-btn:hover {
     background: rgba(255, 255, 255, 0.18);
-    color: #ffffff;
+    color: var(--text-on-media);
   }
 
   .debug-modal-body {
@@ -833,7 +818,7 @@
     flex-direction: column;
     gap: 8px;
     font-family: monospace;
-    font-size: 12px;
+    font-size: 0.7059rem;
   }
 
   .debug-item {
@@ -853,13 +838,13 @@
   }
 
   .debug-val--mono {
-    font-size: 11px;
+    font-size: 0.6471rem;
     word-break: break-all;
     text-align: right;
     max-width: 180px;
   }
 
-  .text-green { color: #4ade80 !important; }
+  .text-green { color: var(--status-success) !important; }
   .text-red { color: #f87171 !important; }
 
   .avatar-backdrop {
@@ -867,7 +852,7 @@
     inset: 0;
     background-size: cover;
     background-position: center;
-    background-color: #1a1a2e;
+    background-color: var(--media-surface);
   }
 
   .avatar-blur {
@@ -929,9 +914,9 @@
   }
 
   .pip-avatar-fallback {
-    font-size: 26px;
+    font-size: 1.529rem;
     font-weight: 700;
-    color: #ffffff;
+    color: var(--text-on-media);
   }
 
   .pip-swap-btn {
@@ -981,12 +966,12 @@
   .top-bar.visible { opacity: 1; }
 
   .minimize-btn {
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     border: none;
     background: rgba(255, 255, 255, 0.12);
-    color: #ffffff;
+    color: var(--text-on-media);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1004,16 +989,16 @@
   }
 
   .duration {
-    font-family: 'Inter Medium', sans-serif;
-    font-size: 15px;
+    font-family: inherit;
+    font-size: 0.8824rem;
     font-weight: 600;
     color: rgba(255,255,255,0.9);
     letter-spacing: 0.5px;
   }
 
   .status-label {
-    font-size: 14px;
-    color: rgba(255,255,255,0.6);
+    font-size: 0.8235rem;
+    color: var(--media-text-secondary);
   }
 
   .secure-badge {
@@ -1021,8 +1006,8 @@
     display: flex;
     align-items: center;
     gap: 4px;
-    background: rgba(74, 222, 128, 0.15);
-    border: 1px solid rgba(74, 222, 128, 0.3);
+    background: rgba(var(--success-rgb), 0.15);
+    border: 1px solid rgba(var(--success-rgb), 0.3);
     border-radius: 20px;
     padding: 3px 10px;
     cursor: pointer;
@@ -1049,21 +1034,21 @@
     justify-content: center;
     width: 10px;
     height: 10px;
-    font-size: 8.5px;
+    font-size: 0.5rem;
     line-height: 1;
     overflow: hidden;
   }
 
   .secure-text {
-    font-size: 11px;
+    font-size: 0.6471rem;
     font-weight: 600;
-    color: #4ade80;
+    color: var(--status-success);
     letter-spacing: 0.5px;
   }
 
   .call-password-note {
     display: block;
-    font-size: 8.5px;
+    font-size: 0.5rem;
     line-height: 1.1;
     opacity: 0.3;
     margin-top: 2px;
@@ -1090,7 +1075,7 @@
     border-radius: 50%;
     background-size: cover;
     background-position: center;
-    background-color: #2a2a3e;
+    background-color: var(--media-surface);
     position: relative;
     display: flex;
     align-items: center;
@@ -1098,9 +1083,9 @@
   }
 
   .peer-avatar--fallback span {
-    font-size: 36px;
+    font-size: 2.118rem;
     font-weight: 700;
-    color: #fff;
+    color: var(--text-on-media);
   }
 
   .ring-pulse {
@@ -1121,17 +1106,17 @@
 
   .peer-name {
     margin: 0;
-    font-size: 22px;
+    font-size: 1.294rem;
     font-weight: 700;
-    color: #fff;
+    color: var(--text-on-media);
     text-align: center;
     text-shadow: 0 1px 8px rgba(0,0,0,0.5);
   }
 
   .call-status {
     margin: 0;
-    font-size: 14px;
-    color: rgba(255,255,255,0.55);
+    font-size: 0.8235rem;
+    color: var(--media-text-secondary);
   }
 
   .incoming-actions {
@@ -1171,15 +1156,15 @@
   .action-btn:active { transform: scale(0.93); }
 
   .action-btn--decline {
-    background: #ef4444;
+    background: var(--status-danger);
     box-shadow: 0 4px 20px rgba(239,68,68,0.4);
-    color: #fff;
+    color: var(--text-on-media);
   }
 
   .action-btn--accept {
-    background: #22c55e;
+    background: var(--status-success);
     box-shadow: 0 4px 20px rgba(34,197,94,0.4);
-    color: #fff;
+    color: var(--text-on-media);
   }
 
   .control-bar {
@@ -1212,7 +1197,7 @@
     max-width: calc(100vw - 16px);
     width: fit-content;
     box-sizing: border-box;
-    background: #181922;
+    background: var(--media-panel);
     border-radius: 36px;
     border: 1px solid rgba(255,255,255,0.08);
     overflow-x: auto;
@@ -1224,14 +1209,14 @@
   }
 
   .ctrl-btn {
-    width: clamp(38px, 10.5vw, 48px);
-    height: clamp(38px, 10.5vw, 48px);
+    width: clamp(44px, 10.5vw, 48px);
+    height: clamp(44px, 10.5vw, 48px);
     aspect-ratio: 1 / 1;
     flex-shrink: 0;
     border-radius: 50%;
     border: none;
     background: rgba(255,255,255,0.10);
-    color: #fff;
+    color: var(--text-on-media);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -1251,15 +1236,15 @@
   .ctrl-btn--active { background: rgba(255,255,255,0.22); }
 
   .ctrl-btn--secure {
-    background: rgba(74, 222, 128, 0.18);
-    border: 1px solid rgba(74, 222, 128, 0.4);
+    background: rgba(var(--success-rgb), 0.18);
+    border: 1px solid rgba(var(--success-rgb), 0.4);
   }
 
   .ctrl-btn--hangup {
-    background: #ef4444;
+    background: var(--status-danger);
     box-shadow: 0 2px 14px rgba(239,68,68,0.4);
-    width: clamp(42px, 11.5vw, 52px);
-    height: clamp(42px, 11.5vw, 52px);
+    width: clamp(44px, 11.5vw, 52px);
+    height: clamp(44px, 11.5vw, 52px);
     aspect-ratio: 1 / 1;
     flex-shrink: 0;
   }
@@ -1328,7 +1313,7 @@
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    background: rgba(34, 197, 94, 0.15);
+    background: rgba(var(--success-rgb), 0.15);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1336,14 +1321,14 @@
   }
 
   .secure-req-title {
-    font-size: 17px;
+    font-size: 1rem;
     font-weight: 600;
-    color: #fff;
+    color: var(--text-on-media);
     margin: 0 0 8px;
   }
 
   .secure-req-desc {
-    font-size: 13px;
+    font-size: 0.7647rem;
     line-height: 1.4;
     color: rgba(255, 255, 255, 0.65);
     margin: 0 0 20px;
@@ -1360,7 +1345,7 @@
     flex: 1;
     height: 42px;
     border-radius: 12px;
-    font-size: 14px;
+    font-size: 0.8235rem;
     font-weight: 600;
     cursor: pointer;
     border: none;
@@ -1368,8 +1353,8 @@
   }
 
   .btn-secure-agree {
-    background: #22c55e;
-    color: #fff;
+    background: var(--status-success);
+    color: var(--text-on-media);
   }
 
   .btn-secure-agree:hover {
@@ -1383,6 +1368,6 @@
 
   .btn-secure-deny:hover {
     background: rgba(255, 255, 255, 0.14);
-    color: #fff;
+    color: var(--text-on-media);
   }
 </style>

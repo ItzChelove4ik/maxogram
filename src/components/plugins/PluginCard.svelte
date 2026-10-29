@@ -159,17 +159,17 @@
   .plugin-name {
     font-weight: 600;
     color: var(--text-primary);
-    font-size: 16px;
+    font-size: 0.9412rem;
   }
 
   .plugin-author {
     color: var(--text-muted);
-    font-size: 14px;
+    font-size: 0.8235rem;
   }
 
   .description {
     color: var(--text-secondary);
-    font-size: 14px;
+    font-size: 0.8235rem;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -187,7 +187,7 @@
   .badge {
     padding: 4px 8px;
     border-radius: 999px;
-    font-size: 12px;
+    font-size: 0.7059rem;
     font-weight: 500;
   }
 
@@ -198,7 +198,7 @@
 
   .badge.unverified {
     background: rgba(241, 196, 15, 0.15);
-    color: #f1c40f;
+    color: var(--status-warning);
   }
 
   .badge.category {
@@ -227,7 +227,7 @@
   }
 
   .expand-btn:hover {
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--bg-hover);
     color: var(--text-primary);
   }
 
@@ -282,7 +282,7 @@
 
   input:checked + .slider:before {
     transform: translateX(20px);
-    background-color: #fff;
+    background-color: var(--bg-surface);
   }
 
   .card-details {
@@ -307,19 +307,19 @@
 
   .detail-label {
     color: var(--text-muted);
-    font-size: 13px;
+    font-size: 0.7647rem;
   }
 
   .detail-value {
     color: var(--text-primary);
-    font-size: 14px;
+    font-size: 0.8235rem;
   }
 
   .permissions-list {
     margin: 0;
     padding-left: 20px;
     color: var(--text-primary);
-    font-size: 14px;
+    font-size: 0.8235rem;
   }
 
   .source-code {
@@ -327,7 +327,7 @@
     padding: 10px;
     border-radius: 8px;
     font-family: monospace;
-    font-size: 12px;
+    font-size: 0.7059rem;
     color: var(--text-secondary);
     max-height: 200px;
     overflow-y: auto;
@@ -340,9 +340,9 @@
     position: absolute;
     bottom: 12px;
     right: 12px;
-    background: var(--bg-surface-2, rgba(255, 255, 255, 0.05));
-    color: var(--text-muted, #71717a);
-    border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.1));
+    background: var(--bg-surface-2, var(--bg-hover));
+    color: var(--text-muted);
+    border: 1px solid var(--border-subtle, var(--border-subtle));
     padding: 6px 8px;
     border-radius: 8px;
     cursor: pointer;
@@ -354,9 +354,9 @@
   }
 
   .trash-btn:hover {
-    background: rgba(255, 255, 255, 0.12);
-    color: var(--text-primary, #ffffff);
-    border-color: rgba(255, 255, 255, 0.25);
+    background: var(--bg-fill);
+    color: var(--text-primary);
+    border-color: var(--border-subtle);
   }
 
   .trash-btn:active {

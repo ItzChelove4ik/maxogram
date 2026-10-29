@@ -125,8 +125,8 @@
     align-items: center;
     gap: 8px;
     background: rgba(24, 24, 28, 0.94);
-    border: 1.5px solid rgba(239, 68, 68, 0.7);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 16px rgba(239, 68, 68, 0.35);
+    border: 1.5px solid var(--status-danger);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 16px rgba(var(--danger-rgb), 0.35);
     border-radius: 30px;
     padding: 6px 14px 6px 8px;
     cursor: grab;
@@ -142,11 +142,11 @@
     width: 38px;
     height: 38px;
     border-radius: 50%;
-    background: #ef4444;
+    background: var(--status-danger);
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 10px rgba(239, 68, 68, 0.8);
+    box-shadow: 0 0 10px rgba(var(--danger-rgb), 0.8);
     animation: pulse-opacity 1.6s ease-in-out infinite;
     flex-shrink: 0;
   }
@@ -154,7 +154,7 @@
   .stop-icon {
     width: 14px;
     height: 14px;
-    background: white;
+    background: var(--bg-surface);
     border-radius: 3px;
   }
 
@@ -168,14 +168,14 @@
   }
 
   .timer {
-    font-size: 13px;
+    font-size: 0.7647rem;
     font-weight: 700;
-    color: #f87171;
+    color: var(--status-danger);
   }
 
   .badge {
-    font-size: 11px;
-    color: #9ca3af;
+    font-size: 0.6471rem;
+    color: var(--text-muted);
   }
 
   @keyframes pulse-opacity {

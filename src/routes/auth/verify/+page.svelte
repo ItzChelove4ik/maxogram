@@ -7,8 +7,8 @@
   } from "$lib/stores/session.js";
   import { registerBackHandler } from "$lib/utils/backButton.js";
 
-  import BackButton from "$components/main/auth/BackButton.svelte";
-  import ActionButton from "$components/main/auth/ActionButton.svelte";
+  import AuthShell from "$components/main/auth/AuthShell.svelte";
+  import SubmitButton from "$components/main/auth/SubmitButton.svelte";
 
   import API from "$lib/stores/api";
   import { parseApiError } from "$lib/api/MobileApi.js";
@@ -123,7 +123,8 @@
   async function verify() {
     if (loading) return;
     if (code.length !== codeLength) {
-      error = `Длина кода — ${codeLength} символов!`;
+      error = `Введите все ${codeLength} цифр кода подтверждения.`;
+      document.getElementById("verify-code")?.focus();
       return;
     }
 
@@ -180,162 +181,29 @@
 
   function onInput(e) {
     error = "";
-    code = e.target.value.trim();
+    code = e.target.value.replace(/\D/g, "").slice(0, codeLength);
+    e.target.value = code;
     if (code.length === codeLength) {
       verify();
     }
   }
 </script>
 
-<div class="auth-page">
-  <h1>Подтверждение</h1>
-  {#if phone}
-    <div class="phone-badge">{phone}</div>
-  {/if}
-  <p class="subtitle">
-    {subtitleText}
-  </p>
-  <div class="form">
-    {#if error}
-      <div class="error">{error}</div>
-    {/if}
-    {#if infoMessage}
-      <div class="info">{infoMessage}</div>
-    {/if}
-    <input
-      type="text"
-      inputmode="numeric"
-      maxlength={codeLength}
-      value={code}
-      on:input={onInput}
-      placeholder={placeholderText}
-      required
-    />
-    <ActionButton text="Подтвердить" action={verify}/>
-
-    <div class="resend-container">
-      {#if timerSeconds > 0}
-        <span class="timer-label">Отправить повторно через {timerSeconds} сек</span>
-      {:else}
-        <button
-          type="button"
-          class="resend-action"
-          on:click={resendCode}
-          disabled={resending}
-        >
-          {resending ? "Отправка..." : resendButtonText}
-        </button>
-      {/if}
+<AuthShell title={isCall ? 'Ожидайте звонок' : 'Проверьте сообщения'} description={subtitleText} icon={isCall ? 'calls' : 'chats'} backHref={'/auth/' + state} backLabel="Изменить номер">
+  <form class="auth-form" on:submit|preventDefault={verify} novalidate>
+    {#if phone}<p class="auth-phone">{phone}</p>{/if}
+    <div class="auth-field">
+      <label for="verify-code">{isCall ? 'Последние цифры номера' : 'Код подтверждения'}</label>
+      <input class="auth-input auth-code" id="verify-code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength={codeLength} value={code} on:input={onInput} placeholder={placeholderText} required aria-invalid={!!error} aria-describedby={error ? 'verify-error' : 'verify-hint'} />
+      {#if error}<p class="auth-error" id="verify-error" role="alert">{error}</p>
+      {:else}<p class="auth-field-hint" id="verify-hint">{codeLength} цифр · можно вставить код целиком</p>{/if}
     </div>
-  </div>
-  <BackButton/>
-</div>
-
-<style>
-  .auth-page {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    text-align: center;
-    color: #ddd;
-    max-width: min(340px, 92%);
-    margin: 0 auto;
-    padding: 20px 0;
-    box-sizing: border-box;
-  }
-
-  .auth-page h1 {
-    margin: 0;
-    font-size: 24px;
-    font-weight: 600;
-  }
-
-  .phone-badge {
-    margin-top: 8px;
-    font-size: 16px;
-    font-weight: 500;
-    color: #4a90e2;
-    letter-spacing: 0.5px;
-  }
-
-  .subtitle {
-    margin: 10px 0 12px 0;
-    font-size: 13.5px;
-    color: #a0a0a8;
-    line-height: 1.4;
-  }
-
-  .form {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    width: 100%;
-  }
-
-  input {
-    padding: 0.75rem;
-    border-radius: 8px;
-    border: 1px solid #333;
-    font-size: 1.25rem;
-    background-color: #26262e;
-    color: #ccc;
-    outline: none;
-    text-align: center;
-    letter-spacing: 4px;
-    font-weight: 600;
-  }
-
-  input:focus {
-    border-color: #4a90e2;
-  }
-
-  .resend-container {
-    margin-top: 6px;
-    min-height: 24px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .timer-label {
-    font-size: 13.5px;
-    color: #777;
-  }
-
-  .resend-action {
-    background: transparent;
-    border: none;
-    color: #4a90e2;
-    font-size: 14px;
-    cursor: pointer;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    padding: 4px 8px;
-    transition: color 0.15s, opacity 0.15s;
-  }
-
-  .resend-action:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  .resend-action:hover:not(:disabled) {
-    color: #6ba6ec;
-  }
-
-  .error {
-    color: #ff5555;
-    font-size: 13.5px;
-    min-height: 18px;
-    word-break: break-word;
-  }
-
-  .info {
-    color: #4cd964;
-    font-size: 13.5px;
-    min-height: 18px;
-    word-break: break-word;
-  }
-</style>
+    {#if infoMessage}<p class="auth-info" role="status">{infoMessage}</p>{/if}
+    <SubmitButton text="Подтвердить" busy={loading} busyText="Проверяем код…" />
+    {#if timerSeconds > 0}
+      <span class="auth-timer">Повторный запрос через {timerSeconds} сек</span>
+    {:else}
+      <button type="button" class="auth-text-action" on:click={resendCode} disabled={resending || loading} aria-busy={resending}>{resending ? 'Отправляем…' : resendButtonText}</button>
+    {/if}
+  </form>
+</AuthShell>

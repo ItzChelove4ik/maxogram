@@ -74,9 +74,9 @@
   .scroll-down-btn {
     width: 55px;
     height: 55px;
-    background: #1e2024;
+    background: var(--bg-surface);
     opacity: 0.9;
-    color: white;
+    color: var(--text-primary);
     border: none;
     border-radius: 50%;
     cursor: pointer;
@@ -103,9 +103,9 @@
     height: 22px;
     box-sizing: border-box;
     padding: 0 5px;
-    background: #2b7fc3;
-    color: #ffffff;
-    font-size: 12px;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
+    font-size: 0.7059rem;
     font-weight: 600;
     line-height: 22px;
     text-align: center;

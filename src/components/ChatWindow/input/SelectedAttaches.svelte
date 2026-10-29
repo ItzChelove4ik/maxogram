@@ -66,8 +66,8 @@
     flex-shrink: 0;
     overflow-x: auto;
     z-index: 1;
-    background-color: #17191d;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    background-color: var(--bg-app);
+    border-bottom: 1px solid var(--border-subtle);
   }
 
   .attach-card {
@@ -75,7 +75,7 @@
     width: 70px;
     height: 70px;
     border-radius: 12px;
-    background: rgba(255, 255, 255, 0.06);
+    background: var(--bg-hover);
     flex-shrink: 0;
     display: flex;
     align-items: center;
@@ -94,15 +94,15 @@
     top: 3px;
     right: 3px;
     background: rgba(0, 0, 0, 0.6);
-    color: #fff;
+    color: var(--text-on-media);
     border: none;
-    width: 20px;
-    height: 20px;
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 11px;
+    font-size: 0.6471rem;
     cursor: pointer;
     z-index: 4;
     opacity: 1;
@@ -140,8 +140,8 @@
   .upload-loader {
     width: 24px;
     height: 24px;
-    border: 2.5px solid rgba(255, 255, 255, 0.25);
-    border-top-color: #fff;
+    border: 2.5px solid var(--border-subtle);
+    border-top-color: var(--border-subtle);
     border-radius: 50%;
     animation: upload-spin 0.8s linear infinite;
   }
@@ -158,12 +158,12 @@
   }
 
   .file-icon {
-    font-size: 18px;
+    font-size: 1.059rem;
   }
 
   .file-name {
-    font-size: 10px;
-    color: #aaa;
+    font-size: 0.5882rem;
+    color: var(--text-muted);
     max-width: 60px;
     white-space: nowrap;
     overflow: hidden;

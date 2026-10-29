@@ -144,15 +144,22 @@
 </div>
 
 <style>
+
   .tabs-container {
     display: flex;
     width: 100%;
     align-items: center;
-    border-bottom: 1px solid #333;
+
     position: relative;
     z-index: 10;
     user-select: none;
     -webkit-user-select: none;
+
+    background: var(--bg-topbar);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    border-bottom: 0.5px solid var(--border-subtle);
+    min-height: 44px;
   }
 
   .tabs {
@@ -161,10 +168,11 @@
     overflow-y: hidden;
     flex: 1 1 auto;
     min-width: 0;
-    padding-left: 5px;
-    padding-right: 8px;
+    padding: 6px 4px 6px 10px;
+    gap: 4px;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    align-items: center;
   }
 
   .tabs::-webkit-scrollbar {
@@ -175,9 +183,8 @@
     position: relative;
     display: flex;
     align-items: center;
-    margin-right: 4px;
     touch-action: pan-x;
-    padding: 2px 0;
+    padding: 0;
     flex-shrink: 0;
   }
 
@@ -217,17 +224,17 @@
 
   .edit-icon {
     position: absolute;
-    top: 0;
-    right: -4px;
-    background: #007afd;
-    border: 2px solid #1e1e1e;
+    top: -4px;
+    right: -6px;
+    background: var(--accent-primary);
+    border: 2px solid var(--bg-surface);
     border-radius: 50%;
     width: 20px;
     height: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: var(--text-on-accent);
     cursor: pointer;
     z-index: 2;
     padding: 0;
@@ -236,44 +243,43 @@
 
   .tab {
     position: relative;
-    padding: 10px 16px;
-    background: none;
+
+    background: var(--bg-fill);
     border: none;
-    font-size: 15px;
+
     font-weight: 500;
     cursor: pointer;
-    color: #999;
+
     white-space: nowrap;
-    border-radius: 8px;
-    transition:
-      background 0.2s,
-      color 0.2s;
+    border-radius: 15px;
+    transition: background 0.18s, color 0.18s, box-shadow 0.18s;
+
+    padding: 0 14px;
+    min-height: 32px;
+    font-size: 0.8235rem;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
   }
 
   .shaking .tab {
-    background: #2a2a2a;
-    color: #ddd;
-    border: 1px solid #444;
-    padding: 9px 15px;
+    background: var(--bg-surface);
+    color: var(--text-primary);
+    border: 1px solid var(--border-subtle);
   }
 
   .tab:hover {
-    color: #ccc;
-  }
-  .tab.active {
-    color: #fff;
+    color: var(--text-secondary);
   }
 
-  .tab.active:not(.shaking .tab)::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%) scaleX(1);
-    width: 80%;
-    height: 3px;
-    background-color: #007afd;
-    border-radius: 3px 3px 0 0;
+  .tab.active {
+    color: var(--accent-primary);
+    font-weight: 600;
+    background: var(--island-bg);
+    border: 1px solid var(--glass-light-highlight);
+    box-shadow: var(--island-shadow), var(--glass-specular);
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
   }
 
   .edit-btn {
@@ -281,21 +287,26 @@
     background: none;
     border: none;
     cursor: pointer;
-    color: #007afd;
-    font-weight: bold;
-    font-size: 14px;
+    color: var(--accent-primary);
+
+
     flex-shrink: 0;
     white-space: nowrap;
+
+    min-height: 44px;
+    font-size: .8824rem;
+    font-weight: 500;
   }
 
   .add-tab-btn {
-    background: #282830;
-    border: 1px dashed #555;
-    color: #bbb;
-    padding: 6px 14px;
-    margin: 4px;
-    border-radius: 8px;
-    font-size: 18px;
+    background: transparent;
+    border: 1.5px dashed var(--border-subtle);
+    color: var(--text-muted);
+    padding: 0 12px;
+    margin: 0 4px;
+    border-radius: 15px;
+    min-height: 32px;
+    font-size: 1.059rem;
     line-height: 1;
     cursor: pointer;
     display: flex;
@@ -306,8 +317,8 @@
   }
 
   .add-tab-btn:hover {
-    background: #363642;
-    color: #fff;
-    border-color: #777;
+    background: var(--bg-hover);
+    color: var(--text-primary);
+    border-color: var(--border-subtle);
   }
 </style>

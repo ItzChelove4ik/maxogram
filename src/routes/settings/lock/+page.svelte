@@ -67,26 +67,35 @@
 </SettingsPageWrapper>
 
 <style>
+
   .container {
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px 16px;
+
     box-sizing: border-box;
+
+    padding: 20px 16px 32px;
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto;
   }
 
   .card {
     width: 100%;
     max-width: 380px;
-    background: #24252a;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 24px;
+
     display: flex;
     flex-direction: column;
     gap: 18px;
     box-sizing: border-box;
+
+    background: var(--bg-surface);
+    border: 0;
+    border-radius: var(--radius-card);
+    padding: 16px;
+    box-shadow: none;
   }
 
   .status {
@@ -95,37 +104,41 @@
   }
 
   .status.success {
-    color: #68d391;
+    color: var(--status-success);
   }
 
   .status.warning {
-    color: #f6c453;
+    color: var(--status-warning);
   }
 
   .description {
     margin: 0;
-    color: #9ca3af;
-    line-height: 1.5;
-    font-size: 0.92rem;
+
+
+
+
+    font-size: .8824rem;
+    line-height: 1.4;
+    color: var(--text-muted);
   }
 
   .info-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #1b1c21;
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
     border-radius: 12px;
     padding: 14px 16px;
   }
 
   .info-row span {
-    color: #888;
+    color: var(--text-muted);
     font-size: 0.9rem;
   }
 
   .info-row strong {
-    color: white;
+    color: var(--text-primary);
     font-size: 0.95rem;
   }
 
@@ -148,26 +161,26 @@
   }
 
   .primary-btn {
-    background: #3390ec;
-    color: white;
+    background: var(--accent-primary);
+    color: var(--text-on-accent);
   }
 
   .primary-btn:hover {
-    background: #2b7ecf;
+    background: var(--accent-primary);
   }
 
   .danger-btn {
-    background: rgba(239, 68, 68, 0.15);
-    color: #ff595a;
-    border: 1px solid rgba(239, 68, 68, 0.25);
+    background: rgba(var(--danger-rgb), 0.15);
+    color: var(--status-danger);
+    border: 1px solid var(--status-danger);
   }
 
   .danger-btn:hover {
-    background: rgba(239, 68, 68, 0.25);
+    background: rgba(var(--danger-rgb), 0.25);
   }
 
   .status-msg {
-    color: #888;
+    color: var(--text-muted);
     font-size: 0.95rem;
   }
 </style>
